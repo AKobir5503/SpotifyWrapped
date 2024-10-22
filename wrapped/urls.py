@@ -1,13 +1,10 @@
 from django.urls import path
-
-from django.contrib import admin
-
-from wrapped import views
+from .views import index, login, callback, wrapper, logout  # Removed get_top_tracks
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', views.index, name='index'),
-    path('/about/', views.about, name='about'),
-    path('/contact/', views.contact, name='contact'),
-    path('/wrapper', views.wrapper, name='wrapper'),
+    path('', index, name='index'),
+    path('login/', login, name='login'),
+    path('callback/', callback, name='callback'),
+    path('wrapper/', wrapper, name='wrapper'),  # Make sure this matches your view name
+    path('logout/', logout, name='logout'),
 ]
