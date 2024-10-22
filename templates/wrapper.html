@@ -35,15 +35,16 @@
             font-size: 3rem;
             text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
         }
-        .tracks-container {
+
+        .tracks-container, .artists-container {
             display: flex;
             flex-direction: column;
             align-items: center;
             max-width: 80vw;
             margin: 0 auto;
         }
-        
-        .track-item {
+
+        .track-item, .artist-card {
             display: flex;
             align-items: center;
             background-color: #1DB954;
@@ -55,35 +56,35 @@
             transition: background-color 0.3s, box-shadow 0.3s; /* Add transition for shadow */
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add box shadow */
         }
-        
-        .track-item:hover {
+
+        .track-item:hover, .artist-card:hover {
             background-color: #1ed760;
             box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Enhance shadow on hover */
         }
-        
-        .album-cover {
+
+        .album-cover, .artist-image {
             width: 80px; /* Slightly adjust size for a cleaner look */
             height: 80px; /* Consistent height */
             margin-right: 20px;
             border-radius: 5px;
         }
-        
-        .track-info {
+
+        .track-info, .artist-info {
             display: flex;
             flex-direction: column;
             justify-content: center;
         }
-        
-        .track-info h2 {
+
+        .track-info h2, .artist-info h2 {
             margin: 0;
             font-size: 1.5rem;
             color: white;
         }
-        
-        .track-info p {
+
+        .track-info p, .artist-info p {
             margin: 5px 0;
             color: #ffffff;
-            font-size: 0.9rem; /* Slightly smaller for album name */
+            font-size: 0.9rem; /* Slightly smaller for album/artist name */
         }
 
         .controls {
@@ -107,16 +108,16 @@
         .controls button:hover {
             background-color: #1ed760;
         }
-        
+
         /* Responsive Styles */
         @media (max-width: 600px) {
-            .track-item {
+            .track-item, .artist-card {
                 flex-direction: column; /* Stack items vertically on smaller screens */
                 align-items: flex-start; /* Align to the start */
             }
 
-            .album-cover {
-                margin-bottom: 10px; /* Space below album cover */
+            .album-cover, .artist-image {
+                margin-bottom: 10px; /* Space below cover/image */
             }
         }
     </style>
@@ -145,11 +146,18 @@
     
         <div class="slide" id="slide3">
             <h1>Your Top Artists</h1>
-            <ul>
+            <div class="artists-container">
                 {% for artist in top_artists %}
-                <li>{{ artist.name }}</li>
+                <div class="artist-card">
+                    <img src="{{ artist.images.0.url }}" alt="{{ artist.name }}" class="artist-image">
+                    <div class="artist-info">
+                        <h2>{{ artist.name }}</h2>
+                        <p>Followers: {{ artist.followers.total }}</p>
+                        <p>Genres: {{ artist.genres|join:", " }}</p>
+                    </div>
+                </div>
                 {% endfor %}
-            </ul>
+            </div>
         </div>
 
         <!-- Add more slides as needed -->
