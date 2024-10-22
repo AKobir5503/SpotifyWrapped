@@ -11,6 +11,9 @@ REDIRECT_URI = 'http://localhost:8000/callback/'
 def index(request):
     return render(request, 'index.html')
 
+def about(request):
+    return render(request, 'about.html')
+
 def login(request):
     # Spotify authorization URL
     auth_url = 'https://accounts.spotify.com/authorize'
