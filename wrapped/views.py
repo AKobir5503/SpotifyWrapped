@@ -49,46 +49,80 @@ def callback(request):
 
 
 def wrapper(request):
-    # Assuming you have a way to get the access token for the user
-    token = request.session.get('access_token')
-    headers = {
-        'Authorization': f'Bearer {token}'
-    }
-
     # Fetch top tracks
-    top_tracks_response = requests.get('https://api.spotify.com/v1/me/top/tracks?time_range=long_term&limit=5', headers=headers)
-    top_tracks = top_tracks_response.json().get('items', [])
-
-    # Fetch top artists
-    top_artists_response = requests.get('https://api.spotify.com/v1/me/top/artists?time_range=long_term&limit=5', headers=headers)
-    top_artists = top_artists_response.json().get('items', [])
-
-    return render(request, 'wrapper.html', {
-        'top_tracks': top_tracks,
-        'top_artists': top_artists
-    })
-
-
-def get_top_tracks(request):
-    access_token = request.session.get('access_token')  # Get the access token from the session
+    access_token = request.session.get('access_token')
     if not access_token:
         return redirect('login')  # Redirect to login if no access token
 
-    # Make a request to get the user's most played tracks of this month
+    top_tracks_response = requests.get(
+        'https://api.spotify.com/v1/me/top/tracks?time_range=short_term&limit=5',
+        headers={
+            'Authorization': f'Bearer {access_token}'
+        }
+    )
+
+    top_artists_response = requests.get(
+        'https://api.spotify.com/v1/me/top/artists?time_range=short_term&limit=5',
+        headers={
+            'Authorization': f'Bearer {access_token}'
+        }
+    )
+
+    if top_tracks_response.status_code == 200 and top_artists_response.status_code == 200:
+        top_tracks = top_tracks_response.json().get('items', [])
+        top_artists = top_artists_response.json().get('items', [])
+    else:
+        top_tracks, top_artists = [], []
+
+    context = {
+        'top_tracks': top_tracks,
+        'top_artists': top_artists,
+    }
+
+    return render(request, 'wrapper.html', context)
+
+def get_top_tracks(request):
+    access_token = request.session.get('access_token')
+    if not access_token:
+        return redirect('login')
+
+    # Use the 'short_term' time range for the past month
     response = requests.get(
-        'https://api.spotify.com/v1/me/top/tracks?time_range=short_term&limit=10',  # Change the time_range if necessary
+        'https://api.spotify.com/v1/me/top/tracks?time_range=short_term&limit=5',
         headers={
             'Authorization': f'Bearer {access_token}'
         }
     )
 
     if response.status_code == 200:
-        top_tracks_data = response.json()  # Parse the JSON response
-        top_tracks = top_tracks_data.get('items', [])  # Ensure we're getting 'items' safely
+        top_tracks_data = response.json()
+        top_tracks = top_tracks_data.get('items', [])
     else:
-        top_tracks = []  # If there's an error, return an empty list
+        top_tracks = []
 
-    return render(request, 'wrapper.html', {'top_tracks': top_tracks})  # Pass the top tracks to the template
+    return render(request, 'wrapper.html', {'top_tracks': top_tracks})
+
+def get_top_artists(request):
+    access_token = request.session.get('access_token')
+    if not access_token:
+        return redirect('login')
+
+    # Fetch top artists
+    response = requests.get(
+        'https://api.spotify.com/v1/me/top/artists?time_range=short_term&limit=5',
+        headers={
+            'Authorization': f'Bearer {access_token}'
+        }
+    )
+
+    if response.status_code == 200:
+        top_artists_data = response.json()
+        top_artists = top_artists_data.get('items', [])
+    else:
+        top_artists = []
+
+    return render(request, 'wrapper.html', {'top_tracks': top_tracks, 'top_artists': top_artists})
+
 
 
 #@login_required

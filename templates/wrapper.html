@@ -3,106 +3,186 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Your Most Played Tracks</title>
+    <title>Your Spotify Wrapped</title>
     <style>
         body {
-            font-family: 'Helvetica Neue', Arial, sans-serif;
-            background: linear-gradient(135deg, #121212, #1DB954);
-            color: #ffffff;
             margin: 0;
-            padding: 20px;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background-color: #121212;
+            color: white;
+            overflow-x: hidden;
+            overflow-y: hidden; /* Prevent vertical scrolling */
+        }
+
+        .slide-container {
+            display: flex;
+            width: 800vw; /* Assuming 8 slides, adjust accordingly */
+            height: 100vh;
+            transition: transform 0.5s ease-in-out;
+        }
+
+        .slide {
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-shrink: 0;
+            position: relative;
+        }
+
+        .slide h1 {
+            font-size: 3rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        .tracks-container {
             display: flex;
             flex-direction: column;
             align-items: center;
-            min-height: 100vh;
+            max-width: 80vw;
+            margin: 0 auto;
         }
-        h1 {
-            font-size: 2.5em;
-            margin-bottom: 20px;
-            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
-        }
-        ul {
-            list-style: none;
-            padding: 0;
-            margin: 20px 0;
-            width: 100%;
-            max-width: 700px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            backdrop-filter: blur(10px);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-            overflow: hidden;
-        }
-        li {
+        
+        .track-item {
             display: flex;
             align-items: center;
-            padding: 15px 20px;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-            transition: background-color 0.3s, transform 0.2s;
+            background-color: #1DB954;
+            padding: 15px; /* Adjust padding for comfort */
+            margin: 15px 0;
+            border-radius: 10px;
+            width: 100%;
+            max-width: 800px;
+            transition: background-color 0.3s, box-shadow 0.3s; /* Add transition for shadow */
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add box shadow */
         }
-        li:last-child {
-            border-bottom: none;
+        
+        .track-item:hover {
+            background-color: #1ed760;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Enhance shadow on hover */
         }
-        li:hover {
-            background-color: rgba(255, 255, 255, 0.2);
-            transform: translateY(-2px);
-        }
-        img {
-            width: 60px; /* Set a fixed width for the images */
-            height: 60px; /* Set a fixed height for the images */
+        
+        .album-cover {
+            width: 80px; /* Slightly adjust size for a cleaner look */
+            height: 80px; /* Consistent height */
+            margin-right: 20px;
             border-radius: 5px;
-            margin-right: 15px; /* Space between image and text */
         }
-        button {
-            padding: 12px 20px;
+        
+        .track-info {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+        
+        .track-info h2 {
+            margin: 0;
+            font-size: 1.5rem;
+            color: white;
+        }
+        
+        .track-info p {
+            margin: 5px 0;
+            color: #ffffff;
+            font-size: 0.9rem; /* Slightly smaller for album name */
+        }
+
+        .controls {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .controls button {
+            padding: 10px 20px;
             background-color: #1DB954;
             color: #ffffff;
             border: none;
             border-radius: 5px;
             cursor: pointer;
             font-size: 16px;
-            transition: background-color 0.3s, transform 0.2s;
-            margin-top: 20px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            margin: 0 10px;
         }
-        button:hover {
+
+        .controls button:hover {
             background-color: #1ed760;
-            transform: scale(1.05);
         }
+        
+        /* Responsive Styles */
         @media (max-width: 600px) {
-            h1 {
-                font-size: 2em;
+            .track-item {
+                flex-direction: column; /* Stack items vertically on smaller screens */
+                align-items: flex-start; /* Align to the start */
             }
-            button {
-                width: 100%;
-            }
-            img {
-                width: 50px; /* Smaller images on mobile */
-                height: 50px; /* Smaller images on mobile */
+
+            .album-cover {
+                margin-bottom: 10px; /* Space below album cover */
             }
         }
     </style>
 </head>
 <body>
-    <h1>Your Most Played Tracks This Month</h1>
-    <ul>
-        {% for track in top_tracks %}
-            <li>
-                <img src="{{ track.album.images.0.url }}" alt="{{ track.name }} album cover">
-                <div>
-                    <strong>{{ track.name }}</strong> by 
-                    <span>{{ track.artists.0.name }}</span>
-                </div>
-            </li>
-        {% empty %}
-            <li>No tracks found for this month.</li>
-        {% endfor %}
-    </ul>
+    <div class="slide-container" id="slideContainer">
+        <div class="slide" id="slide1">
+            <h1>Welcome to Your Spotify Wrapped</h1>
+        </div>
 
-    <!-- Logout Button -->
-    <form action="{% url 'logout' %}" method="post">
-        {% csrf_token %}
-        <button type="submit">Log Out of Spotify</button>
-    </form>
+        <div class="slide" id="slide2">
+            <h1>Your Top Tracks</h1>
+            <div class="tracks-container">
+                {% for track in top_tracks %}
+                <div class="track-item">
+                    <img src="{{ track.album.images.0.url }}" alt="{{ track.name }} album cover" class="album-cover">
+                    <div class="track-info">
+                        <h2>{{ track.name }}</h2>
+                        <p>by {{ track.artists.0.name }}</p>
+                        <p>Album: {{ track.album.name }}</p>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    
+        <div class="slide" id="slide3">
+            <h1>Your Top Artists</h1>
+            <ul>
+                {% for artist in top_artists %}
+                <li>{{ artist.name }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <!-- Add more slides as needed -->
+    </div>
+
+    <div class="controls">
+        <button onclick="prevSlide()">Previous</button>
+        <button onclick="nextSlide()">Next</button>
+    </div>
+
+    <script>
+        let currentSlide = 0;
+        const totalSlides = 8; // Adjust if you add more or fewer slides
+        const slideContainer = document.getElementById('slideContainer');
+
+        function showSlide(slideNumber) {
+            // Move the container by the width of the current slide
+            slideContainer.style.transform = `translateX(-${slideNumber * 100}vw)`;
+        }
+
+        function nextSlide() {
+            currentSlide++;
+            if (currentSlide >= totalSlides) currentSlide = totalSlides - 1;
+            showSlide(currentSlide);
+        }
+
+        function prevSlide() {
+            currentSlide--;
+            if (currentSlide < 0) currentSlide = 0;
+            showSlide(currentSlide);
+        }
+
+        showSlide(currentSlide); // Show the first slide on load
+    </script>
 </body>
 </html>
