@@ -1,7 +1,108 @@
-{% load static %}
 <!DOCTYPE html>
 <html lang="en">
-    <p>this is the wrapper page!!!</p>
-    <a href="{% url 'about' %}">about page</a>
-    <a href="{% url 'index' %}">index page</a>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Your Most Played Tracks</title>
+    <style>
+        body {
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background: linear-gradient(135deg, #121212, #1DB954);
+            color: #ffffff;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+        }
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        ul {
+            list-style: none;
+            padding: 0;
+            margin: 20px 0;
+            width: 100%;
+            max-width: 700px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+        li {
+            display: flex;
+            align-items: center;
+            padding: 15px 20px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            transition: background-color 0.3s, transform 0.2s;
+        }
+        li:last-child {
+            border-bottom: none;
+        }
+        li:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+        img {
+            width: 60px; /* Set a fixed width for the images */
+            height: 60px; /* Set a fixed height for the images */
+            border-radius: 5px;
+            margin-right: 15px; /* Space between image and text */
+        }
+        button {
+            padding: 12px 20px;
+            background-color: #1DB954;
+            color: #ffffff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s, transform 0.2s;
+            margin-top: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+        button:hover {
+            background-color: #1ed760;
+            transform: scale(1.05);
+        }
+        @media (max-width: 600px) {
+            h1 {
+                font-size: 2em;
+            }
+            button {
+                width: 100%;
+            }
+            img {
+                width: 50px; /* Smaller images on mobile */
+                height: 50px; /* Smaller images on mobile */
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Your Most Played Tracks This Month</h1>
+    <ul>
+        {% for track in top_tracks %}
+            <li>
+                <img src="{{ track.album.images.0.url }}" alt="{{ track.name }} album cover">
+                <div>
+                    <strong>{{ track.name }}</strong> by 
+                    <span>{{ track.artists.0.name }}</span>
+                </div>
+            </li>
+        {% empty %}
+            <li>No tracks found for this month.</li>
+        {% endfor %}
+    </ul>
+
+    <!-- Logout Button -->
+    <form action="{% url 'logout' %}" method="post">
+        {% csrf_token %}
+        <button type="submit">Log Out of Spotify</button>
+    </form>
+</body>
 </html>

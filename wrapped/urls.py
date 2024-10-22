@@ -1,13 +1,13 @@
 from django.urls import path
-
-from django.contrib import admin
-
-from wrapped import views
+from .views import index, login, get_top_tracks, callback, logout
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('', views.index, name='index'),
-    path('/about/', views.about, name='about'),
-    path('/contact/', views.contact, name='contact'),
-    path('/wrapper', views.wrapper, name='wrapper'),
+    path('', index, name='index'),
+    #path('about/', about, name='about'),
+    #path('contact/', contact, name='contact'),
+    path('wrapper/', get_top_tracks, name='wrapper'),
+    path('/login', login, name='login'),  # Ensure this is correct
+    path('callback/', callback, name='callback'),  # Callback URL
+    path('logout/', logout, name='logout'),
+
 ]
