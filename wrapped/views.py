@@ -1,4 +1,4 @@
-import requests
+from django.contrib.sites import requests
 from django.shortcuts import redirect, render
 from django.urls import reverse
 from urllib.parse import urlencode
