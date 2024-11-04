@@ -1,7 +1,8 @@
 from django.contrib.sites import requests
 from django.shortcuts import redirect, render
-from django.urls import reverse
 from urllib.parse import urlencode
+import requests
+from django.urls import reverse
 
 # Spotify API credentials
 CLIENT_ID = '46e8f14a666f47ddb347507b8a00816a'
