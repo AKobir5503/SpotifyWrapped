@@ -3,6 +3,8 @@ from django.shortcuts import redirect, render
 from urllib.parse import urlencode
 import requests
 from django.urls import reverse
+from collections import Counter
+
 
 # Spotify API credentials
 CLIENT_ID = '46e8f14a666f47ddb347507b8a00816a'
@@ -65,7 +67,7 @@ def wrapper(request):
         headers={'Authorization': f'Bearer {access_token}'}
     )
 
-    # Process responses
+    # Process responses for tracks and artists
     if top_tracks_response.status_code == 200:
         top_tracks = top_tracks_response.json().get('items', [])
     else:
@@ -76,13 +78,22 @@ def wrapper(request):
     else:
         top_artists = []
 
+    # Extract genres from top artists
+    genres = []
+    for artist in top_artists:
+        genres.extend(artist.get('genres', []))
+
+    # Count occurrences of each genre and get the most common ones
+    genre_counts = Counter(genres)
+    favorite_genres = [genre for genre, count in genre_counts.most_common(5)]  # Top 5 genres
+
     context = {
         'top_tracks': top_tracks,
         'top_artists': top_artists,
+        'favorite_genres': favorite_genres,
     }
 
     return render(request, 'wrapper.html', context)
-
 def logout(request):
     request.session.flush()
     return render(request, 'index.html')
