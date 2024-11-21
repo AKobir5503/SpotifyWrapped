@@ -1,0 +1,11 @@
+{% extends 'base_generic.html' %}
+
+{% block title %}Landing Page - Spotify Wrapped{% endblock %}
+
+{% block content %}
+<!-- Landing Page Specific Content -->
+<div class="hero">
+    <h1>Welcome to SpotifyWrapped</h1>
+    <a href="{% url 'spotify-login' %}" class="cta">Get Started</a>
+</div>
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+<div class="dashboard-container">
+    <h1>Welcome, {{ user.username }}!</h1>
+    <p>Your personalized Spotify insights await.</p>
+
+    <h2>Your Saved Wraps</h2>
+    {% if saved_wraps %}
+        <ul>
+            {% for wrap in saved_wraps %}
+                <li>
+                    <a href="{{ wrap.url }}">{{ wrap.name }}</a> 
+                    - Created on {{ wrap.created_at|date:"M d, Y" }}
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>You don't have any wraps saved yet. Start your first one below!</p>
+    {% endif %}
+
+    <a href="{% url 'spotify-login' %}" class="btn btn-success">Connect to Spotify</a>
+
+    <form method="POST" action="{% url 'index' %}">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-primary">Generate Your Wrap</button>
+    </form>
+
+</div>
+{% endblock %}
