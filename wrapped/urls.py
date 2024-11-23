@@ -1,11 +1,19 @@
 from django.urls import path
-from .views import index, login, callback, wrapper, logout, about  # Removed get_top_tracks
+from . import views
+from django.contrib.auth.views import LogoutView
+
 
 urlpatterns = [
-    path('', index, name='index'),
-    path('login/', login, name='login'),
-    path('callback/', callback, name='callback'),
-    path('wrapper/', wrapper, name='wrapper'),  # Make sure this matches your view name
-    path('logout/', logout, name='logout'),
-    path('about/', about, name='about'),
+    path('', views.landing, name='landing'),  # Landing page
+    path('about/', views.about, name='about'),
+    path('login/', views.login_user, name='login'),
+    path('register/', views.register_user, name='register'),
+    path('logout/', views.user_logout, name='logout'),  # Django's built-in logout view
+    path('dashboard/', views.dashboard, name='dashboard'),
+    path('spotify-login/', views.spotify_login, name='spotify-login'),
+    path('callback/', views.callback, name='callback'),
+    path('generate-wrap/', views.generate_wrap, name='generate-wrap'),
+    path('wrapper/', views.wrapper, name='wrapper'),
+    path('index/', views.index, name='index'),
+    # Add more paths if needed for other views
 ]

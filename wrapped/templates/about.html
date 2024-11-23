@@ -1,0 +1,102 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About SpotifyWrapped</title>
+    <link rel="stylesheet" href="{% static 'wrapped/about.css' %}">
+
+</head>
+<body>
+    <header>
+        <div class="container">
+            <a href="/" class="logo">SpotifyWrapped</a>
+            <ul class="nav-links">
+                <li><a href="{% url 'about' %}">About</a></li>
+                {% if user.is_authenticated %}
+                    <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
+                    <form action="{% url 'logout' %}" method="post" class="logout-form">
+                        {% csrf_token %}
+                        <button type="submit" class="logout-btn">Logout</button>
+                    </form>
+                {% else %}
+                    <li><a href="{% url 'login' %}">Login</a></li>
+                    <li><a href="{% url 'register' %}">Register</a></li>
+                {% endif %}
+            </ul>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="section">
+            <h2>What is SpotifyWrapped?</h2>
+            <p>
+                SpotifyWrapped is your personalized music companion, designed to provide a detailed summary of your Spotify listening habits.
+                From your most-played tracks and favorite artists to unique insights about your music taste,
+                we bring your musical journey to life in a fun and interactive way.
+            </p>
+            <p>
+                With SpotifyWrapped, you can explore your top genres, relive your favorite moments,
+                and share your music profile with friends and family!
+            </p>
+        </div>
+
+        <div class="section">
+            <h2>Features</h2>
+            <p>SpotifyWrapped offers an array of features to make your experience memorable:</p>
+            <ul>
+                <li><strong>Top Tracks & Artists:</strong> Discover your most-streamed songs and favorite performers.</li>
+                <li><strong>Listening Trends:</strong> See how your music taste evolves over time.</li>
+                <li><strong>Genre Breakdown:</strong> Dive deep into the genres that shape your playlist.</li>
+                <li><strong>Interactive Visuals:</strong> Enjoy colorful and creative slides that highlight your music journey.</li>
+                <li><strong>Shareable Insights:</strong> Share your SpotifyWrapped with friends and make your music profile social!</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h2>Our Team</h2>
+            <div class="team">
+                <div class="team-member">
+                    <img src="https://via.placeholder.com/100" alt="Team Member">
+                    <h3>Kobir</h3>
+                    <p>Scrum Master & Backend Developer</p>
+                </div>
+                <div class="team-member">
+                    <img src="https://via.placeholder.com/100" alt="Team Member">
+                    <h3>Mafaaz</h3>
+                    <p>Playback & Figma Flowchart Designer</p>
+                </div>
+                <div class="team-member">
+                    <img src="https://via.placeholder.com/100" alt="Team Member">
+                    <h3>Mohammed</h3>
+                    <p>About Page & Developer Contact</p>
+                </div>
+                <div class="team-member">
+                    <img src="https://via.placeholder.com/100" alt="Team Member">
+                    <h3>Youssef</h3>
+                    <p>Dark/Light Mode Specialist</p>
+                </div>
+                <div class="team-member">
+                    <img src="https://via.placeholder.com/100" alt="Team Member">
+                    <h3>Nabhan</h3>
+                    <p>Hosting & Deployment</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="section">
+            <h2>Why SpotifyWrapped?</h2>
+            <p>
+                Music is personal, and so is SpotifyWrapped. Our mission is to help users celebrate their unique taste in music
+                and gain insights into how music shapes their lives. Whether you're a casual listener or a dedicated audiophile,
+                SpotifyWrapped has something special for everyone.
+            </p>
+        </div>
+    </div>
+
+    <footer>
+        <p>Made with ❤️ by Team SpotifyWrapped | Contact Us</p>
+    </footer>
+</body>
+</html>
