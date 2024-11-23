@@ -5,11 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="287ce0f1-7566-40d0-b2fb-124076850c40" name="Changes" comment="resolved merge conflicts.">
+      <change afterPath="$PROJECT_DIR$/wrapped/templates/error.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wrapped/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/wrapped/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wrapped/static/wrapped/wrapper.css" beforeDir="false" afterPath="$PROJECT_DIR$/wrapped/static/wrapped/wrapper.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wrapped/templates/dashboard.html" beforeDir="false" afterPath="$PROJECT_DIR$/wrapped/templates/dashboard.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wrapped/templates/wrapper.html" beforeDir="false" afterPath="$PROJECT_DIR$/wrapped/templates/wrapper.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/wrapped/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/wrapped/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/wrapped/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/wrapped/views.py" afterDir="false" />
     </list>
@@ -171,6 +168,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="top artists and top tracks officially work properly now." />
     <MESSAGE value="resolved merge conflicts." />
-    <option name="LAST_COMMIT_MESSAGE" value="resolved merge conflicts." />
+    <MESSAGE value="fixed minor navigation bugs." />
+    <option name="LAST_COMMIT_MESSAGE" value="fixed minor navigation bugs." />
   </component>
 </project>
