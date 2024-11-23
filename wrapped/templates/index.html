@@ -1,0 +1,15 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spotify Top Tracks</title>
+    <link rel="stylesheet" href="{% static 'wrapped/index.css' %}">
+</head>
+<body>
+    <h1>Welcome to Spotify Top Tracks</h1>
+    <p>Click the button below to log in with your Spotify account and see your top tracks!</p>
+    <a href="https://accounts.spotify.com/en/login?continue=https%3A%2F%2Faccounts.spotify.com%2Fauthorize%3Fscope%3Duser-read-private%2Buser-read-email%2Buser-top-read%26response_type%3Dcode%26redirect_uri%3Dhttp%253A%252F%252Flocalhost%253A8000%252Fcallback%252F%26client_id%3D46e8f14a666f47ddb347507b8a00816a">Login with Spotify</a>
+</body>
+</html>

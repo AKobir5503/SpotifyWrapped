@@ -5,10 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="287ce0f1-7566-40d0-b2fb-124076850c40" name="Changes" comment="resolved merge conflicts.">
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/base_generic.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/base_generic.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/templates/wrapper.html" beforeDir="false" afterPath="$PROJECT_DIR$/templates/wrapper.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/wrapped/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/wrapped/models.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/wrapped/static/wrapped/wrapper.css" beforeDir="false" afterPath="$PROJECT_DIR$/wrapped/static/wrapped/wrapper.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/wrapped/templates/dashboard.html" beforeDir="false" afterPath="$PROJECT_DIR$/wrapped/templates/dashboard.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/wrapped/templates/wrapper.html" beforeDir="false" afterPath="$PROJECT_DIR$/wrapped/templates/wrapper.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/wrapped/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/wrapped/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/wrapped/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/wrapped/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -124,7 +126,6 @@
       <workItem from="1729552101635" duration="3100000" />
       <workItem from="1729712122083" duration="3358000" />
       <workItem from="1730317337882" duration="12940000" />
-      <workItem from="1730752839676" duration="8973000" />
     </task>
     <task id="LOCAL-00001" summary="top artists and top tracks officially work properly now.">
       <option name="closed" value="true" />
@@ -150,15 +151,7 @@
       <option name="project" value="LOCAL" />
       <updated>1730322891117</updated>
     </task>
-    <task id="LOCAL-00004" summary="resolved merge conflicts.">
-      <option name="closed" value="true" />
-      <created>1730752920210</created>
-      <option name="number" value="00004" />
-      <option name="presentableId" value="LOCAL-00004" />
-      <option name="project" value="LOCAL" />
-      <updated>1730752920210</updated>
-    </task>
-    <option name="localTasksCounter" value="5" />
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
