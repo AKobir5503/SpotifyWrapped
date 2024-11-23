@@ -4,7 +4,11 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
 import requests
 from django.contrib.auth import logout
-from .models import SpotifyWrap
+from .models import SpotifyWrap, Wrap
+from django.urls import reverse
+from collections import Counter
+from datetime import datetime
+
 
 # Spotify API credentials
 SPOTIFY_CLIENT_ID = '46e8f14a666f47ddb347507b8a00816a'
@@ -44,8 +48,8 @@ def register_user(request):
 # Dashboard view (requires login)
 @login_required
 def dashboard(request):
-    # Use the correct related name: spotifywrap_set
-    wraps = request.user.spotifywrap_set.all()
+    # Corrected to use the proper related name 'spotify_wraps'
+    wraps = request.user.spotify_wraps.all()  # Use 'spotify_wraps' instead of 'spotifywrap_set'
     return render(request, 'dashboard.html', {'wraps': wraps})
 
 def user_logout(request):
@@ -60,47 +64,61 @@ def spotify_login(request):
     return redirect(spotify_auth_url)
 
 # Spotify callback view
-def spotify_callback(request):
-    # Handle the callback from Spotify
+def callback(request):
+    # Get the authorization code from the callback URL
     code = request.GET.get('code')
-    if code:
-        # Exchange the code for an access token
-        token_url = 'https://accounts.spotify.com/api/token'
-        data = {
-            'grant_type': 'authorization_code',
-            'code': code,
-            'redirect_uri': SPOTIFY_REDIRECT_URI,
-            'client_id': SPOTIFY_CLIENT_ID,
-            'client_secret': SPOTIFY_CLIENT_SECRET,
-        }
-        response = requests.post(token_url, data=data)
-        response_data = response.json()
-        access_token = response_data.get('access_token')
+    if not code:
+        return redirect('login')  # Redirect to login if no code
 
-        # Store the token in the session or the database
-        request.session['spotify_token'] = access_token
+    # Exchange the code for an access token
+    token_url = 'https://accounts.spotify.com/api/token'
+    token_data = {
+        'grant_type': 'authorization_code',
+        'code': code,
+        'redirect_uri': SPOTIFY_REDIRECT_URI,
+        'client_id': SPOTIFY_CLIENT_ID,
+        'client_secret': SPOTIFY_CLIENT_SECRET,
+    }
+    response = requests.post(token_url, data=token_data)
+    token_info = response.json()
 
-        return redirect('dashboard')  # Redirect back to the dashboard page
-    return redirect('login')  # In case something goes wrong, redirect to login page
+    # Store the access token in the session
+    request.session['access_token'] = token_info.get('access_token')
+    return redirect(reverse('wrapper'))
+
 
 # Generate the user's Spotify wrap
 @login_required
 def generate_wrap(request):
-    # Fetch user’s top data from Spotify API
-    top_tracks = get_user_top_tracks(request.session['spotify_access_token'])
-    top_artists = get_user_top_artists(request.session['spotify_access_token'])
-    top_genres = get_user_top_genres(request.session['spotify_access_token'])
+    access_token = request.session.get('spotify_access_token')
+    if not access_token:
+        return redirect('spotify-login')
 
-    # Store this data in the database
-    wrap = SpotifyWrap.objects.create(
-        user=request.user,
-        top_tracks=top_tracks,
-        top_artists=top_artists,
-        top_genres=top_genres,
-    )
+    # Get the time frame from the POST request
+    time_frame = request.POST.get('time_frame', 'short_term')  # Default to 'short_term' if no time frame is provided
 
-    # Redirect to the wrap view page
-    return redirect('wrap_detail', wrap_id=wrap.id)
+    headers = {'Authorization': f'Bearer {access_token}'}
+
+    # Make the API request based on the selected time frame
+    top_tracks_url = f'https://api.spotify.com/v1/me/top/tracks?time_range={time_frame}'
+    top_artists_url = f'https://api.spotify.com/v1/me/top/artists?time_range={time_frame}'
+
+    # Fetch top tracks
+    response_tracks = requests.get(top_tracks_url, headers=headers)
+    top_tracks = response_tracks.json().get('items', []) if response_tracks.status_code == 200 else []
+
+    # Fetch top artists
+    response_artists = requests.get(top_artists_url, headers=headers)
+    top_artists = response_artists.json().get('items', []) if response_artists.status_code == 200 else []
+
+    # Continue with the context for your template
+    context = {
+        'top_tracks': top_tracks,
+        'top_artists': top_artists,
+        'time_frame': time_frame,  # Pass the selected time frame to the template
+    }
+    return render(request, 'wrapper.html', context)
+
 
 # About page view
 def about(request):
