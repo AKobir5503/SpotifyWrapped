@@ -1,4 +1,7 @@
-from django.shortcuts import render, redirect
+import random
+
+from django.http import JsonResponse
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.decorators import login_required
@@ -48,14 +51,13 @@ def register_user(request):
 # Dashboard view (requires login)
 @login_required
 def dashboard(request):
-    # Corrected to use the proper related name 'spotify_wraps'
-    wraps = request.user.spotify_wraps.all()  # Use 'spotify_wraps' instead of 'spotifywrap_set'
+    # Query the user's saved wraps
+    wraps = request.user.spotify_wraps.all()  # Make sure the related name is correct
     return render(request, 'dashboard.html', {'wraps': wraps})
 
 def user_logout(request):
     logout(request)
     return redirect('landing')
-
 
 # Spotify login view
 def spotify_login(request):
@@ -65,12 +67,7 @@ def spotify_login(request):
 
 # Spotify callback view
 def callback(request):
-    # Get the authorization code from the callback URL
     code = request.GET.get('code')
-    if not code:
-        return redirect('login')  # Redirect to login if no code
-
-    # Exchange the code for an access token
     token_url = 'https://accounts.spotify.com/api/token'
     token_data = {
         'grant_type': 'authorization_code',
@@ -80,12 +77,13 @@ def callback(request):
         'client_secret': SPOTIFY_CLIENT_SECRET,
     }
     response = requests.post(token_url, data=token_data)
-    token_info = response.json()
-
-    # Store the access token in the session
-    request.session['access_token'] = token_info.get('access_token')
-    return redirect(reverse('wrapper'))
-
+    if response.status_code == 200:
+        tokens = response.json()
+        access_token = tokens.get('access_token')
+        request.session['spotify_access_token'] = access_token
+        return redirect('generate-wrap')  # Redirect to the updated wrap view
+    else:
+        return render(request, 'error.html', {'message': 'Spotify login failed.'})
 
 # Generate the user's Spotify wrap
 @login_required
@@ -94,31 +92,108 @@ def generate_wrap(request):
     if not access_token:
         return redirect('spotify-login')
 
-    # Get the time frame from the POST request
-    time_frame = request.POST.get('time_frame', 'short_term')  # Default to 'short_term' if no time frame is provided
+    # Get the time frame from GET request or default to 'short_term'
+    time_frame = request.POST.get('time_frame', 'short_term')
 
     headers = {'Authorization': f'Bearer {access_token}'}
 
-    # Make the API request based on the selected time frame
-    top_tracks_url = f'https://api.spotify.com/v1/me/top/tracks?time_range={time_frame}'
-    top_artists_url = f'https://api.spotify.com/v1/me/top/artists?time_range={time_frame}'
+    # Spotify API URLs with the selected time frame
+    top_tracks_url = f'https://api.spotify.com/v1/me/top/tracks?time_range={time_frame}&limit=10'
+    top_artists_url = f'https://api.spotify.com/v1/me/top/artists?time_range={time_frame}&limit=10'
 
-    # Fetch top tracks
+    # Fetch tracks and artists
     response_tracks = requests.get(top_tracks_url, headers=headers)
     top_tracks = response_tracks.json().get('items', []) if response_tracks.status_code == 200 else []
 
-    # Fetch top artists
     response_artists = requests.get(top_artists_url, headers=headers)
     top_artists = response_artists.json().get('items', []) if response_artists.status_code == 200 else []
 
-    # Continue with the context for your template
+    # Calculate genres
+    genres = []
+    for artist in top_artists:
+        genres.extend(artist.get('genres', []))
+    genre_counts = Counter(genres)
+    favorite_genres = [genre for genre, _ in genre_counts.most_common(5)]
+
+    # Extract albums from top tracks
+    top_albums = [
+        {
+            'name': track['album']['name'],
+            'artist': track['album']['artists'][0]['name'],
+            'image_url': track['album']['images'][0]['url'] if track['album']['images'] else None
+        }
+        for track in top_tracks
+    ]
+
+    # Longest track streaks (Mock data for now, you can implement a real logic if Spotify provides listening history)
+    longest_streaks = [
+        {'name': track['name'], 'streak': random.randint(2, 10)} for track in top_tracks[:3]
+    ]
+
+    # Fetch lyrics (Mock for now, integrate lyrics API if desired)
+    top_lyrics = [
+        {
+            'name': track['name'],
+            'lyrics': "Sample lyric snippet for demonstration purposes."
+        }
+        for track in top_tracks[:3]
+    ]
+
+    # Save the wrap if requested
+    wrap_name = f"Top Tracks - {time_frame.replace('_', ' ').title()}"
+    if request.method == 'POST' and 'save_wrap' in request.POST:
+        wrap = SpotifyWrap.objects.create(
+            user=request.user,
+            time_frame=time_frame,
+            created_at=datetime.now(),
+            data={
+                'top_tracks': top_tracks,
+                'top_artists': top_artists,
+                'favorite_genres': favorite_genres,
+                'top_albums': top_albums,
+                'longest_streaks': longest_streaks,
+                'top_lyrics': top_lyrics,
+            }
+        )
+        wrap.save()
+        return redirect('dashboard')  # Redirect back to dashboard after saving
+
     context = {
         'top_tracks': top_tracks,
         'top_artists': top_artists,
-        'time_frame': time_frame,  # Pass the selected time frame to the template
+        'favorite_genres': favorite_genres,
+        'top_albums': top_albums,
+        'longest_streaks': longest_streaks,
+        'top_lyrics': top_lyrics,
+        'time_frame': time_frame,
     }
     return render(request, 'wrapper.html', context)
 
+
+
+
+@login_required
+def save_wrap(request):
+    if request.method == 'POST':
+        access_token = request.session.get('spotify_access_token')
+        if not access_token:
+            return JsonResponse({'error': 'Spotify access token is missing.'}, status=400)
+
+        time_frame = request.POST.get('time_frame', 'short_term')
+        top_tracks = request.POST.get('top_tracks', [])
+        top_artists = request.POST.get('top_artists', [])
+
+        wrap = SpotifyWrap.objects.create(
+            user=request.user,
+            time_frame=time_frame,
+            created_at=datetime.now(),
+            data={
+                'top_tracks': top_tracks,
+                'top_artists': top_artists,
+            }
+        )
+        wrap.save()
+        return JsonResponse({'success': True, 'message': 'Wrap saved successfully!'})
 
 # About page view
 def about(request):
@@ -138,55 +213,17 @@ def get_user_top_tracks(access_token):
     else:
         return None
 
+@login_required
 def wrap_detail(request, wrap_id):
-    wrap = SpotifyWrap.objects.get(id=wrap_id)
+    wrap = get_object_or_404(SpotifyWrap, id=wrap_id)
 
-    return render(request, 'wrap_detail.html', {'wrap': wrap})
-
-
-def wrapper(request):
-    access_token = request.session.get('access_token')
-    if not access_token:
-        return redirect('login')
-
-    # Fetch top tracks and top artists
-    top_tracks_response = requests.get(
-        'https://api.spotify.com/v1/me/top/tracks?time_range=short_term&limit=5',
-        headers={'Authorization': f'Bearer {access_token}'}
-    )
-
-    top_artists_response = requests.get(
-        'https://api.spotify.com/v1/me/top/artists?time_range=short_term&limit=5',
-        headers={'Authorization': f'Bearer {access_token}'}
-    )
-
-    # Process responses for tracks and artists
-    if top_tracks_response.status_code == 200:
-        top_tracks = top_tracks_response.json().get('items', [])
-    else:
-        top_tracks = []
-
-    if top_artists_response.status_code == 200:
-        top_artists = top_artists_response.json().get('items', [])
-    else:
-        top_artists = []
-
-    # Extract genres from top artists
-    genres = []
-    for artist in top_artists:
-        genres.extend(artist.get('genres', []))
-
-    # Count occurrences of each genre and get the most common ones
-    genre_counts = Counter(genres)
-    favorite_genres = [genre for genre, count in genre_counts.most_common(5)]  # Top 5 genres
-
+    # If you want to pass data from the wrap (e.g., top tracks, top artists, etc.)
     context = {
-        'top_tracks': top_tracks,
-        'top_artists': top_artists,
-        'favorite_genres': favorite_genres,
+        'wrap': wrap,
+        'top_tracks': wrap.data.get('top_tracks', []),
+        'top_artists': wrap.data.get('top_artists', []),
     }
-
-    return render(request, 'wrapper.html', context)
+    return render(request, 'wrap_detail.html', context)
 
 def index(request):
     return render(request, 'index.html')
