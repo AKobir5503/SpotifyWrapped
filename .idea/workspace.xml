@@ -4,12 +4,13 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="287ce0f1-7566-40d0-b2fb-124076850c40" name="Changes" comment="resolved merge conflicts.">
+    <list default="true" id="287ce0f1-7566-40d0-b2fb-124076850c40" name="Changes" comment="fixed time frame synchronization and cleaned up code in views. save feature button started.">
+      <change afterPath="$PROJECT_DIR$/wrapped/static/wrapped/detail.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/wrapped/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/wrapped/models.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wrapped/static/wrapped/wrapper.css" beforeDir="false" afterPath="$PROJECT_DIR$/wrapped/static/wrapped/wrapper.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/wrapped/templates/dashboard.html" beforeDir="false" afterPath="$PROJECT_DIR$/wrapped/templates/dashboard.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/wrapped/templates/wrapper.html" beforeDir="false" afterPath="$PROJECT_DIR$/wrapped/templates/wrapper.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/wrapped/urls.py" beforeDir="false" afterPath="$PROJECT_DIR$/wrapped/urls.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/wrapped/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/wrapped/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -150,7 +151,15 @@
       <option name="project" value="LOCAL" />
       <updated>1730322891117</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="fixed time frame synchronization and cleaned up code in views. save feature button started.">
+      <option name="closed" value="true" />
+      <created>1732414755365</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1732414755365</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -171,6 +180,7 @@
     <MESSAGE value="top artists and top tracks officially work properly now." />
     <MESSAGE value="resolved merge conflicts." />
     <MESSAGE value="fixed minor navigation bugs." />
-    <option name="LAST_COMMIT_MESSAGE" value="fixed minor navigation bugs." />
+    <MESSAGE value="fixed time frame synchronization and cleaned up code in views. save feature button started." />
+    <option name="LAST_COMMIT_MESSAGE" value="fixed time frame synchronization and cleaned up code in views. save feature button started." />
   </component>
 </project>
