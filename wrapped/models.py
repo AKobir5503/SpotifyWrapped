@@ -2,15 +2,15 @@ from django.db import models
 from django.contrib.auth.models import User
 
 # Model for SpotifyWrap
+
 class SpotifyWrap(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='spotify_wraps')
-    top_tracks = models.JSONField()  # Native JSONField for top tracks
-    top_artists = models.JSONField()  # Native JSONField for top artists
-    top_genres = models.JSONField()  # Native JSONField for top genres
+    time_frame = models.CharField(max_length=20)  # short_term, medium_term, long_term
     created_at = models.DateTimeField(auto_now_add=True)
+    data = models.JSONField()  # To store wrap data as JSON (requires Django 3.1+)
 
     def __str__(self):
-        return f"Wrap for {self.user.username} - {self.created_at.strftime('%Y-%m-%d')}"
+        return f"{self.user.username}'s wrap for {self.time_frame}"
 
 # Model for more generic Wrap
 class Wrap(models.Model):
