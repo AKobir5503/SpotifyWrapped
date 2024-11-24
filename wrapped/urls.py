@@ -13,5 +13,5 @@ urlpatterns = [
     path('callback/', views.callback, name='callback'),
     path('generate-wrap/', views.generate_wrap, name='generate-wrap'),
     path('save-wrap/', views.save_wrap, name='save-wrap'),
-    path('wrap/<int:wrap_id>/', views.wrap_detail, name='wrap-detail'),
+    path('wrap/<int:wrap_id>/', views.wrap_detail, name='wrap_detail'),  # Define the URL pattern for wrap details
 ]

@@ -51,8 +51,8 @@ def register_user(request):
 # Dashboard view (requires login)
 @login_required
 def dashboard(request):
-    # Corrected to use the proper related name 'spotify_wraps'
-    wraps = request.user.spotify_wraps.all()  # Use 'spotify_wraps' instead of 'spotifywrap_set'
+    # Query the user's saved wraps
+    wraps = request.user.spotify_wraps.all()  # Make sure the related name is correct
     return render(request, 'dashboard.html', {'wraps': wraps})
 
 def user_logout(request):
@@ -93,7 +93,7 @@ def generate_wrap(request):
         return redirect('spotify-login')
 
     # Get the time frame from GET request or default to 'short_term'
-    time_frame = request.GET.get('time_frame', 'short_term')
+    time_frame = request.POST.get('time_frame', 'short_term')
 
     headers = {'Authorization': f'Bearer {access_token}'}
 
@@ -140,6 +140,7 @@ def generate_wrap(request):
     ]
 
     # Save the wrap if requested
+    wrap_name = f"Top Tracks - {time_frame.replace('_', ' ').title()}"
     if request.method == 'POST' and 'save_wrap' in request.POST:
         wrap = SpotifyWrap.objects.create(
             user=request.user,
@@ -214,8 +215,15 @@ def get_user_top_tracks(access_token):
 
 @login_required
 def wrap_detail(request, wrap_id):
-    wrap = get_object_or_404(SpotifyWrap, id=wrap_id, user=request.user)
-    return render(request, 'wrap_detail.html', {'wrap': wrap})
+    wrap = get_object_or_404(SpotifyWrap, id=wrap_id)
+
+    # If you want to pass data from the wrap (e.g., top tracks, top artists, etc.)
+    context = {
+        'wrap': wrap,
+        'top_tracks': wrap.data.get('top_tracks', []),
+        'top_artists': wrap.data.get('top_artists', []),
+    }
+    return render(request, 'wrap_detail.html', context)
 
 def index(request):
     return render(request, 'index.html')
