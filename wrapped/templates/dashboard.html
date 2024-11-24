@@ -6,7 +6,7 @@
     <p>Your personalized Spotify insights await.</p>
 
     <h2>Create a New Wrap</h2>
-    <form method="POST" action="{% url 'generate-wrap' %}">
+    <form method="GET" action="{% url 'generate-wrap' %}">
         {% csrf_token %}
         <label for="time-frame">Select a Time Frame:</label>
         <select id="time-frame" name="time_frame" class="form-select" required>

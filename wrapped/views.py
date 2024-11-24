@@ -1,3 +1,5 @@
+import random
+
 from django.http import JsonResponse
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import authenticate, login
@@ -57,7 +59,6 @@ def user_logout(request):
     logout(request)
     return redirect('landing')
 
-
 # Spotify login view
 def spotify_login(request):
     scope = 'user-top-read user-read-recently-played'
@@ -84,8 +85,6 @@ def callback(request):
     else:
         return render(request, 'error.html', {'message': 'Spotify login failed.'})
 
-
-
 # Generate the user's Spotify wrap
 @login_required
 def generate_wrap(request):
@@ -93,12 +92,12 @@ def generate_wrap(request):
     if not access_token:
         return redirect('spotify-login')
 
-    # Get the time frame from POST or default to 'short_term'
-    time_frame = request.GET.get('time_frame', 'short_term')  # GET instead of POST for better compatibility
+    # Get the time frame from GET request or default to 'short_term'
+    time_frame = request.GET.get('time_frame', 'short_term')
 
     headers = {'Authorization': f'Bearer {access_token}'}
 
-    # Spotify API URLs with time frame
+    # Spotify API URLs with the selected time frame
     top_tracks_url = f'https://api.spotify.com/v1/me/top/tracks?time_range={time_frame}&limit=10'
     top_artists_url = f'https://api.spotify.com/v1/me/top/artists?time_range={time_frame}&limit=10'
 
@@ -109,7 +108,38 @@ def generate_wrap(request):
     response_artists = requests.get(top_artists_url, headers=headers)
     top_artists = response_artists.json().get('items', []) if response_artists.status_code == 200 else []
 
-    # Create the wrap instance (if saving functionality is desired)
+    # Calculate genres
+    genres = []
+    for artist in top_artists:
+        genres.extend(artist.get('genres', []))
+    genre_counts = Counter(genres)
+    favorite_genres = [genre for genre, _ in genre_counts.most_common(5)]
+
+    # Extract albums from top tracks
+    top_albums = [
+        {
+            'name': track['album']['name'],
+            'artist': track['album']['artists'][0]['name'],
+            'image_url': track['album']['images'][0]['url'] if track['album']['images'] else None
+        }
+        for track in top_tracks
+    ]
+
+    # Longest track streaks (Mock data for now, you can implement a real logic if Spotify provides listening history)
+    longest_streaks = [
+        {'name': track['name'], 'streak': random.randint(2, 10)} for track in top_tracks[:3]
+    ]
+
+    # Fetch lyrics (Mock for now, integrate lyrics API if desired)
+    top_lyrics = [
+        {
+            'name': track['name'],
+            'lyrics': "Sample lyric snippet for demonstration purposes."
+        }
+        for track in top_tracks[:3]
+    ]
+
+    # Save the wrap if requested
     if request.method == 'POST' and 'save_wrap' in request.POST:
         wrap = SpotifyWrap.objects.create(
             user=request.user,
@@ -118,16 +148,26 @@ def generate_wrap(request):
             data={
                 'top_tracks': top_tracks,
                 'top_artists': top_artists,
+                'favorite_genres': favorite_genres,
+                'top_albums': top_albums,
+                'longest_streaks': longest_streaks,
+                'top_lyrics': top_lyrics,
             }
         )
         wrap.save()
+        return redirect('dashboard')  # Redirect back to dashboard after saving
 
     context = {
         'top_tracks': top_tracks,
         'top_artists': top_artists,
+        'favorite_genres': favorite_genres,
+        'top_albums': top_albums,
+        'longest_streaks': longest_streaks,
+        'top_lyrics': top_lyrics,
         'time_frame': time_frame,
     }
     return render(request, 'wrapper.html', context)
+
 
 
 
@@ -154,8 +194,6 @@ def save_wrap(request):
         wrap.save()
         return JsonResponse({'success': True, 'message': 'Wrap saved successfully!'})
 
-
-
 # About page view
 def about(request):
     return render(request, 'about.html')
@@ -178,10 +216,6 @@ def get_user_top_tracks(access_token):
 def wrap_detail(request, wrap_id):
     wrap = get_object_or_404(SpotifyWrap, id=wrap_id, user=request.user)
     return render(request, 'wrap_detail.html', {'wrap': wrap})
-
-
-
-
 
 def index(request):
     return render(request, 'index.html')
