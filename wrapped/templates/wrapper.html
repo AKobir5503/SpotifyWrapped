@@ -32,11 +32,12 @@
 <body>
     <div class="slide-container" id="slideContainer">
         <div class="slide" id="slide1">
-            <h1>Welcome to Your Spotify Wrapped</h1>
+            <h1>Welcome to Your Spotify Wrapped <br> Time Frame: {{ time_frame|title }}</h1>
+             <!-- Converts 'short_term' to 'Short Term' -->
         </div>
 
         <div class="slide" id="slide2">
-            <h1>Your Top Tracks</h1>
+            <h1>Your Top Tracks (Time Frame: {{ time_frame }})</h1>
             <div class="tracks-container">
                 {% for track in top_tracks %}
                 <div class="track-item">
@@ -174,6 +175,13 @@
                     {% endfor %}
                 </ul>
             </div>
+        </div>
+
+        <div class="save-wrap">
+            <form method="POST" action="">
+                {% csrf_token %}
+                <button type="submit" name="save_wrap" class="btn btn-primary">Save Wrap</button>
+            </form>
         </div>
 
         <!-- Add more slides as needed -->
