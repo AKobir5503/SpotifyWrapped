@@ -15,7 +15,7 @@ from datetime import datetime
 from django.conf import settings
 from django.shortcuts import render
 
-
+#test
 
 # Spotify URI
 SPOTIFY_REDIRECT_URI = 'http://localhost:8000/callback/'
