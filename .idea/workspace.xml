@@ -4,11 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-
-    <list default="true" id="287ce0f1-7566-40d0-b2fb-124076850c40" name="Changes" comment="major styling changes and now functional dashboard with saved wraps. time framing feature fully works.">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-
-    </list>
+    <list default="true" id="287ce0f1-7566-40d0-b2fb-124076850c40" name="Changes" comment="gitignore test reverted again" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -24,9 +20,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-
-        <entry key="$PROJECT_DIR$" value="TestyWesty" />
-
+        <entry key="$PROJECT_DIR$" value="main" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -37,22 +31,22 @@
     &quot;assignee&quot;: &quot;AKobir5503&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/AKobir5503/SpotifyWrapped.git",
-    "accountId": "751d1e6a-51d1-4b26-b116-c4b5d953fd4c"
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/AKobir5503/SpotifyWrapped.git&quot;,
+    &quot;accountId&quot;: &quot;751d1e6a-51d1-4b26-b116-c4b5d953fd4c&quot;
   },
-  "recentNewPullRequestHead": {
-    "server": {
-      "useHttp": false,
-      "host": "github.com",
-      "port": null,
-      "suffix": null
+  &quot;recentNewPullRequestHead&quot;: {
+    &quot;server&quot;: {
+      &quot;useHttp&quot;: false,
+      &quot;host&quot;: &quot;github.com&quot;,
+      &quot;port&quot;: null,
+      &quot;suffix&quot;: null
     },
-    "owner": "AKobir5503",
-    "repository": "SpotifyWrapped"
+    &quot;owner&quot;: &quot;AKobir5503&quot;,
+    &quot;repository&quot;: &quot;SpotifyWrapped&quot;
   }
-}]]></component>
+}</component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 2
 }</component>
@@ -68,9 +62,7 @@
     "RunOnceActivity.OpenDjangoStructureViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "django.template.preview.state": "SHOW_EDITOR",
-
     "git-widget-placeholder": "Abdullah",
-
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -177,7 +169,15 @@
       <option name="project" value="LOCAL" />
       <updated>1732663872934</updated>
     </task>
-    <option name="localTasksCounter" value="7" />
+    <task id="LOCAL-00007" summary="gitignore test reverted again">
+      <option name="closed" value="true" />
+      <created>1732746016545</created>
+      <option name="number" value="00007" />
+      <option name="presentableId" value="LOCAL-00007" />
+      <option name="project" value="LOCAL" />
+      <updated>1732746016546</updated>
+    </task>
+    <option name="localTasksCounter" value="8" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -200,6 +200,7 @@
     <MESSAGE value="setting up gitignore" />
     <MESSAGE value="setting up gitignore v1" />
     <MESSAGE value="setting up gitignore v2" />
-    <option name="LAST_COMMIT_MESSAGE" value="setting up gitignore v2" />
+    <MESSAGE value="gitignore test reverted again" />
+    <option name="LAST_COMMIT_MESSAGE" value="gitignore test reverted again" />
   </component>
 </project>
