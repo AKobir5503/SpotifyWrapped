@@ -4,10 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="287ce0f1-7566-40d0-b2fb-124076850c40" name="Changes" comment="setting up gitignore v2">
+
+    <list default="true" id="287ce0f1-7566-40d0-b2fb-124076850c40" name="Changes" comment="major styling changes and now functional dashboard with saved wraps. time framing feature fully works.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/SpotifyWrapped/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/SpotifyWrapped/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wrapped/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/wrapped/views.py" afterDir="false" />
+
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -24,7 +24,9 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="main" />
+
+        <entry key="$PROJECT_DIR$" value="TestyWesty" />
+
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -66,7 +68,9 @@
     "RunOnceActivity.OpenDjangoStructureViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "django.template.preview.state": "SHOW_EDITOR",
-    "git-widget-placeholder": "youssef",
+
+    "git-widget-placeholder": "Abdullah",
+
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -122,6 +126,8 @@
       <workItem from="1729552101635" duration="3100000" />
       <workItem from="1729712122083" duration="3358000" />
       <workItem from="1730317337882" duration="12940000" />
+      <workItem from="1732666594448" duration="120000" />
+      <workItem from="1732666744581" duration="1435000" />
     </task>
     <task id="LOCAL-00001" summary="top artists and top tracks officially work properly now.">
       <option name="closed" value="true" />
