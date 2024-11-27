@@ -4,7 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="287ce0f1-7566-40d0-b2fb-124076850c40" name="Changes" comment="gitignore test reverted again" />
+    <list default="true" id="287ce0f1-7566-40d0-b2fb-124076850c40" name="Changes" comment="fixed time frame synchronization and cleaned up code in views. save feature button started.">
+      <change beforePath="$PROJECT_DIR$/.idea/SpotifyWrapped.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/SpotifyWrapped.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -20,10 +23,11 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="main" />
+        <entry key="$PROJECT_DIR$" value="BACKUP-CODE" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+    <option name="RESET_MODE" value="HARD" />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
   &quot;lastFilter&quot;: {
@@ -34,7 +38,7 @@
   <component name="GithubPullRequestsUISettings">{
   &quot;selectedUrlAndAccountId&quot;: {
     &quot;url&quot;: &quot;https://github.com/AKobir5503/SpotifyWrapped.git&quot;,
-    &quot;accountId&quot;: &quot;751d1e6a-51d1-4b26-b116-c4b5d953fd4c&quot;
+    &quot;accountId&quot;: &quot;e4a3164c-13ac-4e3e-92c5-7be4454b8e8f&quot;
   },
   &quot;recentNewPullRequestHead&quot;: {
     &quot;server&quot;: {
@@ -56,21 +60,21 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Django Server.SpotifyWrapped.executor": "Run",
-    "RunOnceActivity.OpenDjangoStructureViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "django.template.preview.state": "SHOW_EDITOR",
-    "git-widget-placeholder": "Abdullah",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Django Server.SpotifyWrapped.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.OpenDjangoStructureViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;django.template.preview.state&quot;: &quot;SHOW_EDITOR&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;Abdullah&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RunManager">
     <configuration name="SpotifyWrapped" type="Python.DjangoServer" factoryName="Django server">
       <module name="SpotifyWrapped" />
@@ -101,8 +105,8 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-js-predefined-d6986cc7102b-e768b9ed790e-JavaScript-PY-243.21565.199" />
-        <option value="bundled-python-sdk-cab1f2013843-4ae2d6a61b08-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-243.21565.199" />
+        <option value="bundled-js-predefined-d6986cc7102b-410509235cf1-JavaScript-PY-242.20224.428" />
+        <option value="bundled-python-sdk-80e8e15d2b92-39cff9de6eef-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-242.20224.428" />
       </set>
     </attachedChunks>
   </component>
@@ -118,8 +122,6 @@
       <workItem from="1729552101635" duration="3100000" />
       <workItem from="1729712122083" duration="3358000" />
       <workItem from="1730317337882" duration="12940000" />
-      <workItem from="1732666594448" duration="120000" />
-      <workItem from="1732666744581" duration="1435000" />
     </task>
     <task id="LOCAL-00001" summary="top artists and top tracks officially work properly now.">
       <option name="closed" value="true" />
@@ -145,39 +147,15 @@
       <option name="project" value="LOCAL" />
       <updated>1730322891117</updated>
     </task>
-    <task id="LOCAL-00004" summary="setting up gitignore">
+    <task id="LOCAL-00004" summary="fixed time frame synchronization and cleaned up code in views. save feature button started.">
       <option name="closed" value="true" />
-      <created>1732663419958</created>
+      <created>1732414755365</created>
       <option name="number" value="00004" />
       <option name="presentableId" value="LOCAL-00004" />
       <option name="project" value="LOCAL" />
-      <updated>1732663419958</updated>
+      <updated>1732414755365</updated>
     </task>
-    <task id="LOCAL-00005" summary="setting up gitignore v1">
-      <option name="closed" value="true" />
-      <created>1732663634418</created>
-      <option name="number" value="00005" />
-      <option name="presentableId" value="LOCAL-00005" />
-      <option name="project" value="LOCAL" />
-      <updated>1732663634418</updated>
-    </task>
-    <task id="LOCAL-00006" summary="setting up gitignore v2">
-      <option name="closed" value="true" />
-      <created>1732663872934</created>
-      <option name="number" value="00006" />
-      <option name="presentableId" value="LOCAL-00006" />
-      <option name="project" value="LOCAL" />
-      <updated>1732663872934</updated>
-    </task>
-    <task id="LOCAL-00007" summary="gitignore test reverted again">
-      <option name="closed" value="true" />
-      <created>1732746016545</created>
-      <option name="number" value="00007" />
-      <option name="presentableId" value="LOCAL-00007" />
-      <option name="project" value="LOCAL" />
-      <updated>1732746016546</updated>
-    </task>
-    <option name="localTasksCounter" value="8" />
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -197,10 +175,8 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="top artists and top tracks officially work properly now." />
     <MESSAGE value="resolved merge conflicts." />
-    <MESSAGE value="setting up gitignore" />
-    <MESSAGE value="setting up gitignore v1" />
-    <MESSAGE value="setting up gitignore v2" />
-    <MESSAGE value="gitignore test reverted again" />
-    <option name="LAST_COMMIT_MESSAGE" value="gitignore test reverted again" />
+    <MESSAGE value="fixed minor navigation bugs." />
+    <MESSAGE value="fixed time frame synchronization and cleaned up code in views. save feature button started." />
+    <option name="LAST_COMMIT_MESSAGE" value="fixed time frame synchronization and cleaned up code in views. save feature button started." />
   </component>
 </project>
