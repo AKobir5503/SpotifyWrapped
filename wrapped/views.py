@@ -101,8 +101,8 @@ def generate_wrap(request):
     headers = {'Authorization': f'Bearer {access_token}'}
 
     # Spotify API URLs with the selected time frame
-    top_tracks_url = f'https://api.spotify.com/v1/me/top/tracks?time_range={time_frame}&limit=10'
-    top_artists_url = f'https://api.spotify.com/v1/me/top/artists?time_range={time_frame}&limit=10'
+    top_tracks_url = f'https://api.spotify.com/v1/me/top/tracks?time_range={time_frame}&limit=5'
+    top_artists_url = f'https://api.spotify.com/v1/me/top/artists?time_range={time_frame}&limit=5'
 
     # Fetch tracks and artists
     response_tracks = requests.get(top_tracks_url, headers=headers)
