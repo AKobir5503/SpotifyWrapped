@@ -9,14 +9,17 @@ https://docs.djangoproject.com/en/5.1/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.1/ref/settings/
 """
-from decouple import config
 
-SECRET_KEY = os.getenv('SECRET_KEY', config('SECRET_KEY')) #config('SECRET_KEY', default='your_default_secret_key')
+
 
 from pathlib import Path
 import os
+from decouple import config
 import django_heroku
 import dj_database_url
+
+
+SECRET_KEY = os.getenv('SECRET_KEY', config('SECRET_KEY')) #config('SECRET_KEY', default='your_default_secret_key')
 
 with open('.env') as f:
     for line in f:
@@ -134,7 +137,7 @@ USE_TZ = True
 
 STATIC_URL = 'static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),)
+STATICFILES_DIRS = (os.path.join(BASE_DIR, 'static'),) # test
 django_heroku.settings(locals())
 
 # Default primary key field type
