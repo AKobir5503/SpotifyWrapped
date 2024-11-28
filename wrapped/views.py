@@ -12,11 +12,12 @@ from .models import SpotifyWrap, Wrap
 from django.urls import reverse
 from collections import Counter
 from datetime import datetime
+from django.conf import settings
 
+# use the settings instead of hardcoded values
+SPOTIFY_CLIENT_ID = settings.SPOTIFY_CLIENT_ID
+SPOTIFY_CLIENT_SECRET = settings.SPOTIFY_CLIENT_SECRET
 
-# Spotify API credentials
-SPOTIFY_CLIENT_ID = '46e8f14a666f47ddb347507b8a00816a'
-SPOTIFY_CLIENT_SECRET = 'ed5ff1725aef41f4b3d75c72aa659417'
 SPOTIFY_REDIRECT_URI = 'http://localhost:8000/callback/'
 
 # Landing page view
