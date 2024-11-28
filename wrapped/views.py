@@ -1,3 +1,4 @@
+
 import random
 
 from django.http import JsonResponse
@@ -12,10 +13,10 @@ from django.urls import reverse
 from collections import Counter
 from datetime import datetime
 
-from django.conf import settings
-from django.shortcuts import render
 
-# Spotify URI
+# Spotify API credentials
+SPOTIFY_CLIENT_ID = '46e8f14a666f47ddb347507b8a00816a'
+SPOTIFY_CLIENT_SECRET = 'ed5ff1725aef41f4b3d75c72aa659417'
 SPOTIFY_REDIRECT_URI = 'http://localhost:8000/callback/'
 
 # Landing page view
@@ -61,23 +62,20 @@ def user_logout(request):
 
 # Spotify login view
 def spotify_login(request):
-    spotify_client_id = settings.SPOTIFY_CLIENT_ID
     scope = 'user-top-read user-read-recently-played'
-    spotify_auth_url = f"https://accounts.spotify.com/authorize?client_id={spotify_client_id}&response_type=code&redirect_uri={SPOTIFY_REDIRECT_URI}&scope={scope}"
+    spotify_auth_url = f"https://accounts.spotify.com/authorize?client_id={SPOTIFY_CLIENT_ID}&response_type=code&redirect_uri={SPOTIFY_REDIRECT_URI}&scope={scope}"
     return redirect(spotify_auth_url)
 
 # Spotify callback view
 def callback(request):
-    spotify_client_id = settings.SPOTIFY_CLIENT_ID
-    spotify_client_secret = settings.SPOTIFY_CLIENT_SECRET
     code = request.GET.get('code')
     token_url = 'https://accounts.spotify.com/api/token'
     token_data = {
         'grant_type': 'authorization_code',
         'code': code,
         'redirect_uri': SPOTIFY_REDIRECT_URI,
-        'client_id': spotify_client_id,
-        'client_secret': spotify_client_secret,
+        'client_id': SPOTIFY_CLIENT_ID,
+        'client_secret': SPOTIFY_CLIENT_SECRET,
     }
     response = requests.post(token_url, data=token_data)
     if response.status_code == 200:
