@@ -1,6 +1,10 @@
-# use " pip install -r requirements.txt " to install all requirements
-# use " pip freeze > requirements.txt " to update it
-#THIS SHOULD BE EVERYTHING NECCESARY other than migrate and makemigrations
+# 1) use " source .venv/bin/activate " to activate your virtual environment
+# 2) delete all files in wrapped/migrations EXCEPT for __init__.py
+# 3) do " python manage.py makemigrations THEN do " python manage.py migrate "
+# 4) use " pip install -r requirements.txt " to install all requirements
+# DONE!
+# (NOT A STEP, just notes) use " pip freeze > requirements.txt " to update it
+# THIS SHOULD BE EVERYTHING NECCESARY other than migrate and makemigrations
 asgiref==3.8.1
 build==1.2.2.post1
 certifi==2024.8.30
