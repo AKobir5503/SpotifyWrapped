@@ -1,11 +1,19 @@
 # use " pip install -r requirements.txt " to install all requirements
 # use " pip freeze > requirements.txt " to update it
+#THIS SHOULD BE EVERYTHING NECCESARY other than migrate and makemigrations
 asgiref==3.8.1
+build==1.2.2.post1
 certifi==2024.8.30
 charset-normalizer==3.4.0
+click==8.1.7
 Django==5.1.3
 idna==3.10
+packaging==24.2
+pip-tools==7.4.1
+pyproject_hooks==1.2.0
 python-decouple==3.8
 requests==2.32.3
+setuptools==75.6.0
 sqlparse==0.5.2
 urllib3==2.2.3
+wheel==0.45.1
