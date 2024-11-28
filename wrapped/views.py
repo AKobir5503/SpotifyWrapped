@@ -12,6 +12,8 @@ from .models import SpotifyWrap, Wrap
 from django.urls import reverse
 from collections import Counter
 from datetime import datetime
+from django.contrib.auth.models import User
+from django.contrib import messages
 
 
 # Spotify API credentials
@@ -59,6 +61,16 @@ def dashboard(request):
 def user_logout(request):
     logout(request)
     return redirect('landing')
+
+#Delete account
+@login_required
+def delete_account(request):
+    if request.method == 'POST':
+        user = request.user
+        user.delete()
+        messages.success(request, "Your account has been successfully deleted.")
+        return redirect('landing')  # Redirect to the landing page or another desired page
+    return render(request, 'delete_account.html')
 
 # Spotify login view
 def spotify_login(request):
