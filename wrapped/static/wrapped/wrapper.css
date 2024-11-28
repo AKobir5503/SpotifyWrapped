@@ -340,3 +340,59 @@ header .logout-btn:hover {
         margin-bottom: 10px; /* Space below cover/image */
     }
 }
+
+
+.chart-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin: 20px auto;
+    width: 90%; /* Make it responsive */
+    max-width: 600px; /* Restrict maximum size */
+    background-color: #282828;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.chart-title {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    color: #1DB954;
+    text-align: center;
+}
+
+.chart-wrapper {
+    position: relative;
+    width: 100%;
+    height: 300px; /* Ensure consistent height */
+}
+
+.chart-wrapper canvas {
+    display: block;
+    margin: 0 auto;
+    max-width: 100%;
+}
+
+.chart-description {
+    font-size: 0.9rem;
+    margin-top: 10px;
+    color: #b3b3b3;
+    text-align: center;
+}
+
+/* Adjust layout for multiple charts */
+.graphs-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+
+/* Individual chart responsiveness */
+@media (max-width: 768px) {
+    .chart-container {
+        width: 100%;
+    }
+}

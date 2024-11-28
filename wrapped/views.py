@@ -14,6 +14,7 @@ from collections import Counter
 from datetime import datetime
 from django.conf import settings
 
+
 # use the settings instead of hardcoded values
 SPOTIFY_CLIENT_ID = settings.SPOTIFY_CLIENT_ID
 SPOTIFY_CLIENT_SECRET = settings.SPOTIFY_CLIENT_SECRET
@@ -110,6 +111,35 @@ def generate_wrap(request):
     response_artists = requests.get(top_artists_url, headers=headers)
     top_artists = response_artists.json().get('items', []) if response_artists.status_code == 200 else []
 
+    # Spotify API URL to get audio features for the tracks
+    track_ids = [track['id'] for track in top_tracks]
+    audio_features_url = f'https://api.spotify.com/v1/audio-features?ids={",".join(track_ids)}'
+
+    # Fetch audio features
+    response_audio_features = requests.get(audio_features_url, headers=headers)
+    audio_features = response_audio_features.json().get('audio_features',
+                                                        []) if response_audio_features.status_code == 200 else []
+
+    # Initialize mood playlists
+    mood_playlists = {
+        'chill_vibes': [],
+        'workout_hits': [],
+        'study_tunes': []
+    }
+
+    # Categorize tracks based on their energy levels
+    for track, features in zip(top_tracks, audio_features):
+        energy = features['energy']
+
+        # Categorize based on energy level
+        if energy < 0.4:
+            mood_playlists['chill_vibes'].append(track)
+        elif energy > 0.7:
+            mood_playlists['workout_hits'].append(track)
+        else:
+            mood_playlists['study_tunes'].append(track)
+
+
     # Calculate genres
     genres = []
     for artist in top_artists:
@@ -127,6 +157,7 @@ def generate_wrap(request):
         for track in top_tracks
     ]
 
+
     # Longest track streaks (Mock data for now, you can implement a real logic if Spotify provides listening history)
     longest_streaks = [
         {'name': track['name'], 'streak': random.randint(2, 10)} for track in top_tracks[:3]
@@ -140,6 +171,47 @@ def generate_wrap(request):
         }
         for track in top_tracks[:3]
     ]
+
+    # Analyze listening patterns from recently played tracks
+    recently_played_url = 'https://api.spotify.com/v1/me/player/recently-played?limit=50'
+    response_recent = requests.get(recently_played_url, headers=headers)
+    recently_played = response_recent.json().get('items', []) if response_recent.status_code == 200 else []
+
+    listening_patterns = {
+        'time_of_day': {
+            'morning': 0,
+            'afternoon': 0,
+            'evening': 0,
+            'night': 0
+        },
+        'weekday_distribution': {
+            'weekday': 0,
+            'weekend': 0
+        }
+    }
+
+    for item in recently_played:
+        played_at_raw = item['played_at']
+        if '.' in played_at_raw:
+            played_at_raw = played_at_raw.split('.')[0] + "Z"
+        played_at = datetime.strptime(played_at_raw, "%Y-%m-%dT%H:%M:%SZ")
+        hour = played_at.hour
+
+        # Time of day
+        if 5 <= hour < 12:
+            listening_patterns['time_of_day']['morning'] += 1
+        elif 12 <= hour < 17:
+            listening_patterns['time_of_day']['afternoon'] += 1
+        elif 17 <= hour < 22:
+            listening_patterns['time_of_day']['evening'] += 1
+        else:
+            listening_patterns['time_of_day']['night'] += 1
+
+        # Weekday vs. weekend
+        if played_at.weekday() < 5:
+            listening_patterns['weekday_distribution']['weekday'] += 1
+        else:
+            listening_patterns['weekday_distribution']['weekend'] += 1
 
     # Save the wrap if requested
     wrap_name = f"Top Tracks - {time_frame.replace('_', ' ').title()}"
@@ -168,6 +240,8 @@ def generate_wrap(request):
         'longest_streaks': longest_streaks,
         'top_lyrics': top_lyrics,
         'time_frame': time_frame,
+        'listening_patterns': listening_patterns,
+        'mood_playlists': mood_playlists,
     }
     return render(request, 'wrapper.html', context)
 
