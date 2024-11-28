@@ -12,12 +12,13 @@ from .models import SpotifyWrap, Wrap
 from django.urls import reverse
 from collections import Counter
 from datetime import datetime
-from django.conf import settings
+from django.contrib.auth.models import User
+from django.contrib import messages
 
-# use the settings instead of hardcoded values
-SPOTIFY_CLIENT_ID = settings.SPOTIFY_CLIENT_ID
-SPOTIFY_CLIENT_SECRET = settings.SPOTIFY_CLIENT_SECRET
 
+# Spotify API credentials
+SPOTIFY_CLIENT_ID = '46e8f14a666f47ddb347507b8a00816a'
+SPOTIFY_CLIENT_SECRET = 'ed5ff1725aef41f4b3d75c72aa659417'
 SPOTIFY_REDIRECT_URI = 'http://localhost:8000/callback/'
 
 # Landing page view
@@ -60,6 +61,16 @@ def dashboard(request):
 def user_logout(request):
     logout(request)
     return redirect('landing')
+
+#Delete account
+@login_required
+def delete_account(request):
+    if request.method == 'POST':
+        user = request.user
+        user.delete()
+        messages.success(request, "Your account has been successfully deleted.")
+        return redirect('landing')  # Redirect to the landing page or another desired page
+    return render(request, 'delete_account.html')
 
 # Spotify login view
 def spotify_login(request):

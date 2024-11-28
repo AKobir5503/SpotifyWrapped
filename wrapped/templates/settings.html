@@ -34,11 +34,17 @@
         <div class="section">
             <h2>Settings</h2>
             <p>
-                text
-            <p>
-                text
+                Manage your SpotifyWrapped account settings here.
             </p>
+            <p>
+                If you wish to permanently delete your account, use the button below.
+            </p>
+            <form action="{% url 'delete_account' %}" method="post" class="delete-account-form">
+                {% csrf_token %}
+                <button type="submit" class="delete-btn">Delete Account</button>
+            </form>
         </div>
+    </div>
 
     <footer>
         <p>Made with ❤️ by Team SpotifyWrapped | Contact Us</p>
