@@ -13,6 +13,7 @@ from django.urls import reverse
 from collections import Counter
 from datetime import datetime
 from django.conf import settings
+from django.http import JsonResponse
 
 # use the settings instead of hardcoded values
 SPOTIFY_CLIENT_ID = settings.SPOTIFY_CLIENT_ID
@@ -230,5 +231,18 @@ def wrap_detail(request, wrap_id):
 def index(request):
     return render(request, 'index.html')
 
-def settings(request):
-    return render(request, 'settings.html')
+def user_settings(request):
+    if request.method == "POST":
+        view_mode = request.POST.get("view_mode", "light")
+        language = request.POST.get("language", "en")
+
+        # Save the settings to the session
+        request.session["view_mode"] = view_mode
+        request.session["language"] = language
+
+        return render(request, "user_settings.html", {"view_mode": view_mode, "language": language})
+
+    view_mode = request.session.get("view_mode", "light")
+    language = request.session.get("language", "en")
+
+    return render(request, "user_settings.html", {"view_mode": view_mode, "language": language})
