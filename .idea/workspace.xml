@@ -4,10 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="287ce0f1-7566-40d0-b2fb-124076850c40" name="Changes" comment="fixed time frame synchronization and cleaned up code in views. save feature button started.">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
-    </list>
+    <list default="true" id="287ce0f1-7566-40d0-b2fb-124076850c40" name="Changes" comment="fixed time frame synchronization and cleaned up code in views. save feature button started." />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -66,7 +63,7 @@
     "RunOnceActivity.OpenDjangoStructureViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "django.template.preview.state": "SHOW_EDITOR",
-    "git-widget-placeholder": "AbdullahK",
+    "git-widget-placeholder": "main",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -178,6 +175,7 @@
     <MESSAGE value="resolved merge conflicts." />
     <MESSAGE value="fixed minor navigation bugs." />
     <MESSAGE value="fixed time frame synchronization and cleaned up code in views. save feature button started." />
-    <option name="LAST_COMMIT_MESSAGE" value="fixed time frame synchronization and cleaned up code in views. save feature button started." />
+    <MESSAGE value="added setting nav link to headers" />
+    <option name="LAST_COMMIT_MESSAGE" value="added setting nav link to headers" />
   </component>
 </project>
