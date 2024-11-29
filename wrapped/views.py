@@ -75,31 +75,24 @@ def dashboard(request):
     if request.method == "POST":
         view_mode = request.POST.get("view_mode", "light")
         language = request.POST.get("language", "en")
-
-        # Save the settings to the session
         request.session["view_mode"] = view_mode
         request.session["language"] = language
 
-        # Query the user's saved wraps
-        wraps = request.user.spotify_wraps.all()
-        return render(
-            request,
-            "dashboard.html",
-            {"wraps": wraps, "view_mode": view_mode, "language": language},
-        )
-
-    # Handle GET requests and retrieve current settings
+    # Get session settings or defaults
     view_mode = request.session.get("view_mode", "light")
     language = request.session.get("language", "en")
 
-    # Query the user's saved wraps
-    wraps = request.user.spotify_wraps.all()
+    # Check for related SpotifyWrap objects
+    wraps = []
+    if hasattr(request.user, 'spotify_wraps'):
+        wraps = request.user.spotify_wraps.all()
 
     return render(
         request,
         "dashboard.html",
         {"wraps": wraps, "view_mode": view_mode, "language": language},
     )
+
 
 
 def user_logout(request):
