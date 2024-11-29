@@ -13,6 +13,7 @@ from django.urls import reverse
 from collections import Counter
 from datetime import datetime
 from django.conf import settings
+from collections import defaultdict
 
 
 # use the settings instead of hardcoded values
@@ -97,28 +98,59 @@ def generate_wrap(request):
 
     # Get the time frame from GET request or default to 'short_term'
     time_frame = request.POST.get('time_frame', 'short_term')
-
     headers = {'Authorization': f'Bearer {access_token}'}
 
     # Spotify API URLs with the selected time frame
-    top_tracks_url = f'https://api.spotify.com/v1/me/top/tracks?time_range={time_frame}&limit=5'
-    top_artists_url = f'https://api.spotify.com/v1/me/top/artists?time_range={time_frame}&limit=5'
+    top_tracks_url = f'https://api.spotify.com/v1/me/top/tracks?time_range={time_frame}&limit=50'
+    top_artists_url = f'https://api.spotify.com/v1/me/top/artists?time_range={time_frame}&limit=50'
 
-    # Fetch tracks and artists
+    # Fetch tracks and artists based on time frame
     response_tracks = requests.get(top_tracks_url, headers=headers)
-    top_tracks = response_tracks.json().get('items', []) if response_tracks.status_code == 200 else []
-
     response_artists = requests.get(top_artists_url, headers=headers)
+
+    #set fetched data
+    top_tracks = response_tracks.json().get('items', []) if response_tracks.status_code == 200 else []
     top_artists = response_artists.json().get('items', []) if response_artists.status_code == 200 else []
+    top_tracks_display = top_tracks[:5]
+    top_artists_display = top_artists[:5]
 
     # Spotify API URL to get audio features for the tracks
     track_ids = [track['id'] for track in top_tracks]
     audio_features_url = f'https://api.spotify.com/v1/audio-features?ids={",".join(track_ids)}'
 
-    # Fetch audio features
+    # Fetch and set audio features
     response_audio_features = requests.get(audio_features_url, headers=headers)
     audio_features = response_audio_features.json().get('audio_features',
                                                         []) if response_audio_features.status_code == 200 else []
+
+    # Calculate genres
+    genres = []
+    for artist in top_artists:
+        genres.extend(artist.get('genres', []))
+    genre_counts = Counter(genres)
+    favorite_genres = [genre for genre, _ in genre_counts.most_common(5)]
+
+    # Extract genres
+    genres = []
+    for track in top_tracks:
+        for artist in track['artists']:
+            # Fetch artist details for genres
+            artist_url = f"https://api.spotify.com/v1/artists/{artist['id']}"
+            response_artist = requests.get(artist_url, headers=headers)
+            if response_artist.status_code == 200:
+                genres.extend(response_artist.json().get('genres', []))
+    unique_genres = set(genres)  # Remove duplicates
+    total_genres_played = len(unique_genres)
+
+    # Extract albums from top tracks
+    top_albums = [
+        {
+            'name': track['album']['name'],
+            'artist': track['album']['artists'][0]['name'],
+            'image_url': track['album']['images'][0]['url'] if track['album']['images'] else None
+        }
+        for track in top_tracks[:5]
+    ]
 
     # Initialize mood playlists
     mood_playlists = {
@@ -140,78 +172,115 @@ def generate_wrap(request):
             mood_playlists['study_tunes'].append(track)
 
 
-    # Calculate genres
-    genres = []
-    for artist in top_artists:
-        genres.extend(artist.get('genres', []))
-    genre_counts = Counter(genres)
-    favorite_genres = [genre for genre, _ in genre_counts.most_common(5)]
-
-    # Extract albums from top tracks
-    top_albums = [
-        {
-            'name': track['album']['name'],
-            'artist': track['album']['artists'][0]['name'],
-            'image_url': track['album']['images'][0]['url'] if track['album']['images'] else None
-        }
-        for track in top_tracks
-    ]
-
 
     # Longest track streaks (Mock data for now, you can implement a real logic if Spotify provides listening history)
     longest_streaks = [
         {'name': track['name'], 'streak': random.randint(2, 10)} for track in top_tracks[:3]
     ]
 
-    # Fetch lyrics (Mock for now, integrate lyrics API if desired)
-    top_lyrics = [
-        {
-            'name': track['name'],
-            'lyrics': "Sample lyric snippet for demonstration purposes."
-        }
-        for track in top_tracks[:3]
-    ]
 
     # Analyze listening patterns from recently played tracks
     recently_played_url = 'https://api.spotify.com/v1/me/player/recently-played?limit=50'
     response_recent = requests.get(recently_played_url, headers=headers)
     recently_played = response_recent.json().get('items', []) if response_recent.status_code == 200 else []
 
-    listening_patterns = {
-        'time_of_day': {
-            'morning': 0,
-            'afternoon': 0,
-            'evening': 0,
-            'night': 0
-        },
-        'weekday_distribution': {
-            'weekday': 0,
-            'weekend': 0
+    def analyze_listening_patterns(recently_played):
+        """Analyze listening patterns from recently played tracks."""
+        patterns = {
+            'time_of_day': {
+                'morning': 0,
+                'afternoon': 0,
+                'evening': 0,
+                'night': 0,
+            },
         }
-    }
 
-    for item in recently_played:
-        played_at_raw = item['played_at']
-        if '.' in played_at_raw:
-            played_at_raw = played_at_raw.split('.')[0] + "Z"
-        played_at = datetime.strptime(played_at_raw, "%Y-%m-%dT%H:%M:%SZ")
-        hour = played_at.hour
+        for item in recently_played:
+            played_at_raw = item['played_at']  # Raw timestamp with fractional seconds
+            played_at = datetime.strptime(played_at_raw.split('.')[0],
+                                          "%Y-%m-%dT%H:%M:%S")  # Remove fractional seconds and parse
+            hour = played_at.hour
 
-        # Time of day
-        if 5 <= hour < 12:
-            listening_patterns['time_of_day']['morning'] += 1
-        elif 12 <= hour < 17:
-            listening_patterns['time_of_day']['afternoon'] += 1
-        elif 17 <= hour < 22:
-            listening_patterns['time_of_day']['evening'] += 1
-        else:
-            listening_patterns['time_of_day']['night'] += 1
+            # Time of day
+            if 5 <= hour < 12:
+                patterns['time_of_day']['morning'] += 1
+            elif 12 <= hour < 17:
+                patterns['time_of_day']['afternoon'] += 1
+            elif 17 <= hour < 22:
+                patterns['time_of_day']['evening'] += 1
+            else:
+                patterns['time_of_day']['night'] += 1
 
-        # Weekday vs. weekend
-        if played_at.weekday() < 5:
-            listening_patterns['weekday_distribution']['weekday'] += 1
-        else:
-            listening_patterns['weekday_distribution']['weekend'] += 1
+        total = sum(patterns['time_of_day'].values())
+        if total > 0:
+            for key in patterns['time_of_day']:
+                patterns['time_of_day'][key] = round((patterns['time_of_day'][key] / total) * 100, 2)
+
+        return patterns
+
+    def analyze_genres(top_artists):
+        """Analyze genres from the top artists."""
+        genre_counts_graph = {}
+
+        for artist in top_artists:
+            for genre in artist.get('genres', []):
+                genre_counts_graph[genre] = genre_counts_graph.get(genre, 0) + 1
+
+        # Sort by frequency and return the top 5 genres
+        sorted_genres = sorted(genre_counts_graph.items(), key=lambda x: x[1], reverse=True)[:5]
+        return dict(sorted_genres)
+
+    listening_patterns = analyze_listening_patterns(recently_played)
+    genre_breakdown = analyze_genres(top_artists)
+
+    # Analyze longest track streaks
+    def get_longest_streaks(recently_played):
+        """Calculate the longest track streaks from recently played data."""
+        streaks = defaultdict(int)  # Track streaks per song
+        longest_streaks = []  # Final list of longest streaks
+
+        if not recently_played:
+            return []
+
+        last_track_id = None
+        current_streak_count = 0
+
+        for item in recently_played:
+            track = item['track']
+            track_id = track['id']
+            track_name = track['name']
+
+            if track_id == last_track_id:
+                current_streak_count += 1
+            else:
+                if last_track_id:
+                    # Save streak for the previous track
+                    streaks[last_track_id] = max(streaks[last_track_id], current_streak_count)
+                last_track_id = track_id
+                current_streak_count = 1
+
+        # Ensure the final track's streak is saved
+        if last_track_id:
+            streaks[last_track_id] = max(streaks[last_track_id], current_streak_count)
+
+        # Sort streaks by length (descending) and return top 3 streaks
+        sorted_streaks = sorted(streaks.items(), key=lambda x: x[1], reverse=True)[:3]
+        for track_id, streak_count in sorted_streaks:
+            track_data = next((item['track'] for item in recently_played if item['track']['id'] == track_id), None)
+            if track_data:
+                longest_streaks.append({
+                    'name': track_data['name'],
+                    'streak': streak_count
+                })
+
+        return longest_streaks
+
+    # Call the function to calculate streaks
+    longest_streaks = get_longest_streaks(recently_played)
+    total_songs_played = len(top_tracks)
+    # Metric 3: Total Listening Time (in hours)
+    total_duration_ms = sum(track['duration_ms'] for track in top_tracks)
+    total_duration_minutes = round(total_duration_ms / (1000 * 60), 2)  # Convert ms to minutes
 
     # Save the wrap if requested
     wrap_name = f"Top Tracks - {time_frame.replace('_', ' ').title()}"
@@ -226,23 +295,26 @@ def generate_wrap(request):
                 'favorite_genres': favorite_genres,
                 'top_albums': top_albums,
                 'longest_streaks': longest_streaks,
-                'top_lyrics': top_lyrics,
             }
         )
         wrap.save()
         return redirect('dashboard')  # Redirect back to dashboard after saving
 
     context = {
-        'top_tracks': top_tracks,
-        'top_artists': top_artists,
+        'top_tracks': top_tracks_display,
+        'top_artists': top_artists_display,
         'favorite_genres': favorite_genres,
         'top_albums': top_albums,
-        'longest_streaks': longest_streaks,
-        'top_lyrics': top_lyrics,
         'time_frame': time_frame,
         'listening_patterns': listening_patterns,
+        'genre_breakdown': genre_breakdown,
         'mood_playlists': mood_playlists,
+        'longest_streaks': longest_streaks,
+        'total_songs_played': total_songs_played,
+        'total_genres_played': total_genres_played,
+        'total_duration_minutes': total_duration_minutes,
     }
+
     return render(request, 'wrapper.html', context)
 
 
