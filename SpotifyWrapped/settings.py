@@ -12,6 +12,11 @@ DEBUG = config('DEBUG', default=False, cast=bool)
 SPOTIFY_CLIENT_ID = config('SPOTIFY_CLIENT_ID')
 SPOTIFY_CLIENT_SECRET = config('SPOTIFY_CLIENT_SECRET')
 
+print(f"SECRET_KEY: {config('SECRET_KEY', default='MISSING')}")
+print(f"DEBUG: {config('DEBUG', default='MISSING', cast=bool)}")
+print(f"SPOTIFY_CLIENT_ID: {config('SPOTIFY_CLIENT_ID', default='MISSING')}")
+print(f"SPOTIFY_CLIENT_SECRET: {config('SPOTIFY_CLIENT_SECRET', default='MISSING')}")
+
 # Adjust ALLOWED_HOSTS
 if DEBUG:
     ALLOWED_HOSTS = ['localhost', '127.0.0.1']
@@ -87,3 +92,4 @@ if not DEBUG:  # Use this only in production
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 django_heroku.settings(locals())
+
