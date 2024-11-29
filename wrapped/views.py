@@ -89,6 +89,27 @@ def callback(request):
     else:
         return render(request, 'error.html', {'message': 'Spotify login failed.'})
 
+def get_top_tracks(access_token, time_frame):
+    top_tracks = []
+    limit = 50
+    offset = 0
+
+    # Loop through to fetch all tracks, 50 at a time
+    while True:
+        url = f'https://api.spotify.com/v1/me/top/tracks?time_range={time_frame}&limit={limit}&offset={offset}'
+        headers = {'Authorization': f'Bearer {access_token}'}
+        response = requests.get(url, headers=headers)
+        data = response.json()
+
+        # If there are no more tracks to fetch, break the loop
+        if not data.get('items'):
+            break
+
+        top_tracks.extend(data['items'])
+        offset += limit  # Move to the next set of 50 tracks
+
+    return top_tracks
+
 # Generate the user's Spotify wrap
 @login_required
 def generate_wrap(request):
@@ -111,26 +132,20 @@ def generate_wrap(request):
     #set fetched data
     top_tracks = response_tracks.json().get('items', []) if response_tracks.status_code == 200 else []
     top_artists = response_artists.json().get('items', []) if response_artists.status_code == 200 else []
+    #display limit to 5
     top_tracks_display = top_tracks[:5]
     top_artists_display = top_artists[:5]
-
-    # Spotify API URL to get audio features for the tracks
+    # Get track IDs from top tracks
     track_ids = [track['id'] for track in top_tracks]
+
+    # Fetch audio features for the tracks
     audio_features_url = f'https://api.spotify.com/v1/audio-features?ids={",".join(track_ids)}'
-
-    # Fetch and set audio features
     response_audio_features = requests.get(audio_features_url, headers=headers)
-    audio_features = response_audio_features.json().get('audio_features',
-                                                        []) if response_audio_features.status_code == 200 else []
+    audio_features = response_audio_features.json().get('audio_features', [])
 
-    # Calculate genres
-    genres = []
-    for artist in top_artists:
-        genres.extend(artist.get('genres', []))
-    genre_counts = Counter(genres)
-    favorite_genres = [genre for genre, _ in genre_counts.most_common(5)]
 
-    # Extract genres
+
+    # Extract genres for calculating total genres
     genres = []
     for track in top_tracks:
         for artist in track['artists']:
@@ -139,6 +154,8 @@ def generate_wrap(request):
             response_artist = requests.get(artist_url, headers=headers)
             if response_artist.status_code == 200:
                 genres.extend(response_artist.json().get('genres', []))
+    genre_counts = Counter(genres)
+    favorite_genres = [genre for genre, _ in genre_counts.most_common(5)]
     unique_genres = set(genres)  # Remove duplicates
     total_genres_played = len(unique_genres)
 
@@ -159,24 +176,22 @@ def generate_wrap(request):
         'study_tunes': []
     }
 
-    # Categorize tracks based on their energy levels
-    for track, features in zip(top_tracks, audio_features):
-        energy = features['energy']
+    # Categorize tracks based on multiple audio features
+    for track, features in zip(top_tracks_display[:5], audio_features):
+        # Ensure the feature is available
+        if features and all(key in features for key in ['energy', 'danceability', 'valence']):
+            energy = features['energy']
+            danceability = features['danceability']
+            valence = features['valence']
 
-        # Categorize based on energy level
-        if energy < 0.4:
-            mood_playlists['chill_vibes'].append(track)
-        elif energy > 0.7:
-            mood_playlists['workout_hits'].append(track)
-        else:
-            mood_playlists['study_tunes'].append(track)
+            # Categorize based on energy, danceability, and valence
+            if energy < 0.4 and valence < 0.5:
+                mood_playlists['chill_vibes'].append(track)
+            elif danceability > 0.7 and energy > 0.6:
+                mood_playlists['workout_hits'].append(track)
+            elif energy > 0.4 and energy < 0.7 and valence > 0.5:
+                mood_playlists['study_tunes'].append(track)
 
-
-
-    # Longest track streaks (Mock data for now, you can implement a real logic if Spotify provides listening history)
-    longest_streaks = [
-        {'name': track['name'], 'streak': random.randint(2, 10)} for track in top_tracks[:3]
-    ]
 
 
     # Analyze listening patterns from recently played tracks
@@ -184,6 +199,7 @@ def generate_wrap(request):
     response_recent = requests.get(recently_played_url, headers=headers)
     recently_played = response_recent.json().get('items', []) if response_recent.status_code == 200 else []
 
+    #analyze the listening times throughout the day for the bar graph
     def analyze_listening_patterns(recently_played):
         """Analyze listening patterns from recently played tracks."""
         patterns = {
@@ -218,6 +234,7 @@ def generate_wrap(request):
 
         return patterns
 
+    #analyze the genre breakdowns for graphs
     def analyze_genres(top_artists):
         """Analyze genres from the top artists."""
         genre_counts_graph = {}
@@ -229,9 +246,6 @@ def generate_wrap(request):
         # Sort by frequency and return the top 5 genres
         sorted_genres = sorted(genre_counts_graph.items(), key=lambda x: x[1], reverse=True)[:5]
         return dict(sorted_genres)
-
-    listening_patterns = analyze_listening_patterns(recently_played)
-    genre_breakdown = analyze_genres(top_artists)
 
     # Analyze longest track streaks
     def get_longest_streaks(recently_played):
@@ -275,9 +289,14 @@ def generate_wrap(request):
 
         return longest_streaks
 
+    #listening patterns and genre breakdown called
+    listening_patterns = analyze_listening_patterns(recently_played)
+    genre_breakdown = analyze_genres(top_artists)
+
     # Call the function to calculate streaks
     longest_streaks = get_longest_streaks(recently_played)
     total_songs_played = len(top_tracks)
+
     # Metric 3: Total Listening Time (in hours)
     total_duration_ms = sum(track['duration_ms'] for track in top_tracks)
     total_duration_minutes = round(total_duration_ms / (1000 * 60), 2)  # Convert ms to minutes

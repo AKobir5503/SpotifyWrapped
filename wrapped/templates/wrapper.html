@@ -91,11 +91,9 @@
                     <div class="playlist-grid">
                         {% for track in mood_playlists.chill_vibes %}
                             <div class="playlist-item">
-                                <img src="{{ track.album_art_url }}" alt="{{ track.name }} album cover" class="album-art">
+                                <img src="{{ track.album.images.0.url }}" alt="{{ track.name }} album cover" class="album-art">
                                 <p>{{ track.name }}</p>
                             </div>
-                        {% empty %}
-                            <p>No tracks found for Chill Vibes</p>
                         {% endfor %}
                     </div>
                 </div>
@@ -106,11 +104,9 @@
                     <div class="playlist-grid">
                         {% for track in mood_playlists.workout_hits %}
                             <div class="playlist-item">
-                                <img src="{{ track.album_art_url }}" alt="{{ track.name }} album cover" class="album-art">
+                                <img src="{{ track.album.images.0.url }}" alt="{{ track.name }} album cover" class="album-art">
                                 <p>{{ track.name }}</p>
                             </div>
-                        {% empty %}
-                            <p>No tracks found for Workout Hits</p>
                         {% endfor %}
                     </div>
                 </div>
@@ -121,18 +117,15 @@
                     <div class="playlist-grid">
                         {% for track in mood_playlists.study_tunes %}
                             <div class="playlist-item">
-                                <img src="{{ track.album_art_url }}" alt="{{ track.name }} album cover" class="album-art">
+                                <img src="{{ track.album.images.0.url }}" alt="{{ track.name }} album cover" class="album-art">
                                 <p>{{ track.name }}</p>
                             </div>
-                        {% empty %}
-                            <p>No tracks found for Study Tunes</p>
                         {% endfor %}
                     </div>
                 </div>
 
             </div>
         </div>
-
 
         <div class="slide" id="slide6">
             <h1>Your Top Albums</h1>
