@@ -71,9 +71,9 @@ header .logout-btn:hover {
 
 .slide-container {
     display: flex;
-    width: 900vw; /* Assuming 10 slides, adjust accordingly */
     height: 100vh;
-    transition: transform 0.5s ease-in-out;
+    transition: transform 0.7s ease-in-out;
+    width: auto; /* Dynamically adjusted via JavaScript */
 }
 
 .slide {
@@ -83,7 +83,6 @@ header .logout-btn:hover {
     justify-content: center;
     align-items: center;
     flex-shrink: 0;
-    position: relative;
 }
 
 #slide1 {
@@ -97,8 +96,8 @@ header .logout-btn:hover {
 
 .tracks-container, .artists-container {
     display: flex;
-    flex-direction: column;
-    align-items: center;
+    flex-wrap: wrap;
+    justify-content: center;
     max-width: 80vw;
     margin: 0 auto;
 }
@@ -107,13 +106,14 @@ header .logout-btn:hover {
     display: flex;
     align-items: center;
     background-color: #1DB954;
-    padding: 15px; /* Adjust padding for comfort */
-    margin: 15px 0;
+    padding: 15px;
+    margin: 15px;
     border-radius: 10px;
-    width: 100%;
-    max-width: 800px;
-    transition: background-color 0.3s, box-shadow 0.3s; /* Add transition for shadow */
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add box shadow */
+    width: 300px; /* Adjust width as needed */
+    transition: background-color 0.3s, box-shadow 0.3s;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    flex-direction: column;
+    text-align: center;
 }
 
 .track-item:hover, .artist-card:hover {
@@ -339,4 +339,92 @@ header .logout-btn:hover {
     .album-cover, .artist-image {
         margin-bottom: 10px; /* Space below cover/image */
     }
+}
+
+
+.chart-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 20px;
+    width: 90%; /* Make it responsive */
+    max-width: 600px; /* Restrict maximum size */
+    background-color: #282828;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+}
+
+.chart-title {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    color: #1DB954;
+    text-align: center;
+}
+
+.chart-wrapper {
+    position: relative;
+    width: 100%;
+    height: 300px; /* Ensure consistent height */
+}
+
+.chart-wrapper canvas {
+    display: flex;
+    margin: 0 auto;
+    max-width: 100%;
+
+    align-items: center;
+    padding: 15px;
+    flex-direction: column;
+    text-align: center;
+}
+
+.chart-description {
+    font-size: 0.9rem;
+    margin-top: 10px;
+    color: #b3b3b3;
+    text-align: center;
+}
+
+/* Adjust layout for multiple charts */
+.graphs-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+
+/* Individual chart responsiveness */
+@media (max-width: 768px) {
+    .chart-container {
+        width: 100%;
+    }
+}
+
+.listening-stats-container {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-top: 20px;
+}
+
+.stats-card {
+    background-color: #1DB954;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    width: 250px;
+}
+
+.stats-card h2 {
+    font-size: 2rem;
+    margin: 10px 0;
+    color: #fff;
+}
+
+.stats-card p {
+    margin: 5px 0;
+    color: #fff;
 }
