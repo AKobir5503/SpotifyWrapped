@@ -200,8 +200,20 @@ def save_wrap(request):
 
 # About page view
 def about(request):
-    return render(request, 'about.html')
+    if request.method == "POST":
+        view_mode = request.POST.get("view_mode", "light")
+        language = request.POST.get("language", "en")
 
+        # Save the settings to the session
+        request.session["view_mode"] = view_mode
+        request.session["language"] = language
+
+        return render(request, "about.html", {"view_mode": view_mode, "language": language})
+
+    view_mode = request.session.get("view_mode", "light")
+    language = request.session.get("language", "en")
+
+    return render(request, "about.html", {"view_mode": view_mode, "language": language})
 # wrap features and attributes views go below
 
 def get_user_top_tracks(access_token):
