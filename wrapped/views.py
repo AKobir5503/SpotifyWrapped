@@ -27,7 +27,20 @@ SPOTIFY_REDIRECT_URI = 'http://localhost:8000/callback/'
 
 # Landing page view
 def landing(request):
-    return render(request, 'landing.html')
+    if request.method == "POST":
+        view_mode = request.POST.get("view_mode", "light")
+        language = request.POST.get("language", "en")
+
+        # Save the settings to the session
+        request.session["view_mode"] = view_mode
+        request.session["language"] = language
+
+        return render(request, "landing.html", {"view_mode": view_mode, "language": language})
+
+    view_mode = request.session.get("view_mode", "light")
+    language = request.session.get("language", "en")
+
+    return render(request, "landing.html", {"view_mode": view_mode, "language": language})
 
 # Login view
 def login_user(request):
