@@ -451,39 +451,13 @@ def get_user_top_tracks(access_token):
 def wrap_detail(request, wrap_id):
     wrap = get_object_or_404(SpotifyWrap, id=wrap_id)
 
-    if request.method == "POST":
-        # Handle settings update
-        view_mode = request.POST.get("view_mode", "light")
-        language = request.POST.get("language", "en")
-
-        # Save the settings to the session
-        request.session["view_mode"] = view_mode
-        request.session["language"] = language
-
-        # Context for rendering after POST
-        context = {
-            'wrap': wrap,
-            'top_tracks': wrap.data.get('top_tracks', []),
-            'top_artists': wrap.data.get('top_artists', []),
-            "view_mode": view_mode,
-            "language": language,
-        }
-        return render(request, 'wrap_detail.html', context)
-
-    # Retrieve session data for GET requests
-    view_mode = request.session.get("view_mode", "light")
-    language = request.session.get("language", "en")
-
-    # Context for rendering in GET requests
+    # If you want to pass data from the wrap (e.g., top tracks, top artists, etc.)
     context = {
         'wrap': wrap,
         'top_tracks': wrap.data.get('top_tracks', []),
         'top_artists': wrap.data.get('top_artists', []),
-        "view_mode": view_mode,
-        "language": language,
     }
     return render(request, 'wrap_detail.html', context)
-
 
 def index(request):
     return render(request, 'index.html')
