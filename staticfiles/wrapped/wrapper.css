@@ -1,0 +1,342 @@
+body {
+    margin: 0;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    background-color: #121212;
+    color: white;
+    overflow-x: hidden;
+    overflow-y: hidden; /* Prevent vertical scrolling */
+}
+
+header {
+    background-color: #333;
+    padding: 20px 0;
+    color: white;
+}
+
+header .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header .logo {
+    color: white;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+header .nav-links {
+    list-style: none;
+    display: flex;
+    justify-content: flex-end;
+    margin: 0;
+    padding: 0;
+}
+
+header .nav-links li {
+    margin: 0 15px;
+}
+
+header .nav-links a {
+    color: white;
+    text-decoration: none;
+    font-size: 18px;
+}
+
+header .nav-links a:hover {
+    color: #4CAF50;
+}
+
+/* Logout button */
+header .logout-form {
+    display: inline;
+    margin-left: 20px;
+}
+
+header .logout-btn {
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+header .logout-btn:hover {
+    background-color: #45a049;
+}
+
+.slide-container {
+    display: flex;
+    width: 900vw; /* Assuming 10 slides, adjust accordingly */
+    height: 100vh;
+    transition: transform 0.5s ease-in-out;
+}
+
+.slide {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+    position: relative;
+}
+
+#slide1 {
+    text-align: center;
+}
+
+.slide h1 {
+    font-size: 3rem;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+}
+
+.tracks-container, .artists-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    max-width: 80vw;
+    margin: 0 auto;
+}
+
+.track-item, .artist-card {
+    display: flex;
+    align-items: center;
+    background-color: #1DB954;
+    padding: 15px; /* Adjust padding for comfort */
+    margin: 15px 0;
+    border-radius: 10px;
+    width: 100%;
+    max-width: 800px;
+    transition: background-color 0.3s, box-shadow 0.3s; /* Add transition for shadow */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Add box shadow */
+}
+
+.track-item:hover, .artist-card:hover {
+    background-color: #1ed760;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Enhance shadow on hover */
+}
+
+.album-cover, .artist-image {
+    width: 80px; /* Slightly adjust size for a cleaner look */
+    height: 80px; /* Consistent height */
+    margin-right: 20px;
+    border-radius: 5px;
+}
+
+.track-info, .artist-info {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.track-info h2, .artist-info h2 {
+    margin: 0;
+    font-size: 1.5rem;
+    color: white;
+}
+
+.track-info p, .artist-info p {
+    margin: 5px 0;
+    color: #ffffff;
+    font-size: 0.9rem; /* Slightly smaller for album/artist name */
+}
+
+.genres-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    max-width: 80vw;
+    margin: 20px auto;
+}
+
+.genre-item {
+    background-color: #1DB954;
+    color: #ffffff;
+    padding: 15px;
+    margin: 10px;
+    border-radius: 8px;
+    font-size: 1.2rem;
+    text-align: center;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: background-color 0.3s, box-shadow 0.3s;
+}
+
+.genre-item:hover {
+    background-color: #1ed760;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+
+.controls {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.controls button {
+    padding: 10px 20px;
+    background-color: #1DB954;
+    color: #ffffff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    margin: 0 10px;
+}
+
+.controls button:hover {
+    background-color: #1ed760;
+}
+
+.controls button:active {
+    transform: scale(0.95);
+}
+
+/* New generic card style to reuse across slides */
+.card {
+    display: flex;
+    align-items: center;
+    background-color: #1DB954;
+    padding: 15px;
+    margin: 15px auto;
+    border-radius: 10px;
+    width: 80vw;
+    max-width: 800px;
+    transition: background-color 0.3s, box-shadow 0.3s;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    flex-direction: column;
+}
+
+.card:hover {
+    background-color: #1ed760;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+/* Additional adjustments for each specific slide */
+#slide5 .card, #slide6 .card, #slide7 .card, #slide8 .card, #slide9 .card {
+    text-align: center;
+    color: #fff;
+}
+
+.chart-container {
+    width: 100%;
+    max-width: 600px;
+    height: 300px;
+    background-color: #222;
+    border-radius: 8px;
+    margin: 20px 0;
+}
+
+.albums-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    max-width: 80vw;
+    margin: 0 auto;
+}
+
+.album-card {
+    display: flex;
+    align-items: center;
+    background-color: #1DB954;
+    padding: 15px;
+    margin: 15px;
+    border-radius: 10px;
+    width: 300px; /* Adjust width as needed */
+    transition: background-color 0.3s, box-shadow 0.3s;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    flex-direction: column;
+    text-align: center;
+}
+
+.album-card:hover {
+    background-color: #1ed760;
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+}
+
+.album-cover {
+    width: 100px;
+    height: 100px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+.album-info h2 {
+    font-size: 1.2rem;
+    color: white;
+    margin: 0;
+}
+
+.album-info p {
+    font-size: 1rem;
+    color: #ffffff;
+    margin: 5px 0 0;
+}
+
+.mood-playlists-container {
+    display: flex;
+    gap: 20px;
+    justify-content: space-around;
+}
+
+.card {
+    border-radius: 10px;
+    padding: 20px;
+    color: white;
+    text-align: center;
+}
+
+.chill-card {
+    background: linear-gradient(to right, #76b2fe, #b69efe);
+    width: 300px;
+}
+
+.workout-card {
+    background: linear-gradient(to right, #ff4b2b, #ff416c);
+    width: 300px;
+}
+
+.study-card {
+    background: linear-gradient(to right, #4ac29a, #bdfff3);
+    width: 300px;
+}
+
+.playlist-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.playlist-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.album-art {
+    width: 60px;
+    height: 60px;
+    border-radius: 5px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    margin-bottom: 5px;
+}
+
+
+/* Responsive Styles */
+@media (max-width: 600px) {
+    .track-item, .artist-card {
+        flex-direction: column; /* Stack items vertically on smaller screens */
+        align-items: flex-start; /* Align to the start */
+    }
+
+    .album-cover, .artist-image {
+        margin-bottom: 10px; /* Space below cover/image */
+    }
+}
