@@ -1,0 +1,202 @@
+/* Color Variables */
+:root {
+    --primary-bg-light: #f8f9fa;
+    --primary-text-light: #333;
+    --header-footer-bg-light: #333;
+    --header-footer-text-light: #fff;
+
+    --primary-bg-dark: #121212;
+    --primary-text-dark: #ffffff;
+    --header-footer-bg-dark: #1f1f1f;
+    --header-footer-text-dark: #ffffff;
+
+    --primary-bg-high-contrast: #000000;
+    --primary-text-high-contrast: #ffff00;
+    --header-footer-bg-high-contrast: #000000;
+    --header-footer-text-high-contrast: #ffff00;
+
+    --highlight-color: #1db954;
+    --hover-highlight: #45a049;
+}
+
+/* General Styles */
+body {
+    font-family: Arial, sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Ensure full viewport height */
+    transition: all 0.3s ease-in-out;
+}
+
+body.light {
+    background-color: var(--primary-bg-light);
+    color: var(--primary-text-light);
+}
+
+body.dark {
+    background-color: var(--primary-bg-dark);
+    color: var(--primary-text-dark);
+}
+
+body.high_contrast {
+    background-color: var(--primary-bg-high-contrast);
+    color: var(--primary-text-high-contrast);
+}
+
+/* Header */
+header {
+    padding: 20px 0;
+    background-color: var(--header-footer-bg-light);
+    color: var(--header-footer-text-light);
+    transition: all 0.3s ease-in-out;
+}
+
+body.light header {
+    background-color: var(--header-footer-bg-light);
+    color: var(--header-footer-text-light);
+}
+
+body.dark header {
+    background-color: var(--header-footer-bg-dark);
+    color: var(--header-footer-text-dark);
+}
+
+body.high_contrast header {
+    background-color: var(--header-footer-bg-high-contrast);
+    color: var(--header-footer-text-high-contrast);
+}
+
+header .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+header .logo {
+    font-size: 24px;
+    font-weight: bold;
+    color: inherit;
+}
+
+/* Navigation Links */
+header .nav-links {
+    list-style: none;
+    display: flex;
+    justify-content: flex-end;
+    margin: 0;
+    padding: 0;
+}
+
+header .nav-links li {
+    margin: 0 15px;
+}
+
+header .nav-links a {
+    text-decoration: none;
+    font-size: 18px;
+    color: inherit;
+}
+
+/* Logout Button */
+header .logout-form {
+    display: inline;
+    margin-left: 20px;
+}
+
+header .logout-btn {
+    background-color: var(--highlight-color);
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+header .logout-btn:hover {
+    background-color: var(--hover-highlight);
+}
+
+/* Main Content */
+.container {
+    flex: 1; /* Allow the container to expand and fill available space */
+    width: 1000px;
+    margin: auto;
+    padding: 20px;
+}
+
+.section {
+    margin-bottom: 40px;
+    padding: 20px;
+    background: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgb(51, 51, 51);
+    width: 100%; /* Full width within its container */
+    max-width: 1200px; /* Adjust the width to match the screenshot */
+    margin: 0 auto; /* Center the box horizontally */
+    background-color: #76b2fe;
+}
+
+body.light .section {
+    background-color: var(--primary-bg-light);
+    color: var(--primary-text-light);
+}
+
+body.dark .section {
+    background-color: var(--primary-bg-dark);
+    color: var(--primary-text-dark);
+}
+
+body.high_contrast .section {
+    background-color: var(--primary-bg-high-contrast);
+    color: var(--primary-text-high-contrast);
+}
+
+/* Footer */
+footer {
+    text-align: center;
+    padding: 20px;
+    background-color: var(--header-footer-bg-light);
+    color: var(--header-footer-text-light);
+    transition: all 0.3s ease-in-out;
+}
+
+body.light footer {
+    background-color: var(--header-footer-bg-light);
+    color: var(--header-footer-text-light);
+}
+
+body.dark footer {
+    background-color: var(--header-footer-bg-dark);
+    color: var(--header-footer-text-dark);
+}
+
+body.high_contrast footer {
+    background-color: var(--header-footer-bg-high-contrast);
+    color: var(--header-footer-text-high-contrast);
+}
+
+/* Dropdowns */
+select {
+    width: 100%; /* Full width of its container */
+    max-width: 600px; /* Adjust dropdown width */
+    padding: 8px;
+    margin-top: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    box-sizing: border-box;
+}
+
+/* Link Hover Effects */
+a {
+    color: var(--highlight-color);
+}
+
+a:hover {
+    text-decoration: underline;
+}
