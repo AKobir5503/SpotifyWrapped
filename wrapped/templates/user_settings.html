@@ -192,25 +192,25 @@ a:hover {
 </head>
 <body class="{{ view_mode }}">
 <header>
-        <div class="container">
-            <a href="/" class="logo">SpotifyWrapped</a>
-            <ul class="nav-links">
-                <li><a href="{% url 'about' %}">About</a></li>
-                {% if user.is_authenticated %}
-                    <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
-                    <li><a href="{% url 'settings' %}">Settings</a></li>
-                    <form action="{% url 'logout' %}" method="post" class="logout-form">
-                        {% csrf_token %}
-                        <button type="submit" class="logout-btn">Logout</button>
-                    </form>
-                {% else %}
-                    <li><a href="{% url 'login' %}">Login</a></li>
-                    <li><a href="{% url 'register' %}">Register</a></li>
-                    <li><a href="{% url 'settings' %}">Settings</a></li>
-                {% endif %}
-            </ul>
-        </div>
-    </header>
+    <div class="container">
+        <a href="/" class="logo">SpotifyWrapped</a>
+        <ul class="nav-links">
+            <li><a href="{% url 'about' %}">About</a></li>
+            {% if user.is_authenticated %}
+                <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
+                <li><a href="{% url 'settings' %}">Settings</a></li>
+                <form action="{% url 'logout' %}" method="post" class="logout-form">
+                    {% csrf_token %}
+                    <button type="submit" class="logout-btn">Logout</button>
+                </form>
+            {% else %}
+                <li><a href="{% url 'login' %}">Login</a></li>
+                <li><a href="{% url 'register' %}">Register</a></li>
+                <li><a href="{% url 'settings' %}">Settings</a></li>
+            {% endif %}
+        </ul>
+    </div>
+</header>
 
 <div class="container">
     <div class="section">
@@ -233,6 +233,19 @@ a:hover {
             <br><br>
             <button type="submit">Save Settings</button>
         </form>
+
+        <!-- Account Deletion Section: This is where I added the account deletion option -->
+        {% if user.is_authenticated %}
+            <div class="delete-account-section">
+                <h3>Delete Account</h3>
+                <p>Once you delete your account, it cannot be undone. Please confirm if you wish to delete your account.</p>
+                <!-- Form to delete the account -->
+                <form method="POST" action="{% url 'delete_account' %}">
+                    {% csrf_token %}
+                    <button type="submit" class="delete-account-btn">Delete My Account</button>
+                </form>
+            </div>
+        {% endif %}
     </div>
 </div>
 
