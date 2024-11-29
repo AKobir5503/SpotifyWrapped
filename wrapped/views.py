@@ -158,19 +158,21 @@ def generate_wrap(request):
 
 
 
-    # Extract genres for calculating total genres
+
+    total_genres_played = 0
+
+    for artist in top_artists:
+        for genre in artist.get('genres', []):
+            total_genres_played = total_genres_played + 1
+
+    # Calculate genres
     genres = []
-    for track in top_tracks:
-        for artist in track['artists']:
-            # Fetch artist details for genres
-            artist_url = f"https://api.spotify.com/v1/artists/{artist['id']}"
-            response_artist = requests.get(artist_url, headers=headers)
-            if response_artist.status_code == 200:
-                genres.extend(response_artist.json().get('genres', []))
+    for artist in top_artists:
+        for genre in artist.get('genres', []):
+            genres.append(genre)
     genre_counts = Counter(genres)
     favorite_genres = [genre for genre, _ in genre_counts.most_common(5)]
-    unique_genres = set(genres)  # Remove duplicates
-    total_genres_played = len(unique_genres)
+
 
     # Extract albums from top tracks
     top_albums = [
