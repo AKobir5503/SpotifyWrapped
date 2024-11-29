@@ -27,7 +27,20 @@ SPOTIFY_REDIRECT_URI = 'http://localhost:8000/callback/'
 
 # Landing page view
 def landing(request):
-    return render(request, 'landing.html')
+    if request.method == "POST":
+        view_mode = request.POST.get("view_mode", "light")
+        language = request.POST.get("language", "en")
+
+        # Save the settings to the session
+        request.session["view_mode"] = view_mode
+        request.session["language"] = language
+
+        return render(request, "landing.html", {"view_mode": view_mode, "language": language})
+
+    view_mode = request.session.get("view_mode", "light")
+    language = request.session.get("language", "en")
+
+    return render(request, "landing.html", {"view_mode": view_mode, "language": language})
 
 # Login view
 def login_user(request):
@@ -58,9 +71,36 @@ def register_user(request):
 # Dashboard view (requires login)
 @login_required
 def dashboard(request):
+    # Handle POST requests for settings
+    if request.method == "POST":
+        view_mode = request.POST.get("view_mode", "light")
+        language = request.POST.get("language", "en")
+
+        # Save the settings to the session
+        request.session["view_mode"] = view_mode
+        request.session["language"] = language
+
+        # Query the user's saved wraps
+        wraps = request.user.spotify_wraps.all()
+        return render(
+            request,
+            "dashboard.html",
+            {"wraps": wraps, "view_mode": view_mode, "language": language},
+        )
+
+    # Handle GET requests and retrieve current settings
+    view_mode = request.session.get("view_mode", "light")
+    language = request.session.get("language", "en")
+
     # Query the user's saved wraps
-    wraps = request.user.spotify_wraps.all()  # Make sure the related name is correct
-    return render(request, 'dashboard.html', {'wraps': wraps})
+    wraps = request.user.spotify_wraps.all()
+
+    return render(
+        request,
+        "dashboard.html",
+        {"wraps": wraps, "view_mode": view_mode, "language": language},
+    )
+
 
 def user_logout(request):
     logout(request)
