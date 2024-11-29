@@ -1,24 +1,3 @@
-/* Color Variables */
-:root {
-    --primary-bg-light: #f8f9fa;
-    --primary-text-light: #333;
-    --header-footer-bg-light: #333;
-    --header-footer-text-light: #fff;
-
-    --primary-bg-dark: #121212;
-    --primary-text-dark: #ffffff;
-    --header-footer-bg-dark: #1f1f1f;
-    --header-footer-text-dark: #ffffff;
-
-    --primary-bg-high-contrast: #000000;
-    --primary-text-high-contrast: #ffff00;
-    --header-footer-bg-high-contrast: #000000;
-    --header-footer-text-high-contrast: #ffff00;
-
-    --highlight-color: #1db954;
-    --hover-highlight: #45a049;
-}
-
 /* General Styles */
 body {
     font-family: Arial, sans-serif;
@@ -32,41 +11,41 @@ body {
 }
 
 body.light {
-    background-color: var(--primary-bg-light);
-    color: var(--primary-text-light);
+    background-color: #f8f9fa;
+    color: #333;
 }
 
 body.dark {
-    background-color: var(--primary-bg-dark);
-    color: var(--primary-text-dark);
+    background-color: #121212;
+    color: #ffffff;
 }
 
 body.high_contrast {
-    background-color: var(--primary-bg-high-contrast);
-    color: var(--primary-text-high-contrast);
+    background-color: #000000;
+    color: #ffff00;
 }
 
 /* Header */
 header {
     padding: 20px 0;
-    background-color: var(--header-footer-bg-light);
-    color: var(--header-footer-text-light);
+    background-color: #333;
+    color: #fff;
     transition: all 0.3s ease-in-out;
 }
 
 body.light header {
-    background-color: var(--header-footer-bg-light);
-    color: var(--header-footer-text-light);
+    background-color: #333;
+    color: #fff;
 }
 
 body.dark header {
-    background-color: var(--header-footer-bg-dark);
-    color: var(--header-footer-text-dark);
+    background-color: #1f1f1f;
+    color: #ffffff;
 }
 
 body.high_contrast header {
-    background-color: var(--header-footer-bg-high-contrast);
-    color: var(--header-footer-text-high-contrast);
+    background-color: #000000;
+    color: #ffff00;
 }
 
 header .container {
@@ -109,7 +88,7 @@ header .logout-form {
 }
 
 header .logout-btn {
-    background-color: var(--highlight-color);
+    background-color: #1db954;
     color: white;
     border: none;
     padding: 8px 16px;
@@ -119,7 +98,7 @@ header .logout-btn {
 }
 
 header .logout-btn:hover {
-    background-color: var(--hover-highlight);
+    background-color: #45a049;
 }
 
 /* Main Content */
@@ -143,42 +122,42 @@ header .logout-btn:hover {
 }
 
 body.light .section {
-    background-color: var(--primary-bg-light);
-    color: var(--primary-text-light);
+    background-color: #f8f9fa;
+    color: #333;
 }
 
 body.dark .section {
-    background-color: var(--primary-bg-dark);
-    color: var(--primary-text-dark);
+    background-color: #121212;
+    color: #ffffff;
 }
 
 body.high_contrast .section {
-    background-color: var(--primary-bg-high-contrast);
-    color: var(--primary-text-high-contrast);
+    background-color: #000000;
+    color: #ffff00;
 }
 
 /* Footer */
 footer {
     text-align: center;
     padding: 20px;
-    background-color: var(--header-footer-bg-light);
-    color: var(--header-footer-text-light);
+    background-color: #333;
+    color: #fff;
     transition: all 0.3s ease-in-out;
 }
 
 body.light footer {
-    background-color: var(--header-footer-bg-light);
-    color: var(--header-footer-text-light);
+    background-color: #333;
+    color: #fff;
 }
 
 body.dark footer {
-    background-color: var(--header-footer-bg-dark);
-    color: var(--header-footer-text-dark);
+    background-color: #1f1f1f;
+    color: #ffffff;
 }
 
 body.high_contrast footer {
-    background-color: var(--header-footer-bg-high-contrast);
-    color: var(--header-footer-text-high-contrast);
+    background-color: #000000;
+    color: #ffff00;
 }
 
 /* Dropdowns */
@@ -194,7 +173,7 @@ select {
 
 /* Link Hover Effects */
 a {
-    color: var(--highlight-color);
+    color: #1db954;
 }
 
 a:hover {

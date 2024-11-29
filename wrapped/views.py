@@ -390,6 +390,7 @@ def about(request):
     language = request.session.get("language", "en")
 
     return render(request, "about.html", {"view_mode": view_mode, "language": language})
+
 # wrap features and attributes views go below
 
 def get_user_top_tracks(access_token):
@@ -418,6 +419,15 @@ def wrap_detail(request, wrap_id):
 
 def index(request):
     return render(request, 'index.html')
+
+@login_required
+def delete_account(request):
+    if request.method == 'POST':
+        user = request.user
+        user.delete()
+        messages.success(request, "Your account has been successfully deleted.")
+        return redirect('landing')  # Redirect to the landing page or another desired page
+    return render(request, 'delete_account.html')
 
 def user_settings(request):
     if request.method == "POST":
