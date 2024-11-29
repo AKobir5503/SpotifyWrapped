@@ -321,7 +321,7 @@ def generate_wrap(request):
     if request.method == 'POST' and 'save_wrap' in request.POST:
         wrap = SpotifyWrap.objects.create(
             user=request.user,
-            time_frame=time_frame,
+            time_frame=time_frame,  # This ensures the selected time frame is correctly saved
             created_at=datetime.now(),
             data={
                 'top_tracks': top_tracks,
@@ -329,6 +329,11 @@ def generate_wrap(request):
                 'favorite_genres': favorite_genres,
                 'top_albums': top_albums,
                 'longest_streaks': longest_streaks,
+                'total_songs_played': total_songs_played,  # Total number of songs played
+                'total_duration_minutes': total_duration_minutes,  # Total listening time in minutes
+                'total_genres_played': total_genres_played,  # Total number of genres played
+                'listening_patterns': listening_patterns,  # The time-of-day patterns
+                'genre_breakdown': genre_breakdown,  # Detailed genre breakdown (if needed for charts)
             }
         )
         wrap.save()
