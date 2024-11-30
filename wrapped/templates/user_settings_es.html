@@ -1,0 +1,220 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es" class="{{ view_mode }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acerca de SpotifyWrapped</title>
+    <link rel="stylesheet" href="{% static 'wrapped/about.css' %}">
+    <style>
+        /* View Mode Styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            transition: all 0.3s ease-in-out;
+        }
+
+        body.light {
+            background-color: #f8f9fa;
+            color: #333;
+        }
+
+        body.dark {
+            background-color: #121212;
+            color: #ffffff;
+        }
+
+        body.high_contrast {
+            background-color: #000000;
+            color: #ffff00;
+        }
+
+        header {
+            padding: 20px 0;
+            background-color: #333;
+            color: #fff;
+            transition: all 0.3s ease-in-out;
+        }
+
+        body.light header {
+            background-color: #333;
+            color: #fff;
+        }
+
+        body.dark header {
+            background-color: #1f1f1f;
+            color: #ffffff;
+        }
+
+        body.high_contrast header {
+            background-color: #000000;
+            color: #ffff00;
+        }
+
+        header .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: inherit;
+        }
+
+        /* Navigation Links */
+        header .nav-links {
+            list-style: none;
+            display: flex;
+            justify-content: flex-end;
+            margin: 0;
+            padding: 0;
+        }
+
+        header .nav-links li {
+            margin: 0 15px;
+        }
+
+        header .nav-links a {
+            text-decoration: none;
+            font-size: 18px;
+            color: inherit;
+        }
+
+        /* Logout Button */
+        header .logout-form {
+            display: inline;
+            margin-left: 20px;
+        }
+
+        header .logout-btn {
+            background-color: #1db954;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        header .logout-btn:hover {
+            background-color: #45a049;
+        }
+
+        .container {
+            width: 1000px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        .section {
+            margin-bottom: 40px;
+            padding: 20px;
+            background: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgb(51, 51, 51);
+            background-color: #76b2fe;
+        }
+
+        body.light .section {
+            background-color: #f8f9fa;
+            color: #333;
+        }
+
+        body.dark .section {
+            background-color: #121212;
+            color: #ffffff;
+        }
+
+        body.high_contrast .section {
+            background-color: #000000;
+            color: #ffff00;
+        }
+    </style>
+</head>
+<body class="{{ view_mode }}">
+<header>
+    <div class="container">
+        <a href="/" class="logo">SpotifyWrapped</a>
+        <ul class="nav-links">
+            <li><a href="{% url 'about' %}">Acerca de Nosotros</a></li>
+            {% if user.is_authenticated %}
+                <li><a href="{% url 'dashboard' %}">Panel</a></li>
+                <li><a href="{% url 'settings' %}">Configuración</a></li>
+                <form action="{% url 'logout' %}" method="post" class="logout-form">
+                    {% csrf_token %}
+                    <button type="submit" class="logout-btn">Cerrar Sesión</button>
+                </form>
+            {% else %}
+                <li><a href="{% url 'login' %}">Iniciar Sesión</a></li>
+                <li><a href="{% url 'register' %}">Registrarse</a></li>
+                <li><a href="{% url 'settings' %}">Configuración</a></li>
+            {% endif %}
+        </ul>
+    </div>
+</header>
+
+<div class="container">
+    <div class="section">
+        <h2>Configuración</h2>
+        <form method="POST" action="{% url 'settings' %}">
+            {% csrf_token %}
+            <label for="view-mode">Modo de Vista:</label>
+            <select name="view_mode" id="view-mode">
+                <option value="light" {% if view_mode == "light" %}selected{% endif %}>Modo Claro</option>
+                <option value="dark" {% if view_mode == "dark" %}selected{% endif %}>Modo Oscuro</option>
+                <option value="high_contrast" {% if view_mode == "high_contrast" %}selected{% endif %}>Alto Contraste
+                </option>
+            </select>
+            <br><br>
+            <label for="language">Idioma:</label>
+            <select name="language" id="language">
+                <option value="es" {% if language == "es" %}selected{% endif %}>Español</option>
+                <option value="en" {% if language == "en" %}selected{% endif %}>Inglés</option>
+                <option value="de" {% if language == "de" %}selected{% endif %}>Alemán</option>
+            </select>
+            <br><br>
+            <button type="submit">Guardar Configuración</button>
+        </form>
+
+        <!-- Account Deletion Section -->
+        {% if user.is_authenticated %}
+            <div class="delete-account-section">
+                <h3>Eliminar Cuenta</h3>
+                <p>Una vez que elimine su cuenta, no se puede deshacer. Por favor, confirme si desea eliminar su
+                    cuenta.</p>
+                <form method="POST" action="{% url 'delete_account' %}">
+                    {% csrf_token %}
+                    <button type="submit" class="delete-account-btn">Eliminar Mi Cuenta</button>
+                </form>
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+<footer>
+    <p>Hecho con ❤️ por el Equipo de SpotifyWrapped | Contáctenos</p>
+</footer>
+
+<script>
+    const savedViewMode = localStorage.getItem("viewMode") || "{{ view_mode }}";
+    document.documentElement.className = savedViewMode;
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const viewModeSelect = document.getElementById("view-mode");
+        if (viewModeSelect) {
+            viewModeSelect.value = savedViewMode;
+            viewModeSelect.addEventListener("change", function () {
+                const selectedMode = this.value;
+                document.documentElement.className = selectedMode;
+                localStorage.setItem("viewMode", selectedMode);
+            });
+        }
+    });
+</script>
+</body>
+</html>
