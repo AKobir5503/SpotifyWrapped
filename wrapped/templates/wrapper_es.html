@@ -1,12 +1,10 @@
-
 {% load static %}
-
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <title>Your Spotify Wrapped</title>
+    <title>Tu Spotify Wrapped</title>
     <link rel="stylesheet" href="{% static 'wrapped/wrapper.css' %}">
 </head>
 <body class="{{ view_mode }}">
@@ -14,18 +12,18 @@
         <div class="container">
             <a href="/" class="logo">SpotifyWrapped</a>
             <ul class="nav-links">
-                <li><a href="{% url 'about' %}">About</a></li>
+                <li><a href="{% url 'about' %}">Acerca de</a></li>
                 {% if user.is_authenticated %}
-                    <li><a href="{% url 'dashboard' %}" >Dashboard</a></li>
-                    <li><a href="{% url 'settings' %}">Settings</a></li>
+                    <li><a href="{% url 'dashboard' %}">Panel</a></li>
+                    <li><a href="{% url 'settings' %}">Configuración</a></li>
                     <form action="{% url 'logout' %}" method="post" class="logout-form">
                         {% csrf_token %}
-                        <button type="submit" class="logout-btn">Logout</button>
+                        <button type="submit" class="logout-btn">Cerrar sesión</button>
                     </form>
                 {% else %}
-                    <li><a href="{% url 'login' %}">Login</a></li>
-                    <li><a href="{% url 'register' %}">Register</a></li>
-                    <li><a href="{% url 'settings' %}">Settings</a></li>
+                    <li><a href="{% url 'login' %}">Iniciar sesión</a></li>
+                    <li><a href="{% url 'register' %}">Registrarse</a></li>
+                    <li><a href="{% url 'settings' %}">Configuración</a></li>
                 {% endif %}
             </ul>
         </div>
@@ -34,20 +32,19 @@
     <div class="{{ view_mode }}">
         <div class="slide-container" id="slideContainer">
             <div class="slide" id="slide1">
-                <h1>Welcome to Your Spotify Wrapped <br> Time Frame: {{ time_frame|title }}</h1>
-                 <!-- Converts 'short_term' to 'Short Term' -->
+                <h1>Bienvenido a tu Spotify Wrapped <br> Periodo: {{ time_frame|title }}</h1>
             </div>
     
             <div class="slide" id="slide2">
-                <h1>Your Top Tracks <br> (Time Frame: {{ time_frame }})</h1>
+                <h1>Tus Canciones Principales <br> (Periodo: {{ time_frame }})</h1>
                 <div class="tracks-container">
                     {% for track in top_tracks %}
                     <div class="track-item">
-                        <img src="{{ track.album.images.0.url }}" alt="{{ track.name }} album cover" class="album-cover">
+                        <img src="{{ track.album.images.0.url }}" alt="Portada del álbum de {{ track.name }}" class="album-cover">
                         <div class="track-info">
                             <h2>{{ track.name }}</h2>
-                            <p>by {{ track.artists.0.name }}</p>
-                            <p>Album: {{ track.album.name }}</p>
+                            <p>de {{ track.artists.0.name }}</p>
+                            <p>Álbum: {{ track.album.name }}</p>
                         </div>
                     </div>
                     {% endfor %}
@@ -55,15 +52,15 @@
             </div>
     
             <div class="slide" id="slide3">
-                <h1>Your Top Artists</h1>
+                <h1>Tus Artistas Principales</h1>
                 <div class="artists-container">
                     {% for artist in top_artists %}
                     <div class="artist-card">
                         <img src="{{ artist.images.0.url }}" alt="{{ artist.name }}" class="artist-image">
                         <div class="artist-info">
                             <h2>{{ artist.name }}</h2>
-                            <p>Followers: {{ artist.followers.total }}</p>
-                            <p>Genres: {{ artist.genres|join:", " }}</p>
+                            <p>Seguidores: {{ artist.followers.total }}</p>
+                            <p>Géneros: {{ artist.genres|join:", " }}</p>
                         </div>
                     </div>
                     {% endfor %}
@@ -71,7 +68,7 @@
             </div>
     
             <div class="slide" id="slide4">
-                <h1>Your Favorite Genres</h1>
+                <h1>Tus Géneros Favoritos</h1>
                 <div class="genres-container">
                     {% for genre in favorite_genres %}
                     <div class="genre-item">
@@ -82,16 +79,15 @@
             </div>
     
             <div class="slide" id="slide5">
-                <h1>Your Mood Playlists</h1>
+                <h1>Tus Playlists por Estado de Ánimo</h1>
                 <div class="mood-playlists-container">
-    
                     <!-- Chill Vibes Section -->
                     <div class="card chill-card">
-                        <h3>🌞 Chill Vibes</h3>
+                        <h3>🌞 Vibras Tranquilas</h3>
                         <div class="playlist-grid">
                             {% for track in mood_playlists.chill_vibes %}
                                 <div class="playlist-item">
-                                    <img src="{{ track.album.images.0.url }}" alt="{{ track.name }} album cover" class="album-art">
+                                    <img src="{{ track.album.images.0.url }}" alt="Portada del álbum de {{ track.name }}" class="album-art">
                                     <p>{{ track.name }}</p>
                                 </div>
                             {% endfor %}
@@ -100,11 +96,11 @@
     
                     <!-- Workout Hits Section -->
                     <div class="card workout-card">
-                        <h3>💪 Workout Hits</h3>
+                        <h3>💪 Hits de Entrenamiento</h3>
                         <div class="playlist-grid">
                             {% for track in mood_playlists.workout_hits %}
                                 <div class="playlist-item">
-                                    <img src="{{ track.album.images.0.url }}" alt="{{ track.name }} album cover" class="album-art">
+                                    <img src="{{ track.album.images.0.url }}" alt="Portada del álbum de {{ track.name }}" class="album-art">
                                     <p>{{ track.name }}</p>
                                 </div>
                             {% endfor %}
@@ -113,29 +109,28 @@
     
                     <!-- Study Tunes Section -->
                     <div class="card study-card">
-                        <h3>📚 Study Tunes</h3>
+                        <h3>📚 Música para Estudiar</h3>
                         <div class="playlist-grid">
                             {% for track in mood_playlists.study_tunes %}
                                 <div class="playlist-item">
-                                    <img src="{{ track.album.images.0.url }}" alt="{{ track.name }} album cover" class="album-art">
+                                    <img src="{{ track.album.images.0.url }}" alt="Portada del álbum de {{ track.name }}" class="album-art">
                                     <p>{{ track.name }}</p>
                                 </div>
                             {% endfor %}
                         </div>
                     </div>
-    
                 </div>
             </div>
     
             <div class="slide" id="slide6">
-                <h1>Your Top Albums</h1>
+                <h1>Tus Álbumes Principales</h1>
                 <div class="albums-container">
                     {% for album in top_albums %}
                     <div class="album-card">
                         <img src="{{ album.image_url }}" alt="{{ album.name }}" class="album-cover">
                         <div class="album-info">
                             <h2>{{ album.name }}</h2>
-                            <p>Artist: {{ album.artist }}</p>
+                            <p>Artista: {{ album.artist }}</p>
                         </div>
                     </div>
                     {% endfor %}
@@ -143,89 +138,83 @@
             </div>
     
             <div class="slide" id="slide7">
-                <h2>Your Longest Track Streaks</h2>
+                <h2>Tus Rachas Más Largas</h2>
                 <div class="card">
                     <ul>
                         {% for track in longest_streaks %}
-                            <li style="list-style-type: none; margin: 10px 0;">{{ track.name }} - {{ track.streak }} plays in a row</li>
+                            <li style="list-style-type: none; margin: 10px 0;">{{ track.name }} - {{ track.streak }} reproducciones seguidas</li>
                         {% endfor %}
                     </ul>
                 </div>
             </div>
     
-           <!-- Listening Patterns JSON -->
             {{ listening_patterns|json_script:"listening-patterns-data" }}
-    
-            <!-- Genre Breakdown JSON -->
             {{ genre_breakdown|json_script:"genre-breakdown-data" }}
             <div class="slide" id="slide8">
-                <h1>Your genres!</h1>
+                <h1>¡Tus Géneros!</h1>
                 <div class="graphs-container">
-                    <!-- Genre Distribution Graph -->
                     <div class="chart-container">
-                        <h2 class="chart-title">Genre Distribution</h2>
+                        <h2 class="chart-title">Distribución de Géneros</h2>
                         <div class="chart-wrapper">
                             <canvas id="genreChart"></canvas>
                         </div>
-                        <p class="chart-description">Breakdown of genres from your top artists.</p>
+                        <p class="chart-description">Distribución de géneros de tus artistas principales.</p>
                     </div>
                 </div>
             </div>
     
             <div class="slide" id="slide9">
-                <h1>Your Most Listened times</h1>
-                    <!-- Time of Day Listening Graph -->
-                    <div class="chart-container">
-                        <h2 class="chart-title">Listening Habits</h2>
-                        <div class="chart-wrapper">
-                            <canvas id="timeOfDayChart"></canvas>
-                        </div>
-                        <p class="chart-description">When you listen to music the most.</p>
+                <h1>Tus Horas Más Escuchadas</h1>
+                <div class="chart-container">
+                    <h2 class="chart-title">Hábitos de Escucha</h2>
+                    <div class="chart-wrapper">
+                        <canvas id="timeOfDayChart"></canvas>
                     </div>
-    
+                    <p class="chart-description">Los momentos en los que más escuchas música.</p>
                 </div>
+            </div>
     
             <div class="slide" id="slide10">
-                <h1>Your Listening Stats</h1>
+                <h1>Tus Estadísticas de Escucha</h1>
                 <div class="listening-stats-container">
                     <div class="stats-card">
-                        <p>You played</p>
+                        <p>Reprodujiste</p>
                         <h2>{{ total_songs_played }}</h2>
-                        <p>songs in this timeframe.</p>
+                        <p>canciones en este periodo.</p>
                     </div>
                     <div class="stats-card">
-                        <p>Across</p>
+                        <p>De</p>
                         <h2>{{ total_genres_played }}</h2>
-                        <p>genres.</p>
+                        <p>géneros.</p>
                     </div>
                     <div class="stats-card">
-                        <p>For a total of</p>
+                        <p>En total escuchaste</p>
                         <h2>{{ total_duration_minutes }}</h2>
-                        <p>minutes listened.</p>
+                        <p>minutos.</p>
                     </div>
                 </div>
             </div>
     
             <div class="slide" id="slide11">
-                <h1>Save Your Spotify Wrapped</h1>
+                <h1>Guarda tu Spotify Wrapped</h1>
                 <div class="save-wrap">
                     <form method="POST" action="">
                         {% csrf_token %}
                         <input type="hidden" name="time_frame" value="{{ time_frame }}">
-                        <button type="submit" name="save_wrap" class="btn btn-primary">Save Wrap</button>
+                        <button type="submit" name="save_wrap" class="btn btn-primary">Guardar Wrapped</button>
                     </form>
                 </div>
             </div>
-    
         </div>
     
         <div class="controls">
-            <button onclick="prevSlide()">Previous</button>
-            <button onclick="nextSlide()">Next</button>
+            <button onclick="prevSlide()">Anterior</button>
+            <button onclick="nextSlide()">Siguiente</button>
         </div>
     
     </div>
 </body>
+
 <script>
 
     document.addEventListener('DOMContentLoaded', () => {

@@ -1,10 +1,10 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en" class="{{ view_mode }}">
+<html lang="de" class="{{ view_mode }}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About SpotifyWrapped</title>
+    <title>Über SpotifyWrapped</title>
     <link rel="stylesheet" href="{% static 'wrapped/about.css' %}">
     <style>
         /* View Mode Styles */
@@ -30,15 +30,11 @@
             color: #ffff00;
         }
 
-        {
-            padding: 20px 0
-        ;
-            background-color: #333
-        ;
-            color: #fff
-        ;
-            transition: all 0.3s ease-in-out
-        ;
+        header {
+            padding: 20px 0;
+            background-color: #333;
+            color: #fff;
+            transition: all 0.3s ease-in-out;
         }
 
         body.light header {
@@ -138,37 +134,6 @@
             background-color: #000000;
             color: #ffff00;
         }
-
-        .team-member h3,
-        .team-member p {
-            transition: color 0.3s, background-color 0.3s;
-        }
-
-        body.light .team-member h3 {
-            color: #333; /* Darker text for readability */
-        }
-
-        body.light .team-member p {
-            color: #555; /* Softer text for description */
-        }
-
-        body.dark .team-member h3 {
-            color: #ffffff; /* Bright text for contrast */
-        }
-
-        body.dark .team-member p {
-            color: #cccccc; /* Softer white for readability */
-        }
-
-        body.high_contrast .team-member h3 {
-            color: #ffff00; /* Yellow text for high contrast */
-            background-color: #000000; /* Black background for high contrast */
-        }
-
-        body.high_contrast .team-member p {
-            color: #ffff00; /* White text for description */
-            background-color: #000000; /* Black background for contrast */
-        }
     </style>
 </head>
 <body class="{{ view_mode }}">
@@ -176,18 +141,18 @@
     <div class="container">
         <a href="/" class="logo">SpotifyWrapped</a>
         <ul class="nav-links">
-            <li><a href="{% url 'about' %}">About</a></li>
+            <li><a href="{% url 'about' %}">Über Uns</a></li>
             {% if user.is_authenticated %}
-                <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
-                <li><a href="{% url 'settings' %}">Settings</a></li>
+                <li><a href="{% url 'dashboard' %}">Armaturenbrett</a></li>
+                <li><a href="{% url 'settings' %}">Einstellungen</a></li>
                 <form action="{% url 'logout' %}" method="post" class="logout-form">
                     {% csrf_token %}
-                    <button type="submit" class="logout-btn">Logout</button>
+                    <button type="submit" class="logout-btn">Abmelden</button>
                 </form>
             {% else %}
-                <li><a href="{% url 'login' %}">Login</a></li>
-                <li><a href="{% url 'register' %}">Register</a></li>
-                <li><a href="{% url 'settings' %}">Settings</a></li>
+                <li><a href="{% url 'login' %}">Anmelden</a></li>
+                <li><a href="{% url 'register' %}">Registrieren</a></li>
+                <li><a href="{% url 'settings' %}">Einstellungen</a></li>
             {% endif %}
         </ul>
     </div>
@@ -195,53 +160,44 @@
 
 <div class="container">
     <div class="section">
-        <h2>What is SpotifyWrapped?</h2>
-        <p>
-            SpotifyWrapped is your personalized music companion, designed to provide a detailed summary of your Spotify
-            listening habits.
-            From your most-played tracks and favorite artists to unique insights about your music taste,
-            we bring your musical journey to life in a fun and interactive way.
-        </p>
-    </div>
+        <h2>Einstellungen</h2>
+        <form method="POST" action="{% url 'settings' %}">
+            {% csrf_token %}
+            <label for="view-mode">Ansichtsmodus:</label>
+            <select name="view_mode" id="view-mode">
+                <option value="light" {% if view_mode == "light" %}selected{% endif %}>Heller Modus</option>
+                <option value="dark" {% if view_mode == "dark" %}selected{% endif %}>Dunkler Modus</option>
+                <option value="high_contrast" {% if view_mode == "high_contrast" %}selected{% endif %}>Hoher Kontrast
+                </option>
+            </select>
+            <br><br>
+            <label for="language">Sprache:</label>
+            <select name="language" id="language">
+                <option value="de" {% if language == "de" %}selected{% endif %}>Deutsch</option>
+                <option value="en" {% if language == "en" %}selected{% endif %}>Englisch</option>
+                <option value="es" {% if language == "es" %}selected{% endif %}>Spanisch</option>
+            </select>
+            <br><br>
+            <button type="submit">Einstellungen Speichern</button>
+        </form>
 
-    <div class="section">
-        <h2>Features</h2>
-        <ul>
-            <li><strong>Top Tracks & Artists:</strong> Discover your most-streamed songs and favorite performers.</li>
-            <li><strong>Listening Trends:</strong> See how your music taste evolves over time.</li>
-            <li><strong>Genre Breakdown:</strong> Dive deep into the genres that shape your playlist.</li>
-        </ul>
-    </div>
-
-    <div class="section">
-        <h2>Our Team</h2>
-        <div class="team">
-            <div class="team-member">
-                <h3>Kobir</h3>
-                <p>Scrum Master & Backend Developer</p>
+        <!-- Account Deletion Section -->
+        {% if user.is_authenticated %}
+            <div class="delete-account-section">
+                <h3>Konto Löschen</h3>
+                <p>Sobald Sie Ihr Konto löschen, kann dies nicht rückgängig gemacht werden. Bitte bestätigen Sie, ob Sie
+                    Ihr Konto löschen möchten.</p>
+                <form method="POST" action="{% url 'delete_account' %}">
+                    {% csrf_token %}
+                    <button type="submit" class="delete-account-btn">Mein Konto Löschen</button>
+                </form>
             </div>
-            <div class="team-member">
-                <h3>Mafaaz</h3>
-                <p>Playback & Figma Flowchart Designer</p>
-            </div>
-            <div class="team-member">
-                <h3>Mohammed</h3>
-                <p>About Page & Developer Contact</p>
-            </div>
-            <div class="team-member">
-                <h3>Youssef</h3>
-                <p>Lead Front-end Developer</p>
-            </div>
-            <div class="team-member">
-                <h3>Nabhan</h3>
-                <p>Hosting & Deployment</p>
-            </div>
-        </div>
+        {% endif %}
     </div>
 </div>
 
 <footer>
-    <p>Made with ❤️ by Team SpotifyWrapped | Contact Us</p>
+    <p>Mit ❤️ gemacht von Team SpotifyWrapped | Kontaktieren Sie uns</p>
 </footer>
 
 <script>

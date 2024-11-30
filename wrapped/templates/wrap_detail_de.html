@@ -1,0 +1,660 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="de" class="{{ view_mode }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Über SpotifyWrapped</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            transition: all 0.3s ease-in-out;
+        }
+
+        body.light {
+            background-color: #f8f9fa;
+            color: #333;
+        }
+
+        body.dark {
+            background-color: #121212;
+            color: #ffffff;
+        }
+
+        body.high_contrast {
+            background-color: #000000;
+            color: #ffff00;
+        }
+
+        /* Header */
+        header {
+            padding: 20px 0;
+            background-color: #333;
+            color: #fff;
+            transition: all 0.3s ease-in-out;
+        }
+
+        body.light header {
+            background-color: #333;
+            color: #fff;
+        }
+
+        body.dark header {
+            background-color: #1f1f1f;
+            color: #ffffff;
+        }
+
+        body.high_contrast header {
+            background-color: #000000;
+            color: #ffff00;
+        }
+
+        header .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: inherit;
+        }
+
+        /* Navigation Links */
+        header .nav-links {
+            list-style: none;
+            display: flex;
+            justify-content: flex-end;
+            margin: 0;
+            padding: 0;
+        }
+
+        header .nav-links li {
+            margin: 0 15px;
+        }
+
+        header .nav-links a {
+            text-decoration: none;
+            font-size: 18px;
+            color: inherit;
+        }
+
+        /* Logout Button */
+        header .logout-form {
+            display: inline;
+            margin-left: 20px;
+        }
+
+        header .logout-btn {
+            background-color: #1db954;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        header .logout-btn:hover {
+            background-color: #45a049;
+        }
+
+        /* Dashboard Container */
+        .dashboard-container {
+            flex: 1;
+            width: 1000px;
+            margin: auto;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgb(51, 51, 51);
+        }
+
+        .dashboard-container h1,
+        .dashboard-container h2 {
+            color: inherit;
+        }
+
+        /* Form Styles */
+        .form-select {
+            width: 100%;
+            max-width: 600px;
+            padding: 8px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        .btn {
+            background-color: #1db954;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin-top: 10px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .btn:hover {
+            background-color: #45a049;
+        }
+
+        /* Wraps List */
+        .dashboard-container ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .dashboard-container li {
+            background-color: rgba(29, 185, 84, 0.1);
+            margin-bottom: 10px;
+            padding: 15px;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .thumbnail {
+            max-width: 100px;
+            max-height: 100px;
+            border-radius: 5px;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #333;
+            color: #fff;
+            transition: all 0.3s ease-in-out;
+        }
+
+        body.light footer {
+            background-color: #333;
+            color: #fff;
+        }
+
+        body.dark footer {
+            background-color: #1f1f1f;
+            color: #ffffff;
+        }
+
+        body.high_contrast footer {
+            background-color: #000000;
+            color: #ffff00;
+        }
+
+        /* Links */
+        a {
+            color: #1db954;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        /* Spotify Wrapped Details */
+        body.light .wrap-detail-container h1,
+        body.light .wrap-detail-container h2 {
+            color: #333;
+        }
+
+        body.dark .wrap-detail-container h1,
+        body.dark .wrap-detail-container h2 {
+            color: #ffffff;
+        }
+
+        body.high_contrast .wrap-detail-container h1,
+        body.high_contrast .wrap-detail-container h2 {
+            color: #ffff00;
+        }
+
+        /* Top Songs Section */
+        body.light .wrap-section h2 {
+            color: #333;
+        }
+
+        body.dark .wrap-section h2 {
+            color: #ffffff;
+        }
+
+        body.high_contrast .wrap-section h2 {
+            color: #ffff00;
+        }
+
+        /* Wrap Details Container */
+        body.light .wrap-detail-container {
+            padding: 20px;
+            border-radius: 8px;
+            max-width: 800px;
+            margin: 0 auto;
+            box-shadow: 0 4px 8px rgb(51, 51, 51);
+            background-color: #f9f9f9;
+        }
+
+        body.dark .wrap-detail-container {
+            padding: 20px;
+            border-radius: 8px;
+            max-width: 800px;
+            margin: 0 auto;
+            box-shadow: 0 4px 8px rgb(51, 51, 51);
+            background-color: #1f1f1f;
+        }
+
+        body.high_contrast .wrap-detail-container {
+            padding: 20px;
+            border-radius: 8px;
+            max-width: 800px;
+            margin: 0 auto;
+            box-shadow: 0 4px 8px rgb(51, 51, 51);
+            background-color: #000000;
+            color: #ffff00;
+        }
+
+        /* Tracks and Artists Section */
+        .tracks-container, .artists-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+        }
+
+        .track-item, .artist-card {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 15px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgb(51, 51, 51);
+            max-width: 200px;
+            text-align: center;
+        }
+
+        body.dark .track-item,
+        body.dark .artist-card {
+            background-color: #1f1f1f;
+            color: #ffffff;
+        }
+
+        body.high_contrast .track-item,
+        body.high_contrast .artist-card {
+            background-color: #000000;
+            color: #ffff00;
+        }
+
+        .track-item img, .artist-card img {
+            border-radius: 8px;
+            width: 100%;
+            height: auto;
+            max-height: 150px;
+        }
+
+        .track-info, .artist-info {
+            margin-top: 10px;
+        }
+
+        .track-info h3, .artist-info h3 {
+            margin: 0;
+            font-size: 1.1rem;
+        }
+
+        /* Wrap Actions */
+        .wrap-actions {
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .btn {
+            padding: 10px 20px;
+            margin: 5px;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background-color: #1DB954;
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #1ed760;
+        }
+
+        .btn-secondary {
+            background-color: #ccc;
+            color: #333;
+        }
+
+        .btn-secondary:hover {
+            background-color: #bbb;
+        }
+        
+        
+    /* Base Styles */
+    .wrap-detail-container {
+        padding: 40px;
+        background: linear-gradient(145deg, #0d0d0d, #181818);
+        border-radius: 12px;
+        max-width: 1000px;
+        margin: 0 auto;
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+        color: #fff;
+    }
+
+    /* Light Mode */
+    body.light .wrap-detail-container {
+        background: linear-gradient(145deg, #ffffff, #f0f0f0);
+        color: #333;
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Dark Mode */
+    body.dark .wrap-detail-container {
+        background: linear-gradient(145deg, #0d0d0d, #181818);
+        color: #fff;
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+    }
+
+    /* High Contrast Mode */
+    body.high_contrast .wrap-detail-container {
+        background: linear-gradient(145deg, #000000, #1a1a1a);
+        color: #ffff00;
+        box-shadow: 0 12px 24px rgba(255, 255, 0, 0.3);
+    }
+
+
+    .wrap-title {
+        font-size: 2.5rem;
+        text-align: center;
+        color: #1DB954;
+        margin-bottom: 20px;
+    }
+
+    .time-frame, .created-on {
+        font-size: 1.1rem;
+        text-align: center;
+        color: #bbb;
+    }
+
+    .time-frame span {
+        font-weight: bold;
+        color: #fff;
+    }
+
+    .wrap-section {
+        margin-top: 40px;
+    }
+
+    .section-title {
+        font-size: 2rem;
+        color: #fff;
+        margin-bottom: 20px;
+        text-align: center;
+        font-weight: 700;
+        border-bottom: 2px solid #1DB954;
+        padding-bottom: 10px;
+    }
+
+    .stats-container {
+        display: flex;
+        justify-content: space-between;
+        gap: 30px;
+        flex-wrap: wrap;
+        margin-top: 20px;
+    }
+
+    .stats-card {
+        background-color: #1DB954;
+        padding: 25px;
+        border-radius: 12px;
+        text-align: center;
+        width: 260px;
+        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        transition: all 0.3s ease;
+    }
+
+    .stats-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+    }
+
+    .stats-title {
+        font-size: 1.2rem;
+        color: #fff;
+    }
+
+    .stats-number {
+        font-size: 2.5rem;
+        margin: 10px 0;
+        color: #fff;
+    }
+
+    .stats-info {
+        font-size: 1rem;
+        color: #ddd;
+    }
+
+    .tracks-container, .artists-container {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 20px;
+    }
+
+    .track-item, .artist-card {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 12px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        max-width: 250px;
+        text-align: center;
+        transition: all 0.3s ease;
+    }
+
+    .track-item:hover, .artist-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+    }
+
+    .album-cover, .artist-image {
+        border-radius: 12px;
+        width: 100%;
+        height: auto;
+        max-height: 180px;
+        object-fit: cover;
+    }
+
+    .track-info, .artist-info {
+        margin-top: 10px;
+    }
+
+    .track-info h3, .artist-info h3 {
+        margin: 0;
+        font-size: 1.1rem;
+        color: #333;
+    }
+
+    .wrap-actions {
+        margin-top: 40px;
+        text-align: center;
+    }
+
+    .btn {
+        padding: 12px 25px;
+        margin: 5px;
+        border: none;
+        border-radius: 30px;
+        font-size: 16px;
+        cursor: pointer;
+        text-decoration: none;
+        transition: background-color 0.3s ease;
+    }
+
+    .btn-primary {
+        background-color: #1DB954;
+        color: white;
+        font-weight: bold;
+    }
+
+    .btn-primary:hover {
+        background-color: #1ed760;
+    }
+
+    .btn-secondary {
+        background-color: #ccc;
+        color: #333;
+        font-weight: bold;
+    }
+
+    .btn-secondary:hover {
+        background-color: #bbb;
+    }
+
+
+    </style>
+</head>
+<body class="{{ view_mode }}">
+<header>
+    <div class="container">
+        <a href="/" class="logo">SpotifyWrapped</a>
+        <ul class="nav-links">
+            <li><a href="{% url 'about' %}">Über Uns</a></li>
+            {% if user.is_authenticated %}
+                <li><a href="{% url 'dashboard' %}">Armaturenbrett</a></li>
+                <li><a href="{% url 'settings' %}">Einstellungen</a></li>
+                <form action="{% url 'logout' %}" method="post" class="logout-form">
+                    {% csrf_token %}
+                    <button type="submit" class="logout-btn">Abmelden</button>
+                </form>
+            {% else %}
+                <li><a href="{% url 'login' %}">Anmelden</a></li>
+                <li><a href="{% url 'register' %}">Registrieren</a></li>
+                <li><a href="{% url 'settings' %}">Einstellungen</a></li>
+            {% endif %}
+        </ul>
+    </div>
+</header>
+
+<div class="wrap-detail-container">
+    <h1 class="wrap-title">Ihre SpotifyWrapped-Details</h1>
+    <p><strong>Zeitraum:</strong> {{ wrap.time_frame }}</p>
+    <p class="created-on">Erstellt am: {{ wrap.created_at|date:"M d, Y" }}</p>
+
+    <!-- Hörstatistiken -->
+    <div class="wrap-section">
+        <h2 class="section-title">Ihre Hörstatistiken</h2>
+        <div class="stats-container">
+            <div class="stats-card">
+                <p class="stats-title">Sie haben</p>
+                <h3 class="stats-number">{{ wrap.data.total_songs_played }}</h3>
+                <p class="stats-info">Songs in diesem Zeitraum gespielt</p>
+            </div>
+            <div class="stats-card">
+                <p class="stats-title">Aus</p>
+                <h3 class="stats-number">{{ wrap.data.total_genres_played }}</h3>
+                <p class="stats-info">Genres</p>
+            </div>
+            <div class="stats-card">
+                <p class="stats-title">Für insgesamt</p>
+                <h3 class="stats-number">{{ wrap.data.total_duration_minutes }}</h3>
+                <p class="stats-info">gehörte Minuten</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Top Tracks -->
+    <div class="wrap-section">
+        <h2 class="section-title">Ihre Top-Titel</h2>
+        {% if wrap.data.top_tracks %}
+            <div class="tracks-container">
+                {% for track in wrap.data.top_tracks %}
+                    <div class="track-item">
+                        <img src="{{ track.album.images.0.url }}" alt="{{ track.name }} Album Cover"
+                             class="album-cover">
+                        <div class="track-info">
+                            <h3>{{ track.name }}</h3>
+                            <p>von {{ track.artists.0.name }}</p>
+                            <p>Album: {{ track.album.name }}</p>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>Keine Top-Titel verfügbar.</p>
+        {% endif %}
+    </div>
+
+    <!-- Top Künstler -->
+    <div class="wrap-section">
+        <h2 class="section-title">Ihre Top-Künstler</h2>
+        {% if wrap.data.top_artists %}
+            <div class="artists-container">
+                {% for artist in wrap.data.top_artists %}
+                    <div class="artist-card">
+                        <img src="{{ artist.images.0.url }}" alt="{{ artist.name }}" class="artist-image">
+                        <div class="artist-info">
+                            <h3>{{ artist.name }}</h3>
+                            <p>Genres: {{ artist.genres|join:", " }}</p>
+                            <p>Follower: {{ artist.followers.total }}</p>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>Keine Top-Künstler verfügbar.</p>
+        {% endif %}
+    </div>
+
+    <!-- Navigation -->
+    <div class="wrap-actions">
+        <a href="{% url 'dashboard' %}" class="btn btn-secondary">Zurück zum Armaturenbrett</a>
+        <form method="POST" action="{% url 'generate-wrap' %}">
+            {% csrf_token %}
+            <input type="hidden" name="time_frame" value="{{ wrap.time_frame }}">
+            <button type="submit" class="btn btn-primary">Wrap neu generieren</button>
+        </form>
+    </div>
+</div>
+
+<footer>
+    <p>Mit ❤️ gemacht von Team SpotifyWrapped | Kontaktieren Sie uns</p>
+</footer>
+
+<script>
+    // Skript zur Anzeigeeinstellungen
+    document.addEventListener('DOMContentLoaded', function () {
+        const savedViewMode = localStorage.getItem('viewMode') || '{{ view_mode }}';
+        document.documentElement.className = savedViewMode;
+
+        const viewModeSelect = document.createElement('select');
+        viewModeSelect.id = 'view-mode';
+        viewModeSelect.innerHTML = `
+                <option value="light" ${savedViewMode === 'light' ? 'selected' : ''}>Helles Thema</option>
+                <option value="dark" ${savedViewMode === 'dark' ? 'selected' : ''}>Dunkles Thema</option>
+                <option value="high_contrast" ${savedViewMode === 'high_contrast' ? 'selected' : ''}>Hoher Kontrast</option>
+            `;
+        viewModeSelect.addEventListener('change', function () {
+            const selectedMode = this.value;
+            document.documentElement.className = selectedMode;
+            localStorage.setItem('viewMode', selectedMode);
+        });
+    });
+</script>
+</body>
+</html>
