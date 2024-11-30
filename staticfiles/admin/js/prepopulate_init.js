@@ -1,6 +1,13 @@
 'use strict';
 {
     const $ = django.jQuery;
+
+    /**
+     * Initializes prepopulated fields in Django admin.
+     *
+     * - Adds the `prepopulated_field` class to fields in empty forms.
+     * - Configures the prepopulated field to update its value based on dependencies.
+     */
     const fields = $('#django-admin-prepopulated-fields-constants').data('prepopulatedFields');
     $.each(fields, function(index, field) {
         $(

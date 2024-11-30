@@ -1,5 +1,10 @@
 'use strict';
 {
+    /**
+     * Sets the theme mode for the document.
+     *
+     * @param {string} mode - The theme mode to set ("light", "dark", or "auto").
+     */
     function setTheme(mode) {
         if (mode !== "light" && mode !== "dark" && mode !== "auto") {
             console.error(`Got invalid theme mode: ${mode}. Resetting to auto.`);
@@ -9,6 +14,9 @@
         localStorage.setItem("theme", mode);
     }
 
+    /**
+     * Cycles through theme modes based on the current theme and user preferences.
+     */
     function cycleTheme() {
         const currentTheme = localStorage.getItem("theme") || "auto";
         const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
@@ -34,8 +42,10 @@
         }
     }
 
+    /**
+     * Initializes the theme by applying the saved theme from localStorage or defaulting to "auto".
+     */
     function initTheme() {
-        // set theme defined in localStorage if there is one, or fallback to auto mode
         const currentTheme = localStorage.getItem("theme");
         currentTheme ? setTheme(currentTheme) : setTheme("auto");
     }
