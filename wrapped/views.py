@@ -1,4 +1,3 @@
-
 import random
 
 from django.http import JsonResponse
@@ -22,6 +21,7 @@ from collections import defaultdict
 # use the settings instead of hardcoded values
 SPOTIFY_CLIENT_ID = settings.SPOTIFY_CLIENT_ID
 SPOTIFY_CLIENT_SECRET = settings.SPOTIFY_CLIENT_SECRET
+
 
 SPOTIFY_REDIRECT_URI = 'http://localhost:8000/callback/'
 

@@ -14,11 +14,14 @@ DEBUG = config('DEBUG', default=True, cast=bool)
 # Detect if running on Heroku
 IS_HEROKU = "DYNO" in os.environ
 
-# Spotify API Credentials
+# Spotify configuration
 SPOTIFY_CLIENT_ID = config('SPOTIFY_CLIENT_ID', default=None)
 SPOTIFY_CLIENT_SECRET = config('SPOTIFY_CLIENT_SECRET', default=None)
+SPOTIFY_REDIRECT_URI = config('SPOTIFY_REDIRECT_URI', default='http://localhost:8000/callback/')
 
-# Debugging environment variables during development
+# Allowed Hosts
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='localhost 127.0.0.1', cast=lambda v: v.split())
+
 if DEBUG:
     print(f"Running on {'Heroku' if IS_HEROKU else 'Localhost'}")
     print(f"SECRET_KEY: {SECRET_KEY}")
@@ -26,10 +29,7 @@ if DEBUG:
     print(f"SPOTIFY_CLIENT_ID: {SPOTIFY_CLIENT_ID}")
     print(f"SPOTIFY_CLIENT_SECRET: {SPOTIFY_CLIENT_SECRET}")
 
-# Allowed Hosts
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', '.herokuapp.com']
-
-# Applications
+# Installed apps
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -43,6 +43,7 @@ INSTALLED_APPS = [
 # Middleware
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -51,8 +52,9 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
 
-# URL Configuration
+# Root settings
 ROOT_URLCONF = 'SpotifyWrapped.urls'
+WSGI_APPLICATION = 'SpotifyWrapped.wsgi.application'
 
 # Templates
 TEMPLATES = [
@@ -71,47 +73,37 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'SpotifyWrapped.wsgi.application'
-
-# Database Configuration
+IS_HEROKU = 'DYNO' in os.environ
 if IS_HEROKU:
-    # Use Heroku database settings
     DATABASES = {
-        'default': dj_database_url.config(conn_max_age=600, ssl_require=True)
+        'default': dj_database_url.config(
+            conn_max_age=600,  # Persistent connections
+            ssl_require=True   # Ensure SSL on Heroku
+        )
     }
 else:
-    # Local SQLite database
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',  # Local SQLite database
         }
     }
 
+"""# Database configuration
+DATABASES = {
+    'default': dj_database_url.config(
+        default=f'sqlite:///{BASE_DIR / "db.sqlite3"}',
+        conn_max_age=600,
+    )
+}"""
+
 # Password Validation
 AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
+    {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator'},
+    {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
 ]
-
-# Static Files
-STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # For Heroku
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'wrapped/static')]
-
-# Media Files (if needed)
-MEDIA_URL = '/media/'
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 # Internationalization
 LANGUAGE_CODE = 'en-us'
@@ -119,7 +111,16 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
 
-# Default Primary Key Field Type
+# Static files
+STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
+STATICFILES_DIRS = [BASE_DIR / 'wrapped/static']
+
+# Heroku-specific settings
+if not DEBUG:
+    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+
+# Auto field
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Activate Django-Heroku
