@@ -9,7 +9,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Environment Variables
 SECRET_KEY = config('SECRET_KEY', default='your_default_secret_key')
-DEBUG = config('DEBUG', default=True, cast=bool)
+DEBUG = config('DEBUG', default=False, cast=bool)
 
 # Detect if running on Heroku
 IS_HEROKU = "DYNO" in os.environ
@@ -17,10 +17,36 @@ IS_HEROKU = "DYNO" in os.environ
 # Spotify configuration
 SPOTIFY_CLIENT_ID = config('SPOTIFY_CLIENT_ID', default=None)
 SPOTIFY_CLIENT_SECRET = config('SPOTIFY_CLIENT_SECRET', default=None)
-SPOTIFY_REDIRECT_URI = config('SPOTIFY_REDIRECT_URI', default='http://localhost:8000/callback/')
+#SPOTIFY_REDIRECT_URI = config('SPOTIFY_REDIRECT_URI', default='http://localhost:8000/callback/')
+if IS_HEROKU:
+    SPOTIFY_REDIRECT_URI = config('HEROKU_REDIRECT_URI', default='https://spotifywrapped35-7ed41b719d25.herokuapp.com/callback/')
+else:
+    SPOTIFY_REDIRECT_URI = config('LOCAL_REDIRECT_URI', default='http://localhost:8000/callback/')
 
 # Allowed Hosts
 ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='localhost 127.0.0.1', cast=lambda v: v.split())
+
+if DEBUG:  # Local environment
+    DATABASES = {
+        'default': dj_database_url.parse(config('LOCAL_DATABASE_URL'))
+    }
+else:  # Heroku environment
+    DATABASES = {
+        'default': dj_database_url.config(conn_max_age=600, ssl_require=True)
+    }
+
+# USING CORRECT VALUES BASED ON ENVIRONMENT
+# Redirect URI
+if DEBUG:
+    SPOTIFY_REDIRECT_URI = config('LOCAL_REDIRECT_URI')
+else:
+    SPOTIFY_REDIRECT_URI = config('HEROKU_REDIRECT_URI')
+"""# Allowed hosts
+if DEBUG:
+    ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='').split(',')
+else:
+    ALLOWED_HOSTS = config('ALLOWED_HOSTS_HEROKU', default='').split(',')"""
+# END OF DEBUG LINES
 
 if DEBUG:
     print(f"Running on {'Heroku' if IS_HEROKU else 'Localhost'}")
