@@ -448,6 +448,7 @@
 </div>
 
 <style>
+    /* Base Styles */
     .wrap-detail-container {
         padding: 40px;
         background: linear-gradient(145deg, #0d0d0d, #181818);
@@ -457,6 +458,28 @@
         box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
         color: #fff;
     }
+
+    /* Light Mode */
+    body.light .wrap-detail-container {
+        background: linear-gradient(145deg, #ffffff, #f0f0f0);
+        color: #333;
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Dark Mode */
+    body.dark .wrap-detail-container {
+        background: linear-gradient(145deg, #0d0d0d, #181818);
+        color: #fff;
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+    }
+
+    /* High Contrast Mode */
+    body.high_contrast .wrap-detail-container {
+        background: linear-gradient(145deg, #000000, #1a1a1a);
+        color: #ffff00;
+        box-shadow: 0 12px 24px rgba(255, 255, 0, 0.3);
+    }
+
 
     .wrap-title {
         font-size: 2.5rem;
