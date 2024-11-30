@@ -39,12 +39,22 @@ def landing(request):
         request.session["view_mode"] = view_mode
         request.session["language"] = language
 
-        return render(request, "landing.html", {"view_mode": view_mode, "language": language})
+        if language == "en":
+            return render(request, "landing.html", {"view_mode": view_mode})
+        elif language == "de":
+            return render(request, "landing_de.html", {"view_mode": view_mode})
+        elif language == "es":
+            return render(request, "landing_es.html", {"view_mode": view_mode})
 
     view_mode = request.session.get("view_mode", "light")
     language = request.session.get("language", "en")
 
-    return render(request, "landing.html", {"view_mode": view_mode, "language": language})
+    if language == "en":
+        return render(request, "landing.html", {"view_mode": view_mode})
+    elif language == "de":
+        return render(request, "landing_de.html", {"view_mode": view_mode})
+    elif language == "es":
+        return render(request, "landing_es.html", {"view_mode": view_mode})
 
 # Login view
 def login_user(request):
@@ -72,14 +82,19 @@ def login_user(request):
                     "error": "Invalid credentials",
                     "view_mode": view_mode,
                     "language": language,
-                },
+                }
             )
 
     # Retrieve view mode and language settings from the session
     view_mode = request.session.get("view_mode", "light")
     language = request.session.get("language", "en")
 
-    return render(request, "login.html", {"view_mode": view_mode, "language": language})
+    if language == "en":
+        return render(request, "login.html", {"view_mode": view_mode})
+    elif language == "de":
+        return render(request, "login_de.html", {"view_mode": view_mode})
+    elif language == "es":
+        return render(request, "login_es.html", {"view_mode": view_mode})
 
 # Register user view
 def register_user(request):
@@ -100,11 +115,13 @@ def register_user(request):
     else:
         form = UserCreationForm()
 
-    return render(request, 'register.html', {
-        'form': form,
-        'view_mode': view_mode,
-        'language': language
-    })
+    if language == "en":
+        return render(request, "register.html", {"view_mode": view_mode,'form': form,})
+    elif language == "de":
+        return render(request, "register_de.html", {"view_mode": view_mode,'form': form,})
+    elif language == "es":
+        return render(request, "register_es.html", {"view_mode": view_mode,'form': form,})
+
 
 
 # Dashboard view (requires login)
@@ -121,11 +138,12 @@ def dashboard(request):
 
         # Query the user's saved wraps
         wraps = request.user.spotify_wraps.all()
-        return render(
-            request,
-            "dashboard.html",
-            {"wraps": wraps, "view_mode": view_mode, "language": language},
-        )
+        if language == "en":
+            return render(request, "dashboard.html", {"view_mode": view_mode,"wraps": wraps})
+        elif language == "de":
+            return render(request, "dashboard_de.html", {"view_mode": view_mode,"wraps": wraps})
+        elif language == "es":
+            return render(request, "dashboard_es.html", {"view_mode": view_mode,"wraps": wraps})
 
     # Handle GET requests and retrieve current settings
     view_mode = request.session.get("view_mode", "light")
@@ -134,11 +152,12 @@ def dashboard(request):
     # Query the user's saved wraps
     wraps = request.user.spotify_wraps.all()
 
-    return render(
-        request,
-        "dashboard.html",
-        {"wraps": wraps, "view_mode": view_mode, "language": language},
-    )
+    if language == "en":
+        return render(request, "dashboard.html", {"view_mode": view_mode, "wraps": wraps})
+    elif language == "de":
+        return render(request, "dashboard_de.html", {"view_mode": view_mode, "wraps": wraps})
+    elif language == "es":
+        return render(request, "dashboard_es.html", {"view_mode": view_mode, "wraps": wraps})
 
 
 def user_logout(request):
@@ -471,12 +490,22 @@ def about(request):
         request.session["view_mode"] = view_mode
         request.session["language"] = language
 
-        return render(request, "about.html", {"view_mode": view_mode, "language": language})
+        if language == "en":
+            return render(request, "about.html", {"view_mode": view_mode})
+        elif language == "de":
+            return render(request, "about_de.html", {"view_mode": view_mode})
+        elif language == "es":
+            return render(request, "about_es.html", {"view_mode": view_mode})
 
     view_mode = request.session.get("view_mode", "light")
     language = request.session.get("language", "en")
 
-    return render(request, "about.html", {"view_mode": view_mode, "language": language})
+    if language == "en":
+        return render(request, "about.html", {"view_mode": view_mode})
+    elif language == "de":
+        return render(request, "about_de.html", {"view_mode": view_mode})
+    elif language == "es":
+        return render(request, "about_es.html", {"view_mode": view_mode})
 
 # wrap features and attributes views go below
 def get_user_top_tracks(access_token):
@@ -512,7 +541,12 @@ def wrap_detail(request, wrap_id):
             "view_mode": view_mode,
             "language": language,
         }
-        return render(request, 'wrap_detail.html', context)
+        if language == "en":
+            return render(request, "wrap_detail.html", context)
+        elif language == "de":
+            return render(request, "wrap_detail_de.html", context)
+        elif language == "es":
+            return render(request, "wrap_detail_es.html", context)
 
     # Retrieve session data for GET requests
     view_mode = request.session.get("view_mode", "light")
@@ -526,7 +560,14 @@ def wrap_detail(request, wrap_id):
         "view_mode": view_mode,
         "language": language,
     }
-    return render(request, 'wrap_detail.html', context)
+
+    if language == "en":
+        return render(request, "wrap_detail.html", context)
+    elif language == "de":
+        return render(request, "wrap_detail_de.html", context)
+    elif language == "es":
+        return render(request, "wrap_detail_es.html", context)
+
 
 def index(request):
     return render(request, 'index.html')
@@ -579,4 +620,3 @@ def delete_wrap(request, wrap_id):
         return redirect('dashboard')  # Redirect to dashboard after deletion
 
     return redirect('dashboard')  # If not a POST request, redirect back to dashboard
-
