@@ -1,11 +1,10 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en" class="{{ view_mode }}">
+<html lang="de" class="{{ view_mode }}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About SpotifyWrapped</title>
-    <link rel="stylesheet" href="{% static 'wrapped/login.css' %}">
+    <title>Über SpotifyWrapped</title>
     <link rel="stylesheet" href="{% static 'wrapped/about.css' %}">
     <style>
         /* View Mode Styles */
@@ -90,86 +89,6 @@
             color: inherit;
         }
 
-        /* Default Theme */
-        .form-container {
-            width: 40%;
-            margin: 50px auto;
-            padding: 20px;
-            background-color: #b81515;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }
-
-        .form-container h2 {
-            text-align: center;
-            color: #ae1313;
-        }
-
-        .form-group label {
-            font-size: 16px;
-            color: #af1313;
-        }
-
-        /* Light Theme */
-        body.light .form-container {
-            background-color: #f4f4f4;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-        }
-
-        body.light .form-container h2 {
-            color: #333;
-        }
-
-        body.light .form-group label {
-            color: #555;
-        }
-
-        /* Dark Theme */
-        body.dark .form-container {
-            background-color: #2b2b2b;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5);
-        }
-
-        body.dark .form-container h2 {
-            color: #e5e5e5;
-        }
-
-        body.dark .form-group label {
-            color: #bbbbbb;
-        }
-
-        /* High Contrast Theme */
-        body.high_contrast .form-container {
-            background-color: #000000;
-            box-shadow: 0 4px 8px rgba(255, 255, 255, 0.3);
-        }
-
-        body.high_contrast .form-container h2 {
-            color: #ffff00;
-        }
-
-        body.high_contrast .form-group label {
-            color: #ff0000;
-        }
-
-        button {
-            text-align: center; /* Center the text */
-            display: inline-block; /* Ensure proper block display */
-            background-color: #4CAF50;
-            color: white;
-            cursor: pointer;
-            width: 100%;
-            padding: 10px;
-            font-size: 16px;
-            border: none;
-            border-radius: 5px;
-        }
-
-        button:hover {
-            background-color: #45a049; /* Slightly darker green on hover */
-        }
-
-
         /* Logout Button */
         header .logout-form {
             display: inline;
@@ -219,6 +138,37 @@
             background-color: #000000;
             color: #ffff00;
         }
+
+        .team-member h3,
+        .team-member p {
+            transition: color 0.3s, background-color 0.3s;
+        }
+
+        body.light .team-member h3 {
+            color: #333; /* Darker text for readability */
+        }
+
+        body.light .team-member p {
+            color: #555; /* Softer text for description */
+        }
+
+        body.dark .team-member h3 {
+            color: #ffffff; /* Bright text for contrast */
+        }
+
+        body.dark .team-member p {
+            color: #cccccc; /* Softer white for readability */
+        }
+
+        body.high_contrast .team-member h3 {
+            color: #ffff00; /* Yellow text for high contrast */
+            background-color: #000000; /* Black background for high contrast */
+        }
+
+        body.high_contrast .team-member p {
+            color: #ffff00; /* White text for description */
+            background-color: #000000; /* Black background for contrast */
+        }
     </style>
 </head>
 <body class="{{ view_mode }}">
@@ -226,62 +176,74 @@
     <div class="container">
         <a href="/" class="logo">SpotifyWrapped</a>
         <ul class="nav-links">
-            <li><a href="{% url 'about' %}">About</a></li>
+            <li><a href="{% url 'about' %}">Über Uns</a></li>
             {% if user.is_authenticated %}
                 <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
-                <li><a href="{% url 'settings' %}">Settings</a></li>
+                <li><a href="{% url 'settings' %}">Einstellungen</a></li>
                 <form action="{% url 'logout' %}" method="post" class="logout-form">
                     {% csrf_token %}
-                    <button type="submit" class="logout-btn">Logout</button>
+                    <button type="submit" class="logout-btn">Abmelden</button>
                 </form>
             {% else %}
-                <li><a href="{% url 'login' %}">Login</a></li>
-                <li><a href="{% url 'register' %}">Register</a></li>
-                <li><a href="{% url 'settings' %}">Settings</a></li>
+                <li><a href="{% url 'login' %}">Anmelden</a></li>
+                <li><a href="{% url 'register' %}">Registrieren</a></li>
+                <li><a href="{% url 'settings' %}">Einstellungen</a></li>
             {% endif %}
         </ul>
     </div>
 </header>
-<div class="form-container">
-    <h2>Create an Account</h2>
-    <form method="POST">
-        {% csrf_token %}
-        <form method="post">
-            {% csrf_token %}
 
-            <div>
-                <label for="id_username">Username:</label>
-                <input type="text" name="username" maxlength="150" required id="id_username">
-                <small>Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.</small>
+<div class="container">
+    <div class="section">
+        <h2>Was ist SpotifyWrapped?</h2>
+        <p>
+            SpotifyWrapped ist Ihr persönlicher Musikbegleiter, der Ihnen eine detaillierte Zusammenfassung Ihrer
+            Spotify-Hörgewohnheiten bietet.
+            Von Ihren meistgehörten Songs und Lieblingskünstlern bis hin zu einzigartigen Einblicken in Ihren
+            Musikgeschmack –
+            wir erwecken Ihre musikalische Reise auf eine unterhaltsame und interaktive Weise zum Leben.
+        </p>
+    </div>
+
+    <div class="section">
+        <h2>Funktionen</h2>
+        <ul>
+            <li><strong>Top-Titel & Künstler:</strong> Entdecken Sie Ihre meistgestreamten Songs und Lieblingskünstler.
+            </li>
+            <li><strong>Hörtrends:</strong> Sehen Sie, wie sich Ihr Musikgeschmack im Laufe der Zeit entwickelt.</li>
+            <li><strong>Genre-Aufschlüsselung:</strong> Tauchen Sie ein in die Genres, die Ihre Playlist prägen.</li>
+        </ul>
+    </div>
+
+    <div class="section">
+        <h2>Unser Team</h2>
+        <div class="team">
+            <div class="team-member">
+                <h3>Kobir</h3>
+                <p>Scrum Master & Backend-Entwickler</p>
             </div>
-
-            <div>
-                <label for="id_password1">Password:</label>
-                <input type="password" name="password1" required id="id_password1">
-                <ul>
-                    <li>Your password can’t be too similar to your other personal information.</li>
-                    <li>Your password must contain at least 8 characters.</li>
-                    <li>Your password can’t be a commonly used password.</li>
-                    <li>Your password can’t be entirely numeric.</li>
-                </ul>
+            <div class="team-member">
+                <h3>Mafaaz</h3>
+                <p>Playback- & Figma-Flowchart-Designer</p>
             </div>
-
-            <div>
-                <label for="id_password2">Password confirmation:</label>
-                <input type="password" name="password2" required id="id_password2">
-                <small>Enter the same password as before, for verification.</small>
+            <div class="team-member">
+                <h3>Mohammed</h3>
+                <p>Über-Seite & Entwickler-Kontakt</p>
             </div>
-
-            <button type="submit">Register</button>
-        </form>
-
-    </form>
-    <div class="text-center">
-        <p>Already have an account? <a href="{% url 'login' %}">Login here</a></p>
+            <div class="team-member">
+                <h3>Youssef</h3>
+                <p>Lead Frontend-Entwickler</p>
+            </div>
+            <div class="team-member">
+                <h3>Nabhan</h3>
+                <p>Hosting & Bereitstellung</p>
+            </div>
+        </div>
     </div>
 </div>
+
 <footer>
-    <p>Made with ❤️ by Team SpotifyWrapped | Contact Us</p>
+    <p>Mit ❤️ gemacht von Team SpotifyWrapped | Kontaktieren Sie uns</p>
 </footer>
 
 <script>

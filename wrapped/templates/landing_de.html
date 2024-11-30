@@ -1,0 +1,386 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="de" class="{{ view_mode }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Startseite</title>
+    <link rel="stylesheet" href="{% static 'wrapped/about.css' %}">
+    <style>
+
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh; /* Ensure full viewport height */
+            transition: all 0.3s ease-in-out;
+        }
+
+        body.light {
+            background-color: #f8f9fa;
+            color: #333;
+        }
+
+        body.dark {
+            background-color: #121212;
+            color: #ffffff;
+        }
+
+        body.high_contrast {
+            background-color: #000000;
+            color: #ffff00;
+        }
+
+        /* Header */
+        header {
+            padding: 20px 0;
+            background-color: #333;
+            color: #fff;
+            transition: all 0.3s ease-in-out;
+        }
+
+        body.light header {
+            background-color: #333;
+            color: #fff;
+        }
+
+        body.dark header {
+            background-color: #1f1f1f;
+            color: #ffffff;
+        }
+
+        body.high_contrast header {
+            background-color: #000000;
+            color: #ffff00;
+        }
+
+        header .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: inherit;
+        }
+
+        /* Navigation Links */
+        header .nav-links {
+            list-style: none;
+            display: flex;
+            justify-content: flex-end;
+            margin: 0;
+            padding: 0;
+        }
+
+        header .nav-links li {
+            margin: 0 15px;
+        }
+
+        header .nav-links a {
+            text-decoration: none;
+            font-size: 18px;
+            color: inherit;
+        }
+
+        /* Logout Button */
+        header .logout-form {
+            display: inline;
+            margin-left: 20px;
+        }
+
+        header .logout-btn {
+            background-color: #1db954;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        header .logout-btn:hover {
+            background-color: #45a049;
+        }
+
+        /* Main Content */
+        .container {
+            flex: 1; /* Allow the container to expand and fill available space */
+            width: 1000px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        .section {
+            margin-bottom: 40px;
+            padding: 20px;
+            background: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgb(51, 51, 51);
+            width: 100%; /* Full width within its container */
+            max-width: 1200px; /* Adjust the width to match the screenshot */
+            margin: 0 auto; /* Center the box horizontally */
+            background-color: #76b2fe;
+        }
+
+        body.light .section {
+            background-color: #f8f9fa;
+            color: #333;
+        }
+
+        body.dark .section {
+            background-color: #121212;
+            color: #ffffff;
+        }
+
+        body.high_contrast .section {
+            background-color: #000000;
+            color: #ffff00;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #333;
+            color: #fff;
+            transition: all 0.3s ease-in-out;
+        }
+
+        body.light footer {
+            background-color: #333;
+            color: #fff;
+        }
+
+        body.dark footer {
+            background-color: #1f1f1f;
+            color: #ffffff;
+        }
+
+        body.high_contrast footer {
+            background-color: #000000;
+            color: #ffff00;
+        }
+
+        /* Dropdowns */
+        select {
+            width: 100%; /* Full width of its container */
+            max-width: 600px; /* Adjust dropdown width */
+            padding: 8px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        /* Link Hover Effects */
+        a {
+            color: #1db954;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        .hero {
+            align-content: center;
+            text-align: center;
+        }
+
+        /* View Mode Styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            transition: all 0.3s ease-in-out;
+        }
+
+        body.light {
+            background-color: #f8f9fa;
+            color: #333;
+        }
+
+        body.dark {
+            background-color: #121212;
+            color: #ffffff;
+        }
+
+        body.high_contrast {
+            background-color: #000000;
+            color: #ffff00;
+        }
+
+        {
+            padding: 20px 0
+        ;
+            background-color: #333
+        ;
+            color: #fff
+        ;
+            transition: all 0.3s ease-in-out
+        ;
+        }
+
+        body.light header {
+            background-color: #333;
+            color: #fff;
+        }
+
+        body.dark header {
+            background-color: #1f1f1f;
+            color: #ffffff;
+        }
+
+        body.high_contrast header {
+            background-color: #000000;
+            color: #ffff00;
+        }
+
+        header .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: inherit;
+        }
+
+        /* Navigation Links */
+        header .nav-links {
+            list-style: none;
+            display: flex;
+            justify-content: flex-end;
+            margin: 0;
+            padding: 0;
+        }
+
+        header .nav-links li {
+            margin: 0 15px;
+        }
+
+        header .nav-links a {
+            text-decoration: none;
+            font-size: 18px;
+            color: inherit;
+        }
+
+        /* Logout Button */
+        header .logout-form {
+            display: inline;
+            margin-left: 20px;
+        }
+
+        header .logout-btn {
+            background-color: #1db954;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        header .logout-btn:hover {
+            background-color: #45a049;
+        }
+
+        .container {
+            width: 1000px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        .section {
+            margin-bottom: 40px;
+            padding: 20px;
+            background: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgb(51, 51, 51);
+            background-color: #76b2fe;
+        }
+
+        body.light .section {
+            background-color: #f8f9fa;
+            color: #333;
+        }
+
+        body.dark .section {
+            background-color: #121212;
+            color: #ffffff;
+        }
+
+        body.high_contrast .section {
+            background-color: #000000;
+            color: #ffff00;
+        }
+
+        .hero {
+            align-content: center;
+            text-align: center;
+        }
+
+    </style>
+</head>
+<body class="{{ view_mode }}">
+<header>
+    <div class="container">
+        <a href="/" class="logo">SpotifyWrapped</a>
+        <ul class="nav-links">
+            <li><a href="{% url 'about' %}">Über Uns</a></li>
+            {% if user.is_authenticated %}
+                <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
+                <li><a href="{% url 'settings' %}">Einstellungen</a></li>
+                <form action="{% url 'logout' %}" method="post" class="logout-form">
+                    {% csrf_token %}
+                    <button type="submit" class="logout-btn">Abmelden</button>
+                </form>
+            {% else %}
+                <li><a href="{% url 'login' %}">Anmelden</a></li>
+                <li><a href="{% url 'register' %}">Registrieren</a></li>
+                <li><a href="{% url 'settings' %}">Einstellungen</a></li>
+            {% endif %}
+        </ul>
+    </div>
+</header>
+
+<div class="hero">
+    <h1>Willkommen bei SpotifyWrapped</h1>
+    <button>
+        <a href="{% url 'spotify-login' %}" class="cta">Loslegen</a>
+    </button>
+</div>
+
+<footer>
+    <p>Mit ❤️ gemacht von Team SpotifyWrapped | Kontaktieren Sie uns</p>
+</footer>
+
+<script>
+    const savedViewMode = localStorage.getItem("viewMode") || "{{ view_mode }}";
+    document.documentElement.className = savedViewMode;
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const viewModeSelect = document.getElementById("view-mode");
+        if (viewModeSelect) {
+            viewModeSelect.value = savedViewMode;
+            viewModeSelect.addEventListener("change", function () {
+                const selectedMode = this.value;
+                document.documentElement.className = selectedMode;
+                localStorage.setItem("viewMode", selectedMode);
+            });
+        }
+    });
+</script>
+</body>
+</html>
