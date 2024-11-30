@@ -1,10 +1,10 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en" class="{{ view_mode }}">
+<html lang="es" class="{{ view_mode }}">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About SpotifyWrapped</title>
+    <title>Acerca de SpotifyWrapped</title>
     <link rel="stylesheet" href="{% static 'wrapped/login.css' %}">
     <link rel="stylesheet" href="{% static 'wrapped/about.css' %}">
     <style>
@@ -226,62 +226,62 @@
     <div class="container">
         <a href="/" class="logo">SpotifyWrapped</a>
         <ul class="nav-links">
-            <li><a href="{% url 'about' %}">About</a></li>
+            <li><a href="{% url 'about' %}">Acerca de Nosotros</a></li>
             {% if user.is_authenticated %}
-                <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
-                <li><a href="{% url 'settings' %}">Settings</a></li>
+                <li><a href="{% url 'dashboard' %}">Tablero</a></li>
+                <li><a href="{% url 'settings' %}">Configuración</a></li>
                 <form action="{% url 'logout' %}" method="post" class="logout-form">
                     {% csrf_token %}
-                    <button type="submit" class="logout-btn">Logout</button>
+                    <button type="submit" class="logout-btn">Cerrar Sesión</button>
                 </form>
             {% else %}
-                <li><a href="{% url 'login' %}">Login</a></li>
-                <li><a href="{% url 'register' %}">Register</a></li>
-                <li><a href="{% url 'settings' %}">Settings</a></li>
+                <li><a href="{% url 'login' %}">Iniciar Sesión</a></li>
+                <li><a href="{% url 'register' %}">Registrarse</a></li>
+                <li><a href="{% url 'settings' %}">Configuración</a></li>
             {% endif %}
         </ul>
     </div>
 </header>
 <div class="form-container">
-    <h2>Create an Account</h2>
+    <h2>Crear una Cuenta</h2>
     <form method="POST">
         {% csrf_token %}
         <form method="post">
             {% csrf_token %}
 
             <div>
-                <label for="id_username">Username:</label>
+                <label for="id_username">Nombre de usuario:</label>
                 <input type="text" name="username" maxlength="150" required id="id_username">
-                <small>Required. 150 characters or fewer. Letters, digits and @/./+/-/_ only.</small>
+                <small>Obligatorio. 150 caracteres o menos. Solo letras, números y @/./+/-/_.</small>
             </div>
 
             <div>
-                <label for="id_password1">Password:</label>
+                <label for="id_password1">Contraseña:</label>
                 <input type="password" name="password1" required id="id_password1">
                 <ul>
-                    <li>Your password can’t be too similar to your other personal information.</li>
-                    <li>Your password must contain at least 8 characters.</li>
-                    <li>Your password can’t be a commonly used password.</li>
-                    <li>Your password can’t be entirely numeric.</li>
+                    <li>Tu contraseña no puede ser demasiado similar a tu otra información personal.</li>
+                    <li>Tu contraseña debe tener al menos 8 caracteres.</li>
+                    <li>Tu contraseña no puede ser una contraseña comúnmente utilizada.</li>
+                    <li>Tu contraseña no puede estar compuesta únicamente de números.</li>
                 </ul>
             </div>
 
             <div>
-                <label for="id_password2">Password confirmation:</label>
+                <label for="id_password2">Confirmación de contraseña:</label>
                 <input type="password" name="password2" required id="id_password2">
-                <small>Enter the same password as before, for verification.</small>
+                <small>Introduce la misma contraseña que antes para verificarla.</small>
             </div>
 
-            <button type="submit">Register</button>
+            <button type="submit">Registrarse</button>
         </form>
 
     </form>
     <div class="text-center">
-        <p>Already have an account? <a href="{% url 'login' %}">Login here</a></p>
+        <p>¿Ya tienes una cuenta? <a href="{% url 'login' %}">Inicia sesión aquí</a></p>
     </div>
 </div>
 <footer>
-    <p>Made with ❤️ by Team SpotifyWrapped | Contact Us</p>
+    <p>Hecho con ❤️ por el Equipo SpotifyWrapped | Contáctanos</p>
 </footer>
 
 <script>
