@@ -1,0 +1,300 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es" class="{{ view_mode }}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acerca de SpotifyWrapped</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            transition: all 0.3s ease-in-out;
+        }
+
+        body.light {
+            background-color: #f8f9fa;
+            color: #333;
+        }
+
+        body.dark {
+            background-color: #121212;
+            color: #ffffff;
+        }
+
+        body.high_contrast {
+            background-color: #000000;
+            color: #ffff00;
+        }
+
+        /* Header */
+        header {
+            padding: 20px 0;
+            background-color: #333;
+            color: #fff;
+            transition: all 0.3s ease-in-out;
+        }
+
+        body.light header {
+            background-color: #333;
+            color: #fff;
+        }
+
+        body.dark header {
+            background-color: #1f1f1f;
+            color: #ffffff;
+        }
+
+        body.high_contrast header {
+            background-color: #000000;
+            color: #ffff00;
+        }
+
+        header .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        header .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: inherit;
+        }
+
+        /* Navigation Links */
+        header .nav-links {
+            list-style: none;
+            display: flex;
+            justify-content: flex-end;
+            margin: 0;
+            padding: 0;
+        }
+
+        header .nav-links li {
+            margin: 0 15px;
+        }
+
+        header .nav-links a {
+            text-decoration: none;
+            font-size: 18px;
+            color: inherit;
+        }
+
+        /* Logout Button */
+        header .logout-form {
+            display: inline;
+            margin-left: 20px;
+        }
+
+        header .logout-btn {
+            background-color: #1db954;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        header .logout-btn:hover {
+            background-color: #45a049;
+        }
+
+        /* Dashboard Container */
+        .dashboard-container {
+            flex: 1;
+            width: 1000px;
+            margin: auto;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgb(51, 51, 51);
+
+        }
+
+        .dashboard-container h1,
+        .dashboard-container h2 {
+            color: inherit;
+
+        }
+
+        /* Form Styles */
+        .form-select {
+            width: 100%;
+            max-width: 600px;
+            padding: 8px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+
+        .btn {
+            background-color: #1db954;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin-top: 10px;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        .btn:hover {
+            background-color: #45a049;
+        }
+
+        /* Wraps List */
+        .dashboard-container ul {
+            list-style-type: none;
+            padding: 0;
+
+        }
+
+        .dashboard-container li {
+            background-color: rgba(29, 185, 84, 0.1);
+            margin-bottom: 10px;
+            padding: 15px;
+            border-radius: 5px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+        }
+
+        .thumbnail {
+            max-width: 100px;
+            max-height: 100px;
+            border-radius: 5px;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #333;
+            color: #fff;
+            transition: all 0.3s ease-in-out;
+        }
+
+        body.light footer {
+            background-color: #333;
+            color: #fff;
+        }
+
+        body.dark footer {
+            background-color: #1f1f1f;
+            color: #ffffff;
+        }
+
+        body.high_contrast footer {
+            background-color: #000000;
+            color: #ffff00;
+        }
+
+        /* Links */
+        a {
+            color: #1db954;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body class="{{ view_mode }}">
+<header>
+    <div class="container">
+        <a href="/" class="logo">SpotifyWrapped</a>
+        <ul class="nav-links">
+            <li><a href="{% url 'about' %}">Acerca de Nosotros</a></li>
+            {% if user.is_authenticated %}
+                <li><a href="{% url 'dashboard' %}">Panel</a></li>
+                <li><a href="{% url 'settings' %}">Configuración</a></li>
+                <form action="{% url 'logout' %}" method="post" class="logout-form">
+                    {% csrf_token %}
+                    <button type="submit" class="logout-btn">Cerrar Sesión</button>
+                </form>
+            {% else %}
+                <li><a href="{% url 'login' %}">Iniciar Sesión</a></li>
+                <li><a href="{% url 'register' %}">Registrarse</a></li>
+                <li><a href="{% url 'settings' %}">Configuración</a></li>
+            {% endif %}
+        </ul>
+    </div>
+</header>
+
+<div class="dashboard-container">
+    <h1>Bienvenido, {{ user.username }}!</h1>
+    <p>Tus insights personalizados de Spotify te esperan.</p>
+
+    <h2>Crear un Nuevo Wrap</h2>
+    <form method="POST" action="{% url 'generate-wrap' %}">
+        {% csrf_token %}
+        <label for="time-frame">Seleccionar un Período de Tiempo:</label>
+        <select id="time-frame" name="time_frame" class="form-select" required>
+            <option value="short_term">Últimas 4 Semanas</option>
+            <option value="medium_term">Últimos 6 Meses</option>
+            <option value="long_term">Último Año</option>
+        </select>
+        <button type="submit" class="btn btn-primary mt-3">Generar Wrap</button>
+    </form>
+
+    <h2>Tus Wraps Guardados</h2>
+    {% if wraps %}
+        <ul>
+            {% for wrap in wraps %}
+                <li>
+                    <h3>{{ wrap.name }}</h3>
+                    <p>Período de Tiempo: {{ wrap.time_frame }}</p>
+                    <p>Creado el: {{ wrap.created_at|date:"M d, Y" }}</p>
+                    <a href="{% url 'wrap_detail' wrap.id %}" class="btn btn-link">Ver Detalles</a>
+                    <form method="POST" action="{% url 'delete-wrap' wrap.id %}"
+                          onsubmit="return confirm('¿Estás seguro de que deseas eliminar este wrap?');">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger">Eliminar Wrap</button>
+                    </form>
+                    {% if wrap.data.top_tracks %}
+                        <img src="{{ wrap.data.top_tracks.0.album.images.0.url }}" alt="Portada del Álbum"
+                             class="thumbnail">
+                    {% endif %}
+                </li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>No tienes ningún wrap guardado todavía. ¡Empieza con el primero arriba!</p>
+    {% endif %}
+</div>
+
+<footer>
+    <p>Hecho con ❤️ por el Equipo SpotifyWrapped | Contáctanos</p>
+</footer>
+
+<script>
+    // Script de persistencia del modo de vista
+    document.addEventListener('DOMContentLoaded', function () {
+        const savedViewMode = localStorage.getItem('viewMode') || '{{ view_mode }}';
+        document.documentElement.className = savedViewMode;
+
+        const viewModeSelect = document.createElement('select');
+        viewModeSelect.id = 'view-mode';
+        viewModeSelect.innerHTML = `
+                <option value="light" ${savedViewMode === 'light' ? 'selected' : ''}>Modo Claro</option>
+                <option value="dark" ${savedViewMode === 'dark' ? 'selected' : ''}>Modo Oscuro</option>
+                <option value="high_contrast" ${savedViewMode === 'high_contrast' ? 'selected' : ''}>Alto Contraste</option>
+            `;
+        viewModeSelect.addEventListener('change', function () {
+            const selectedMode = this.value;
+            document.documentElement.className = selectedMode;
+            localStorage.setItem('viewMode', selectedMode);
+        });
+    });
+</script>
+</body>
+</html>
