@@ -143,11 +143,25 @@
             </div>
     
             <div class="slide" id="slide7">
-                <h2>Your Longest Track Streaks</h2>
+                <h1>Your Longest Track Streaks</h1>
                 <div class="card">
-                    <ul>
+                    <ul class="streak-list">
                         {% for track in longest_streaks %}
-                            <li style="list-style-type: none; margin: 10px 0;">{{ track.name }} - {{ track.streak }} plays in a row</li>
+                            <li class="streak-item">
+                                <div class="track-info">
+                                    <div class="track-image">
+                                        <!-- Use the album_art_url from the backend -->
+                                        <img src="{{ track.album_art_url | default:'/static/default_album_cover.jpg' }}" alt="{{ track.name }} album cover" class="album-cover">
+                                    </div>
+                                    <div class="track-details">
+                                        <span class="track-name">{{ track.name }}</span>
+                                        <div class="track-streak-container">
+                                            <span class="track-streak">{{ track.streak }}<span class="streak-label"> plays</span></span>
+                                            <span class="track-emoji">🎶</span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
                         {% endfor %}
                     </ul>
                 </div>

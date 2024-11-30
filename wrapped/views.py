@@ -17,6 +17,7 @@ from django.contrib.auth.models import User
 from django.contrib import messages
 from collections import defaultdict
 
+
 # use the settings instead of hardcoded values
 SPOTIFY_CLIENT_ID = settings.SPOTIFY_CLIENT_ID
 SPOTIFY_CLIENT_SECRET = settings.SPOTIFY_CLIENT_SECRET
@@ -207,8 +208,6 @@ def generate_wrap(request):
     time_frame = request.POST.get('time_frame', 'short_term')
     x = time_frame
     headers = {'Authorization': f'Bearer {access_token}'}
-    view_mode = request.session.get("view_mode", "dark")
-    language = request.session.get("language", "en")
 
     # Spotify API URLs with the selected time frame
     top_tracks_url = f'https://api.spotify.com/v1/me/top/tracks?time_range={time_frame}&limit=50'
@@ -332,7 +331,6 @@ def generate_wrap(request):
         sorted_genres = sorted(genre_counts_graph.items(), key=lambda x: x[1], reverse=True)[:5]
         return dict(sorted_genres)
 
-    # Analyze longest track streaks
     def get_longest_streaks(recently_played):
         """Calculate the longest track streaks from recently played data."""
         streaks = defaultdict(int)  # Track streaks per song
@@ -367,9 +365,12 @@ def generate_wrap(request):
         for track_id, streak_count in sorted_streaks:
             track_data = next((item['track'] for item in recently_played if item['track']['id'] == track_id), None)
             if track_data:
+                # Get album artwork URL
+                album_art_url = track_data['album']['images'][1]['url'] if 'images' in track_data['album'] else None
                 longest_streaks.append({
                     'name': track_data['name'],
-                    'streak': streak_count
+                    'streak': streak_count,
+                    'album_art_url': album_art_url  # Add album art URL here
                 })
 
         return longest_streaks
@@ -407,8 +408,6 @@ def generate_wrap(request):
                 'total_genres_played': total_genres_played,  # Total number of genres played
                 'listening_patterns': listening_patterns,  # The time-of-day patterns
                 'genre_breakdown': genre_breakdown,  # Detailed genre breakdown (if needed for charts)
-                "view_mode": view_mode,
-                "language": language
             }
         )
         # Redirect back to the dashboard after saving
@@ -427,8 +426,6 @@ def generate_wrap(request):
         'total_songs_played': total_songs_played,
         'total_genres_played': total_genres_played,
         'total_duration_minutes': total_duration_minutes,
-        "view_mode": view_mode,
-        "language": language
     }
     return render(request, 'wrapper.html', context)
 
@@ -543,23 +540,12 @@ def user_settings(request):
         request.session["view_mode"] = view_mode
         request.session["language"] = language
 
-        if language == "en":
-            return render(request, "user_settings.html", {"view_mode": view_mode})
-        elif language == "de":
-            return render(request, "user_settings_de.html", {"view_mode": view_mode})
-        elif language == "es":
-            return render(request, "user_settings_es.html", {"view_mode": view_mode})
+        return render(request, "user_settings.html", {"view_mode": view_mode, "language": language})
 
     view_mode = request.session.get("view_mode", "light")
     language = request.session.get("language", "en")
 
-    if language == "en":
-        return render(request, "user_settings.html", {"view_mode": view_mode})
-    elif language == "de":
-        return render(request, "user_settings_de.html", {"view_mode": view_mode})
-    elif language == "es":
-        return render(request, "user_settings_es.html", {"view_mode": view_mode})
-
+    return render(request, "user_settings.html", {"view_mode": view_mode, "language": language})
 
 @login_required
 def delete_wrap(request, wrap_id):
