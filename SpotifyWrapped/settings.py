@@ -20,7 +20,7 @@ SPOTIFY_CLIENT_SECRET = config('SPOTIFY_CLIENT_SECRET', default=None)
 SPOTIFY_REDIRECT_URI = config('SPOTIFY_REDIRECT_URI', default='http://localhost:8000/callback/')
 
 # Allowed Hosts
-ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='localhost 127.0.0.1', cast=lambda v: v.split())
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='localhost,127.0.0.1,localhost:8000', cast=lambda v: v.split(','))
 
 if DEBUG:
     print(f"Running on {'Heroku' if IS_HEROKU else 'Localhost'}")
