@@ -582,4 +582,6 @@ def delete_wrap(request, wrap_id):
         messages.success(request, 'Wrap deleted successfully.')
         return redirect('dashboard')  # Redirect to dashboard after deletion
 
+
     return redirect('dashboard')  # If not a POST request, redirect back to dashboard
+
