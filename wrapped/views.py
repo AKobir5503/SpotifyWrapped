@@ -16,12 +16,18 @@ from django.http import JsonResponse
 from django.contrib.auth.models import User
 from django.contrib import messages
 from collections import defaultdict
+import os
 
 # use the settings instead of hardcoded values
 SPOTIFY_CLIENT_ID = settings.SPOTIFY_CLIENT_ID
 SPOTIFY_CLIENT_SECRET = settings.SPOTIFY_CLIENT_SECRET
 
-SPOTIFY_REDIRECT_URI = 'http://localhost:8000/callback/'
+
+if 'DYNO' in os.environ:  # Heroku environment
+    SPOTIFY_REDIRECT_URI = 'https://spotifywrapped35-7ed41b719d25.herokuapp.com/callback/'
+else:  # Local environment
+    SPOTIFY_REDIRECT_URI = 'http://localhost:8000/callback/'
+#SPOTIFY_REDIRECT_URI = 'http://localhost:8000/callback/'
 
 # Landing page view
 def landing(request):
