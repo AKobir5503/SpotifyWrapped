@@ -7,9 +7,12 @@ import dj_database_url
 # Paths
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-# Environment variables
+# Environment Variables
 SECRET_KEY = config('SECRET_KEY', default='your_default_secret_key')
-DEBUG = config('DEBUG', default=False, cast=bool)
+DEBUG = config('DEBUG', default=True, cast=bool)
+
+# Detect if running on Heroku
+IS_HEROKU = "DYNO" in os.environ
 
 # Spotify configuration
 SPOTIFY_CLIENT_ID = config('SPOTIFY_CLIENT_ID', default=None)
@@ -19,6 +22,13 @@ SPOTIFY_REDIRECT_URI = config('SPOTIFY_REDIRECT_URI', default='http://localhost:
 # Allowed Hosts
 ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='localhost 127.0.0.1', cast=lambda v: v.split())
 
+if DEBUG:
+    print(f"Running on {'Heroku' if IS_HEROKU else 'Localhost'}")
+    print(f"SECRET_KEY: {SECRET_KEY}")
+    print(f"DEBUG: {DEBUG}")
+    print(f"SPOTIFY_CLIENT_ID: {SPOTIFY_CLIENT_ID}")
+    print(f"SPOTIFY_CLIENT_SECRET: {SPOTIFY_CLIENT_SECRET}")
+
 # Installed apps
 INSTALLED_APPS = [
     'django.contrib.admin',
@@ -27,7 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'wrapped.apps.WrappedConfig',
+    'wrapped.apps.WrappedConfig',  # Your app
 ]
 
 # Middleware
@@ -87,7 +97,7 @@ DATABASES = {
     )
 }"""
 
-# Password validation
+# Password Validation
 AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
     {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
@@ -113,5 +123,6 @@ if not DEBUG:
 # Auto field
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-# Heroku settings
-django_heroku.settings(locals())
+# Activate Django-Heroku
+if IS_HEROKU:
+    django_heroku.settings(locals())

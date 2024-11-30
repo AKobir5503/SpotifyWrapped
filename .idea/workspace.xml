@@ -4,10 +4,8 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="287ce0f1-7566-40d0-b2fb-124076850c40" name="Changes" comment="heroku and localhost hybrid">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="287ce0f1-7566-40d0-b2fb-124076850c40" name="Changes" comment="changed settings to allow heroku and localhost switch dynamically">
       <change beforePath="$PROJECT_DIR$/SpotifyWrapped/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/SpotifyWrapped/settings.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wrapped/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/wrapped/views.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -36,22 +34,22 @@
     &quot;assignee&quot;: &quot;AKobir5503&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/AKobir5503/SpotifyWrapped.git",
-    "accountId": "56a0feca-6a20-45ba-8a1d-8faa7af9e1fb"
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/AKobir5503/SpotifyWrapped.git&quot;,
+    &quot;accountId&quot;: &quot;56a0feca-6a20-45ba-8a1d-8faa7af9e1fb&quot;
   },
-  "recentNewPullRequestHead": {
-    "server": {
-      "useHttp": false,
-      "host": "github.com",
-      "port": null,
-      "suffix": null
+  &quot;recentNewPullRequestHead&quot;: {
+    &quot;server&quot;: {
+      &quot;useHttp&quot;: false,
+      &quot;host&quot;: &quot;github.com&quot;,
+      &quot;port&quot;: null,
+      &quot;suffix&quot;: null
     },
-    "owner": "AKobir5503",
-    "repository": "SpotifyWrapped"
+    &quot;owner&quot;: &quot;AKobir5503&quot;,
+    &quot;repository&quot;: &quot;SpotifyWrapped&quot;
   }
-}]]></component>
+}</component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 2
 }</component>
@@ -68,7 +66,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "django.template.preview.state": "SHOW_EDITOR",
-    "git-widget-placeholder": "debug-heroku-nabhan",
+    "git-widget-placeholder": "Merging debug-heroku-nabhan",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
@@ -257,6 +255,7 @@
     <MESSAGE value="updated slideshow with better insights that are more accurate" />
     <MESSAGE value="setting resolve" />
     <MESSAGE value="heroku and localhost hybrid" />
-    <option name="LAST_COMMIT_MESSAGE" value="heroku and localhost hybrid" />
+    <MESSAGE value="changed settings to allow heroku and localhost switch dynamically" />
+    <option name="LAST_COMMIT_MESSAGE" value="changed settings to allow heroku and localhost switch dynamically" />
   </component>
 </project>
