@@ -428,3 +428,110 @@ header .logout-btn:hover {
     margin: 5px 0;
     color: #fff;
 }
+
+
+
+/* Light mode specific adjustments */
+.light {
+    background-color: #ffffff;
+    color: #000000;
+}
+
+.light .header {
+    background-color: #f1f1f1;  /* Light background for header */
+    color: #333;
+}
+
+
+.light a {
+    color: #ffffff;  /* Blue links in light mode */
+}
+
+.light a:hover {
+    color: #555;
+}
+
+/* Dark mode styles */
+.dark {
+    background-color: #121212;  /* Dark background */
+    color: #ffffff;  /* Light text */
+}
+
+.dark .header {
+    background-color: #333;  /* Dark background for header */
+    color: #f1f1f1;
+}
+
+
+
+.dark a {
+    color: #1DB954;  /* Green links in dark mode */
+}
+
+.dark a:hover {
+    color: #a4e7c8;  /* Lighter green on hover */
+}
+
+/* High contrast mode styles */
+.high_contrast {
+    background-color: #000000;  /* Black background */
+    color: #FFFF00;  /* Yellow text */
+}
+
+.high_contrast header {
+    background-color: #000000;  /* Black header */
+    color: #FFFF00;  /* Yellow header text */
+}
+
+.high_contrast header a {
+    color: #FFFF00;
+}
+
+.high_contrast .header a:hover {
+    color: #ff00ff;
+}
+
+/* Common Elements (for all modes) */
+.header {
+    padding: 20px;
+    text-align: center;
+}
+
+.track-item {
+    padding: 15px;
+    margin: 10px 0;
+    border-radius: 5px;
+}
+
+.track-item a {
+    font-weight: bold;
+}
+
+footer {
+    background-color: #2c3e50;
+    color: #ecf0f1;
+    text-align: center;
+    padding: 15px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    body.light, body.dark, body.high_contrast {
+        font-size: 14px;  /* Adjust font size for mobile */
+    }
+
+    .header {
+        font-size: 18px;
+        padding: 15px;
+    }
+
+    .track-item {
+        font-size: 14px;
+        padding: 12px;
+    }
+
+    footer {
+        font-size: 14px;
+    }
+}
+
