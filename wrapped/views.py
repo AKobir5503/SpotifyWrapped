@@ -112,11 +112,13 @@ def register_user(request):
     else:
         form = UserCreationForm()
 
-    return render(request, 'register.html', {
-        'form': form,
-        'view_mode': view_mode,
-        'language': language
-    })
+    if language == "en":
+        return render(request, "register.html", {"view_mode": view_mode,'form': form,})
+    elif language == "de":
+        return render(request, "register_de.html", {"view_mode": view_mode,'form': form,})
+    elif language == "es":
+        return render(request, "register_es.html", {"view_mode": view_mode,'form': form,})
+
 
 
 # Dashboard view (requires login)
