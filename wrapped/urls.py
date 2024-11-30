@@ -15,6 +15,6 @@ urlpatterns = [
     path('generate-wrap/', views.generate_wrap, name='generate-wrap'),
     path('save-wrap/', views.save_wrap, name='save-wrap'),
     path('wrap/<int:wrap_id>/', views.wrap_detail, name='wrap_detail'),  # Define the URL pattern for wrap details
-
+    path('wrap/<int:wrap_id>/delete/', views.delete_wrap, name='delete-wrap'),
     path('delete_account/', views.delete_account, name='delete_account'),
 ]
