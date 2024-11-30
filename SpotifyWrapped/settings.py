@@ -4,39 +4,32 @@ from decouple import config
 import django_heroku
 import dj_database_url
 
+# Paths
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = os.getenv('SECRET_KEY', config('SECRET_KEY')) #config('SECRET_KEY', default='your_default_secret_key')
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv('DEBUG', config('DEBUG', default=False))
-# Retrieve the variables from the environment
-SPOTIFY_CLIENT_ID = os.getenv('SPOTIFY_CLIENT_ID')
-SPOTIFY_CLIENT_SECRET = os.getenv('SPOTIFY_CLIENT_SECRET')
-
-"""
-# Environment variables
+# Environment Variables
 SECRET_KEY = config('SECRET_KEY', default='your_default_secret_key')
-DEBUG = config('DEBUG', default=False, cast=bool)
-SPOTIFY_CLIENT_ID = config('SPOTIFY_CLIENT_ID')
-SPOTIFY_CLIENT_SECRET = config('SPOTIFY_CLIENT_SECRET')
+DEBUG = config('DEBUG', default=True, cast=bool)
 
+# Detect if running on Heroku
+IS_HEROKU = "DYNO" in os.environ
 
-print(f"SECRET_KEY: {config('SECRET_KEY', default='MISSING')}")
-print(f"DEBUG: {config('DEBUG', default='MISSING', cast=bool)}")
-print(f"SPOTIFY_CLIENT_ID: {config('SPOTIFY_CLIENT_ID', default='MISSING')}")
-print(f"SPOTIFY_CLIENT_SECRET: {config('SPOTIFY_CLIENT_SECRET', default='MISSING')}")
-"""
+# Spotify API Credentials
+SPOTIFY_CLIENT_ID = config('SPOTIFY_CLIENT_ID', default=None)
+SPOTIFY_CLIENT_SECRET = config('SPOTIFY_CLIENT_SECRET', default=None)
 
-ALLOWED_HOSTS = ['*']
-
-"""
-# Adjust ALLOWED_HOSTS
+# Debugging environment variables during development
 if DEBUG:
-    ALLOWED_HOSTS = ['localhost', '127.0.0.1']
-else:
-    ALLOWED_HOSTS = ['*']
-"""
+    print(f"Running on {'Heroku' if IS_HEROKU else 'Localhost'}")
+    print(f"SECRET_KEY: {SECRET_KEY}")
+    print(f"DEBUG: {DEBUG}")
+    print(f"SPOTIFY_CLIENT_ID: {SPOTIFY_CLIENT_ID}")
+    print(f"SPOTIFY_CLIENT_SECRET: {SPOTIFY_CLIENT_SECRET}")
 
+# Allowed Hosts
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', '.herokuapp.com']
+
+# Applications
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -44,12 +37,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'wrapped.apps.WrappedConfig',
+    'wrapped.apps.WrappedConfig',  # Your app
 ]
 
+# Middleware
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -57,8 +50,11 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+# URL Configuration
 ROOT_URLCONF = 'SpotifyWrapped.urls'
 
+# Templates
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -77,44 +73,55 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'SpotifyWrapped.wsgi.application'
 
-# Database configuration
-DATABASES = {
-    'default': dj_database_url.config(
-        default='sqlite:///db.sqlite3',  # Fallback for local development
-        conn_max_age=600,  # Persistent connection
-        ssl_require=True   # Enforce SSL for Heroku Postgres
-    )
-}
+# Database Configuration
+if IS_HEROKU:
+    # Use Heroku database settings
+    DATABASES = {
+        'default': dj_database_url.config(conn_max_age=600, ssl_require=True)
+    }
+else:
+    # Local SQLite database
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
 
+# Password Validation
 AUTH_PASSWORD_VALIDATORS = [
-    {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
-    {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
-    {'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator'},
-    {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
+    {
+        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
+    },
+    {
+        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
+    },
 ]
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/5.1/howto/static-files/
-STATIC_URL = 'static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-STATICFILES_DIRS = (os.path.join(BASE_DIR, 'wrapped/static'),) # test
-#STATICFILES_DIRS = []
+# Static Files
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')  # For Heroku
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'wrapped/static')]
 
-"""
+# Media Files (if needed)
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# Internationalization
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
 
-STATIC_URL = '/static/'
-STATIC_ROOT = BASE_DIR / 'staticfiles'
-STATICFILES_DIRS = [BASE_DIR / 'wrapped/static']
-
-if not DEBUG:  # Use this only in production
-    STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
-
+# Default Primary Key Field Type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-"""
 
-django_heroku.settings(locals())
-
+# Activate Django-Heroku
+if IS_HEROKU:
+    django_heroku.settings(locals())
