@@ -135,11 +135,12 @@ def dashboard(request):
 
         # Query the user's saved wraps
         wraps = request.user.spotify_wraps.all()
-        return render(
-            request,
-            "dashboard.html",
-            {"wraps": wraps, "view_mode": view_mode, "language": language},
-        )
+        if language == "en":
+            return render(request, "dashboard.html", {"view_mode": view_mode,"wraps": wraps})
+        elif language == "de":
+            return render(request, "dashboard_de.html", {"view_mode": view_mode,"wraps": wraps})
+        elif language == "es":
+            return render(request, "dashboard_es.html", {"view_mode": view_mode,"wraps": wraps})
 
     # Handle GET requests and retrieve current settings
     view_mode = request.session.get("view_mode", "light")
@@ -148,11 +149,12 @@ def dashboard(request):
     # Query the user's saved wraps
     wraps = request.user.spotify_wraps.all()
 
-    return render(
-        request,
-        "dashboard.html",
-        {"wraps": wraps, "view_mode": view_mode, "language": language},
-    )
+    if language == "en":
+        return render(request, "dashboard.html", {"view_mode": view_mode, "wraps": wraps})
+    elif language == "de":
+        return render(request, "dashboard_de.html", {"view_mode": view_mode, "wraps": wraps})
+    elif language == "es":
+        return render(request, "dashboard_es.html", {"view_mode": view_mode, "wraps": wraps})
 
 
 def user_logout(request):
