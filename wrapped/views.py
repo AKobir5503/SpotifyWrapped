@@ -542,7 +542,12 @@ def wrap_detail(request, wrap_id):
             "view_mode": view_mode,
             "language": language,
         }
-        return render(request, 'wrap_detail.html', context)
+        if language == "en":
+            return render(request, "wrap_detail.html", context)
+        elif language == "de":
+            return render(request, "wrap_detail_de.html", context)
+        elif language == "es":
+            return render(request, "wrap_detail_es.html", context)
 
     # Retrieve session data for GET requests
     view_mode = request.session.get("view_mode", "light")
@@ -556,8 +561,12 @@ def wrap_detail(request, wrap_id):
         "view_mode": view_mode,
         "language": language,
     }
-    return render(request, 'wrap_detail.html', context)
-
+    if language == "en":
+        return render(request, "wrap_detail.html", context)
+    elif language == "de":
+        return render(request, "wrap_detail_de.html", context)
+    elif language == "es":
+        return render(request, "wrap_detail_es.html", context)
 
 def index(request):
     return render(request, 'index.html')
