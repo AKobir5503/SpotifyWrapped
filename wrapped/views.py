@@ -16,18 +16,13 @@ from django.http import JsonResponse
 from django.contrib.auth.models import User
 from django.contrib import messages
 from collections import defaultdict
-import os
+
 
 # use the settings instead of hardcoded values
 SPOTIFY_CLIENT_ID = settings.SPOTIFY_CLIENT_ID
 SPOTIFY_CLIENT_SECRET = settings.SPOTIFY_CLIENT_SECRET
 
-
-if 'DYNO' in os.environ:  # Heroku environment
-    SPOTIFY_REDIRECT_URI = 'https://spotifywrapped35-7ed41b719d25.herokuapp.com/callback/'
-else:  # Local environment
-    SPOTIFY_REDIRECT_URI = 'http://localhost:8000/callback/'
-#SPOTIFY_REDIRECT_URI = 'http://localhost:8000/callback/'
+SPOTIFY_REDIRECT_URI = 'http://localhost:8000/callback/'
 
 # Landing page view
 def landing(request):
@@ -39,22 +34,12 @@ def landing(request):
         request.session["view_mode"] = view_mode
         request.session["language"] = language
 
-        if language == "en":
-            return render(request, "landing.html", {"view_mode": view_mode})
-        elif language == "de":
-            return render(request, "landing_de.html", {"view_mode": view_mode})
-        elif language == "es":
-            return render(request, "landing_es.html", {"view_mode": view_mode})
+        return render(request, "landing.html", {"view_mode": view_mode, "language": language})
 
     view_mode = request.session.get("view_mode", "light")
     language = request.session.get("language", "en")
 
-    if language == "en":
-        return render(request, "landing.html", {"view_mode": view_mode})
-    elif language == "de":
-        return render(request, "landing_de.html", {"view_mode": view_mode})
-    elif language == "es":
-        return render(request, "landing_es.html", {"view_mode": view_mode})
+    return render(request, "landing.html", {"view_mode": view_mode, "language": language})
 
 # Login view
 def login_user(request):
@@ -82,19 +67,14 @@ def login_user(request):
                     "error": "Invalid credentials",
                     "view_mode": view_mode,
                     "language": language,
-                }
+                },
             )
 
     # Retrieve view mode and language settings from the session
     view_mode = request.session.get("view_mode", "light")
     language = request.session.get("language", "en")
 
-    if language == "en":
-        return render(request, "login.html", {"view_mode": view_mode})
-    elif language == "de":
-        return render(request, "login_de.html", {"view_mode": view_mode})
-    elif language == "es":
-        return render(request, "login_es.html", {"view_mode": view_mode})
+    return render(request, "login.html", {"view_mode": view_mode, "language": language})
 
 # Register user view
 def register_user(request):
@@ -115,13 +95,11 @@ def register_user(request):
     else:
         form = UserCreationForm()
 
-    if language == "en":
-        return render(request, "register.html", {"view_mode": view_mode,'form': form,})
-    elif language == "de":
-        return render(request, "register_de.html", {"view_mode": view_mode,'form': form,})
-    elif language == "es":
-        return render(request, "register_es.html", {"view_mode": view_mode,'form': form,})
-
+    return render(request, 'register.html', {
+        'form': form,
+        'view_mode': view_mode,
+        'language': language
+    })
 
 
 # Dashboard view (requires login)
@@ -138,12 +116,16 @@ def dashboard(request):
 
         # Query the user's saved wraps
         wraps = request.user.spotify_wraps.all()
-        if language == "en":
-            return render(request, "dashboard.html", {"view_mode": view_mode,"wraps": wraps})
-        elif language == "de":
-            return render(request, "dashboard_de.html", {"view_mode": view_mode,"wraps": wraps})
-        elif language == "es":
-            return render(request, "dashboard_es.html", {"view_mode": view_mode,"wraps": wraps})
+
+        # Generate share URLs for each wrap
+        for wrap in wraps:
+            wrap.share_url = request.build_absolute_uri(f"/wrap/share/{wrap.share_token}/")
+
+        return render(
+            request,
+            "dashboard.html",
+            {"wraps": wraps, "view_mode": view_mode, "language": language},
+        )
 
     # Handle GET requests and retrieve current settings
     view_mode = request.session.get("view_mode", "light")
@@ -152,12 +134,17 @@ def dashboard(request):
     # Query the user's saved wraps
     wraps = request.user.spotify_wraps.all()
 
-    if language == "en":
-        return render(request, "dashboard.html", {"view_mode": view_mode, "wraps": wraps})
-    elif language == "de":
-        return render(request, "dashboard_de.html", {"view_mode": view_mode, "wraps": wraps})
-    elif language == "es":
-        return render(request, "dashboard_es.html", {"view_mode": view_mode, "wraps": wraps})
+    # Generate share URLs for each wrap
+    for wrap in wraps:
+        wrap.share_url = request.build_absolute_uri(f"/wrap/share/{wrap.share_token}/")
+
+    return render(
+        request,
+        "dashboard.html",
+        {"wraps": wraps, "view_mode": view_mode, "language": language},
+    )
+
+
 
 
 def user_logout(request):
@@ -232,8 +219,6 @@ def generate_wrap(request):
     time_frame = request.POST.get('time_frame', 'short_term')
     x = time_frame
     headers = {'Authorization': f'Bearer {access_token}'}
-    view_mode = request.session.get("view_mode", "dark")
-    language = request.session.get("language", "en")
 
     # Spotify API URLs with the selected time frame
     top_tracks_url = f'https://api.spotify.com/v1/me/top/tracks?time_range={time_frame}&limit=50'
@@ -257,6 +242,9 @@ def generate_wrap(request):
     response_audio_features = requests.get(audio_features_url, headers=headers)
     audio_features = response_audio_features.json().get('audio_features', [])
 
+
+
+
     total_genres_played = 0
 
     for artist in top_artists:
@@ -270,6 +258,7 @@ def generate_wrap(request):
             genres.append(genre)
     genre_counts = Counter(genres)
     favorite_genres = [genre for genre, _ in genre_counts.most_common(5)]
+
 
     # Extract albums from top tracks
     top_albums = [
@@ -303,6 +292,8 @@ def generate_wrap(request):
                 mood_playlists['workout_hits'].append(track)
             elif energy > 0.4 and energy < 0.7 and valence > 0.5:
                 mood_playlists['study_tunes'].append(track)
+
+
 
     # Analyze listening patterns from recently played tracks
     recently_played_url = 'https://api.spotify.com/v1/me/player/recently-played?limit=50'
@@ -432,8 +423,6 @@ def generate_wrap(request):
                 'total_genres_played': total_genres_played,  # Total number of genres played
                 'listening_patterns': listening_patterns,  # The time-of-day patterns
                 'genre_breakdown': genre_breakdown,  # Detailed genre breakdown (if needed for charts)
-                "view_mode": view_mode,
-                "language": language
             }
         )
         # Redirect back to the dashboard after saving
@@ -452,16 +441,11 @@ def generate_wrap(request):
         'total_songs_played': total_songs_played,
         'total_genres_played': total_genres_played,
         'total_duration_minutes': total_duration_minutes,
-        "view_mode": view_mode,
-        "language": language
     }
+    return render(request, 'wrapper.html', context)
 
-    if language == "en":
-        return render(request, "wrapper.html", context)
-    elif language == "de":
-        return render(request, "wrapper_de.html", context)
-    elif language == "es":
-        return render(request, "wrapper_es.html", context)
+
+
 
 @login_required
 def save_wrap(request):
@@ -496,24 +480,15 @@ def about(request):
         request.session["view_mode"] = view_mode
         request.session["language"] = language
 
-        if language == "en":
-            return render(request, "about.html", {"view_mode": view_mode})
-        elif language == "de":
-            return render(request, "about_de.html", {"view_mode": view_mode})
-        elif language == "es":
-            return render(request, "about_es.html", {"view_mode": view_mode})
+        return render(request, "about.html", {"view_mode": view_mode, "language": language})
 
     view_mode = request.session.get("view_mode", "light")
     language = request.session.get("language", "en")
 
-    if language == "en":
-        return render(request, "about.html", {"view_mode": view_mode})
-    elif language == "de":
-        return render(request, "about_de.html", {"view_mode": view_mode})
-    elif language == "es":
-        return render(request, "about_es.html", {"view_mode": view_mode})
+    return render(request, "about.html", {"view_mode": view_mode, "language": language})
 
 # wrap features and attributes views go below
+
 def get_user_top_tracks(access_token):
     url = 'https://api.spotify.com/v1/me/top/tracks?limit=10'
     headers = {
@@ -526,7 +501,6 @@ def get_user_top_tracks(access_token):
     else:
         return None
 
-@login_required
 def wrap_detail(request, wrap_id):
     wrap = get_object_or_404(SpotifyWrap, id=wrap_id)
 
@@ -547,12 +521,7 @@ def wrap_detail(request, wrap_id):
             "view_mode": view_mode,
             "language": language,
         }
-        if language == "en":
-            return render(request, "wrap_detail.html", context)
-        elif language == "de":
-            return render(request, "wrap_detail_de.html", context)
-        elif language == "es":
-            return render(request, "wrap_detail_es.html", context)
+        return render(request, 'wrap_detail.html', context)
 
     # Retrieve session data for GET requests
     view_mode = request.session.get("view_mode", "light")
@@ -566,13 +535,7 @@ def wrap_detail(request, wrap_id):
         "view_mode": view_mode,
         "language": language,
     }
-
-    if language == "en":
-        return render(request, "wrap_detail.html", context)
-    elif language == "de":
-        return render(request, "wrap_detail_de.html", context)
-    elif language == "es":
-        return render(request, "wrap_detail_es.html", context)
+    return render(request, 'wrap_detail.html', context)
 
 
 def index(request):
@@ -596,23 +559,12 @@ def user_settings(request):
         request.session["view_mode"] = view_mode
         request.session["language"] = language
 
-        if language == "en":
-            return render(request, "user_settings.html", {"view_mode": view_mode})
-        elif language == "de":
-            return render(request, "user_settings_de.html", {"view_mode": view_mode})
-        elif language == "es":
-            return render(request, "user_settings_es.html", {"view_mode": view_mode})
+        return render(request, "user_settings.html", {"view_mode": view_mode, "language": language})
 
     view_mode = request.session.get("view_mode", "light")
     language = request.session.get("language", "en")
 
-    if language == "en":
-        return render(request, "user_settings.html", {"view_mode": view_mode})
-    elif language == "de":
-        return render(request, "user_settings_de.html", {"view_mode": view_mode})
-    elif language == "es":
-        return render(request, "user_settings_es.html", {"view_mode": view_mode})
-
+    return render(request, "user_settings.html", {"view_mode": view_mode, "language": language})
 
 @login_required
 def delete_wrap(request, wrap_id):
