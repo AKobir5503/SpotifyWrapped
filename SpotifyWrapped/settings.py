@@ -17,43 +17,33 @@ IS_HEROKU = "DYNO" in os.environ
 # Spotify configuration
 SPOTIFY_CLIENT_ID = config('SPOTIFY_CLIENT_ID', default=None)
 SPOTIFY_CLIENT_SECRET = config('SPOTIFY_CLIENT_SECRET', default=None)
-#SPOTIFY_REDIRECT_URI = config('SPOTIFY_REDIRECT_URI', default='http://localhost:8000/callback/')
-if IS_HEROKU:
-    SPOTIFY_REDIRECT_URI = config('HEROKU_REDIRECT_URI', default='https://spotifywrapped35-7ed41b719d25.herokuapp.com/callback/')
-else:
-    SPOTIFY_REDIRECT_URI = config('LOCAL_REDIRECT_URI', default='http://localhost:8000/callback/')
+SPOTIFY_REDIRECT_URI = config(
+    'HEROKU_REDIRECT_URI' if IS_HEROKU else 'LOCAL_REDIRECT_URI',
+    default='http://localhost:8000/callback/'
+)
 
 # Allowed Hosts
-ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='localhost 127.0.0.1', cast=lambda v: v.split())
+ALLOWED_HOSTS = config(
+    'ALLOWED_HOSTS_HEROKU' if not DEBUG else 'ALLOWED_HOSTS',
+    default='localhost,127.0.0.1',
+    cast=lambda v: v.split(',')
+)
 
-if DEBUG:  # Local environment
-    DATABASES = {
-        'default': dj_database_url.parse(config('LOCAL_DATABASE_URL'))
-    }
-else:  # Heroku environment
-    DATABASES = {
-        'default': dj_database_url.config(conn_max_age=600, ssl_require=True)
-    }
+# Database Configuration
+DATABASES = {
+    'default': dj_database_url.config(
+        default=f'sqlite:///{BASE_DIR / "db.sqlite3"}' if DEBUG else '',
+        conn_max_age=600,
+        ssl_require=not DEBUG
+    )
+}
 
-# USING CORRECT VALUES BASED ON ENVIRONMENT
-# Redirect URI
-if DEBUG:
-    SPOTIFY_REDIRECT_URI = config('LOCAL_REDIRECT_URI')
-else:
-    SPOTIFY_REDIRECT_URI = config('HEROKU_REDIRECT_URI')
-"""# Allowed hosts
-if DEBUG:
-    ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='').split(',')
-else:
-    ALLOWED_HOSTS = config('ALLOWED_HOSTS_HEROKU', default='').split(',')"""
-# END OF DEBUG LINES
-
-if DEBUG:
+"""if DEBUG:
     print(f"Running on {'Heroku' if IS_HEROKU else 'Localhost'}")
     print(f"SECRET_KEY: {SECRET_KEY}")
     print(f"DEBUG: {DEBUG}")
     print(f"SPOTIFY_CLIENT_ID: {SPOTIFY_CLIENT_ID}")
-    print(f"SPOTIFY_CLIENT_SECRET: {SPOTIFY_CLIENT_SECRET}")
+    print(f"SPOTIFY_CLIENT_SECRET: {SPOTIFY_CLIENT_SECRET}")"""
 
 # Installed apps
 INSTALLED_APPS = [
@@ -63,7 +53,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'wrapped.apps.WrappedConfig',  # Your app
+    'wrapped.apps.WrappedConfig',
 ]
 
 # Middleware
@@ -99,30 +89,6 @@ TEMPLATES = [
     },
 ]
 
-IS_HEROKU = 'DYNO' in os.environ
-if IS_HEROKU:
-    DATABASES = {
-        'default': dj_database_url.config(
-            conn_max_age=600,  # Persistent connections
-            ssl_require=True   # Ensure SSL on Heroku
-        )
-    }
-else:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',  # Local SQLite database
-        }
-    }
-
-"""# Database configuration
-DATABASES = {
-    'default': dj_database_url.config(
-        default=f'sqlite:///{BASE_DIR / "db.sqlite3"}',
-        conn_max_age=600,
-    )
-}"""
-
 # Password Validation
 AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
@@ -143,12 +109,9 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_DIRS = [BASE_DIR / 'wrapped/static']
 
 # Heroku-specific settings
-if not DEBUG:
+if IS_HEROKU:
     STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+    django_heroku.settings(locals())
 
 # Auto field
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-
-# Activate Django-Heroku
-if IS_HEROKU:
-    django_heroku.settings(locals())
