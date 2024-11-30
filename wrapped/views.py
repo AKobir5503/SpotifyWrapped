@@ -23,7 +23,6 @@ SPOTIFY_CLIENT_SECRET = settings.SPOTIFY_CLIENT_SECRET
 
 SPOTIFY_REDIRECT_URI = 'http://localhost:8000/callback/'
 
-
 # Landing page view
 def landing(request):
     if request.method == "POST":
@@ -40,7 +39,6 @@ def landing(request):
     language = request.session.get("language", "en")
 
     return render(request, "landing.html", {"view_mode": view_mode, "language": language})
-
 
 # Login view
 def login_user(request):
@@ -76,7 +74,6 @@ def login_user(request):
     language = request.session.get("language", "en")
 
     return render(request, "login.html", {"view_mode": view_mode, "language": language})
-
 
 # Register user view
 def register_user(request):
@@ -142,8 +139,7 @@ def user_logout(request):
     logout(request)
     return redirect('landing')
 
-
-# Delete account
+#Delete account
 @login_required
 def delete_account(request):
     if request.method == 'POST':
@@ -153,13 +149,11 @@ def delete_account(request):
         return redirect('landing')  # Redirect to the landing page or another desired page
     return render(request, 'delete_account.html')
 
-
 # Spotify login view
 def spotify_login(request):
     scope = 'user-top-read user-read-recently-played'
     spotify_auth_url = f"https://accounts.spotify.com/authorize?client_id={SPOTIFY_CLIENT_ID}&response_type=code&redirect_uri={SPOTIFY_REDIRECT_URI}&scope={scope}"
     return redirect(spotify_auth_url)
-
 
 # Spotify callback view
 def callback(request):
@@ -180,7 +174,6 @@ def callback(request):
         return redirect('generate-wrap')  # Redirect to the updated wrap view
     else:
         return render(request, 'error.html', {'message': 'Spotify login failed.'})
-
 
 def get_top_tracks(access_token, time_frame):
     top_tracks = []
@@ -203,7 +196,6 @@ def get_top_tracks(access_token, time_frame):
 
     return top_tracks
 
-
 # Generate the user's Spotify wrap
 @login_required
 def generate_wrap(request):
@@ -215,6 +207,8 @@ def generate_wrap(request):
     time_frame = request.POST.get('time_frame', 'short_term')
     x = time_frame
     headers = {'Authorization': f'Bearer {access_token}'}
+    view_mode = request.session.get("view_mode", "dark")
+    language = request.session.get("language", "en")
 
     # Spotify API URLs with the selected time frame
     top_tracks_url = f'https://api.spotify.com/v1/me/top/tracks?time_range={time_frame}&limit=50'
@@ -224,10 +218,10 @@ def generate_wrap(request):
     response_tracks = requests.get(top_tracks_url, headers=headers)
     response_artists = requests.get(top_artists_url, headers=headers)
 
-    # set fetched data
+    #set fetched data
     top_tracks = response_tracks.json().get('items', []) if response_tracks.status_code == 200 else []
     top_artists = response_artists.json().get('items', []) if response_artists.status_code == 200 else []
-    # display limit to 5
+    #display limit to 5
     top_tracks_display = top_tracks[:5]
     top_artists_display = top_artists[:5]
     # Get track IDs from top tracks
@@ -290,7 +284,7 @@ def generate_wrap(request):
     response_recent = requests.get(recently_played_url, headers=headers)
     recently_played = response_recent.json().get('items', []) if response_recent.status_code == 200 else []
 
-    # analyze the listening times throughout the day for the bar graph
+    #analyze the listening times throughout the day for the bar graph
     def analyze_listening_patterns(recently_played):
         """Analyze listening patterns from recently played tracks."""
         patterns = {
@@ -325,7 +319,7 @@ def generate_wrap(request):
 
         return patterns
 
-    # analyze the genre breakdowns for graphs
+    #analyze the genre breakdowns for graphs
     def analyze_genres(top_artists):
         """Analyze genres from the top artists."""
         genre_counts_graph = {}
@@ -380,7 +374,7 @@ def generate_wrap(request):
 
         return longest_streaks
 
-    # listening patterns and genre breakdown called
+    #listening patterns and genre breakdown called
     listening_patterns = analyze_listening_patterns(recently_played)
     genre_breakdown = analyze_genres(top_artists)
 
@@ -413,6 +407,8 @@ def generate_wrap(request):
                 'total_genres_played': total_genres_played,  # Total number of genres played
                 'listening_patterns': listening_patterns,  # The time-of-day patterns
                 'genre_breakdown': genre_breakdown,  # Detailed genre breakdown (if needed for charts)
+                "view_mode": view_mode,
+                "language": language
             }
         )
         # Redirect back to the dashboard after saving
@@ -431,9 +427,10 @@ def generate_wrap(request):
         'total_songs_played': total_songs_played,
         'total_genres_played': total_genres_played,
         'total_duration_minutes': total_duration_minutes,
+        "view_mode": view_mode,
+        "language": language
     }
     return render(request, 'wrapper.html', context)
-
 
 @login_required
 def save_wrap(request):
@@ -458,7 +455,6 @@ def save_wrap(request):
         wrap.save()
         return JsonResponse({'success': True, 'message': 'Wrap saved successfully!'})
 
-
 # About page view
 def about(request):
     if request.method == "POST":
@@ -476,9 +472,7 @@ def about(request):
 
     return render(request, "about.html", {"view_mode": view_mode, "language": language})
 
-
 # wrap features and attributes views go below
-
 def get_user_top_tracks(access_token):
     url = 'https://api.spotify.com/v1/me/top/tracks?limit=10'
     headers = {
@@ -490,7 +484,6 @@ def get_user_top_tracks(access_token):
         return response.json()['items']
     else:
         return None
-
 
 @login_required
 def wrap_detail(request, wrap_id):
@@ -529,10 +522,8 @@ def wrap_detail(request, wrap_id):
     }
     return render(request, 'wrap_detail.html', context)
 
-
 def index(request):
     return render(request, 'index.html')
-
 
 @login_required
 def delete_account(request):
@@ -542,7 +533,6 @@ def delete_account(request):
         messages.success(request, "Your account has been successfully deleted.")
         return redirect('landing')  # Redirect to the landing page or another desired page
     return render(request, 'delete_account.html')
-
 
 def user_settings(request):
     if request.method == "POST":
@@ -581,7 +571,6 @@ def delete_wrap(request, wrap_id):
         wrap.delete()
         messages.success(request, 'Wrap deleted successfully.')
         return redirect('dashboard')  # Redirect to dashboard after deletion
-
 
     return redirect('dashboard')  # If not a POST request, redirect back to dashboard
 
