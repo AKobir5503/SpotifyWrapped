@@ -314,27 +314,40 @@
                         <img src="{{ wrap.data.top_tracks.0.album.images.0.url }}" alt="Album Cover" class="thumbnail">
                     {% endif %}
 
-                    <!-- Share Buttons for This Wrap -->
                     <div class="share-buttons">
-                        <!-- LinkedIn Share Button -->
+                        <!-- LinkedIn Share Button with Copy Functionality -->
                         <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://spotifywrapped35-7ed41b719d25.herokuapp.com/wrap/{{ wrap.id }}/&title=My%20Spotify%20Wrapped&summary=Check%20out%20my%20Spotify%20Wrapped%20for%20this%20year!" 
                            target="_blank" 
-                           class="btn share-btn linkedin-btn">
+                           class="btn share-btn linkedin-btn"
+                           onclick="copyToClipboard('https://spotifywrapped35-7ed41b719d25.herokuapp.com/wrap/{{ wrap.id }}/');">
                             Share on LinkedIn
                         </a>
                     
-                        <!-- Twitter (X) Share Button -->
+                        <!-- Twitter Share Button with Copy Functionality -->
                         <a href="https://twitter.com/intent/tweet?text=Check%20out%20my%20Spotify%20Wrapped%20for%20this%20year!%20https://spotifywrapped35-7ed41b719d25.herokuapp.com/wrap/{{ wrap.id }}/" 
                            target="_blank" 
-                           class="btn share-btn twitter-btn">                            
+                           class="btn share-btn twitter-btn"
+                           onclick="copyToClipboard('https://spotifywrapped35-7ed41b719d25.herokuapp.com/wrap/{{ wrap.id }}/');">
                             Share on Twitter
                         </a>
                     
                         <!-- Instagram Share Button -->
-                        <a href="https://www.instagram.com" target="_blank" class="btn share-btn instagram-btn">
-                            Share on Instagram (Open App)
-                        </a>
+                            <a href="https://www.instagram.com"  
+                               target="_blank" 
+                               class="btn share-btn instagram-btn"
+                               onclick="copyToClipboard('https://spotifywrapped35-7ed41b719d25.herokuapp.com/wrap/{{ wrap.id }}/');">
+                                Share on Instagram
+                            </a>
+
+                    
+                        <!-- Copy Link Button -->
+                        <button class="btn share-btn copy-btn" onclick="copyToClipboard('https://spotifywrapped35-7ed41b719d25.herokuapp.com/wrap/{{ wrap.id }}/')">
+                            Copy Link
+                        </button>
                     </div>
+
+
+
 
                 </li>
             {% endfor %}
@@ -389,6 +402,20 @@
                 });
         });
     });
+    
+     function copyToClipboard(link) {
+        // Use the Clipboard API to write text to the clipboard
+        navigator.clipboard.writeText(link)
+            .then(() => {
+                // Notify the user that the link was successfully copied
+                alert("Link copied to clipboard!");
+            })
+            .catch(err => {
+                // Log an error and notify the user if copying fails
+                console.error("Failed to copy: ", err);
+                alert("Failed to copy the link. Please try again.");
+            });
+    }
 </script>
 </body>
 </html>
