@@ -488,12 +488,22 @@ def about(request):
         request.session["view_mode"] = view_mode
         request.session["language"] = language
 
-        return render(request, "about.html", {"view_mode": view_mode, "language": language})
+        if language == "en":
+            return render(request, "about.html", {"view_mode": view_mode})
+        elif language == "de":
+            return render(request, "about_de.html", {"view_mode": view_mode})
+        elif language == "es":
+            return render(request, "about_es.html", {"view_mode": view_mode})
 
     view_mode = request.session.get("view_mode", "light")
     language = request.session.get("language", "en")
 
-    return render(request, "about.html", {"view_mode": view_mode, "language": language})
+    if language == "en":
+        return render(request, "about.html", {"view_mode": view_mode})
+    elif language == "de":
+        return render(request, "about_de.html", {"view_mode": view_mode})
+    elif language == "es":
+        return render(request, "about_es.html", {"view_mode": view_mode})
 
 
 # wrap features and attributes views go below
