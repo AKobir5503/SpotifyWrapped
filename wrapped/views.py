@@ -132,6 +132,7 @@ def generate_wrap(request):
 
     # Get the time frame from GET request or default to 'short_term'
     time_frame = request.POST.get('time_frame', 'short_term')
+    x = time_frame
     headers = {'Authorization': f'Bearer {access_token}'}
 
     # Spotify API URLs with the selected time frame
@@ -319,11 +320,14 @@ def generate_wrap(request):
     # Save the wrap if requested
     wrap_name = f"Top Tracks - {time_frame.replace('_', ' ').title()}"
     if request.method == 'POST' and 'save_wrap' in request.POST:
+        time_frame = request.POST.get('time_frame', 'short_term')  # Use the time_frame from the form
         wrap = SpotifyWrap.objects.create(
             user=request.user,
             time_frame=time_frame,  # This ensures the selected time frame is correctly saved
             created_at=datetime.now(),
             data={
+                'wrap_name': wrap_name,
+                'time_frame': time_frame,
                 'top_tracks': top_tracks,
                 'top_artists': top_artists,
                 'favorite_genres': favorite_genres,
@@ -336,15 +340,15 @@ def generate_wrap(request):
                 'genre_breakdown': genre_breakdown,  # Detailed genre breakdown (if needed for charts)
             }
         )
-        wrap.save()
-        return redirect('dashboard')  # Redirect back to dashboard after saving
+        # Redirect back to the dashboard after saving
+        return redirect('dashboard')
 
-    context = {
+    context = {  # Ensure wrap is passed correctly
+        'time_frame': time_frame,
         'top_tracks': top_tracks_display,
         'top_artists': top_artists_display,
         'favorite_genres': favorite_genres,
         'top_albums': top_albums,
-        'time_frame': time_frame,
         'listening_patterns': listening_patterns,
         'genre_breakdown': genre_breakdown,
         'mood_playlists': mood_playlists,
@@ -451,3 +455,16 @@ def user_settings(request):
     language = request.session.get("language", "en")
 
     return render(request, "user_settings.html", {"view_mode": view_mode, "language": language})
+
+@login_required
+def delete_wrap(request, wrap_id):
+    # Find the wrap for the current user
+    wrap = get_object_or_404(SpotifyWrap, id=wrap_id, user=request.user)
+
+    if request.method == 'POST':
+        # Delete the wrap
+        wrap.delete()
+        messages.success(request, 'Wrap deleted successfully.')
+        return redirect('dashboard')  # Redirect to dashboard after deletion
+
+    return redirect('dashboard')  # If not a POST request, redirect back to dashboard

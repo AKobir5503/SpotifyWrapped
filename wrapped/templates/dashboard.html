@@ -51,14 +51,21 @@
             <ul>
                 {% for wrap in wraps %}
                     <li>
-                        <strong>{{ wrap.name }}</strong>
-                        - Created on {{ wrap.created_at|date:"M d, Y" }}
+                        <h3>{{ wrap.name }}</h3>
+                        <p>Time Frame: {{ wrap.time_frame }}</p>
+                        <p>Created On: {{ wrap.created_at|date:"M d, Y" }}</p>
                         <a href="{% url 'wrap_detail' wrap.id %}" class="btn btn-link">View Details</a>
+                        <form method="POST" action="{% url 'delete-wrap' wrap.id %}" onsubmit="return confirm('Are you sure you want to delete this wrap?');">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-danger">Delete Wrap</button>
+                        </form>
                         <!-- Optionally, display a thumbnail -->
+
                         {% if wrap.data.top_tracks %}
                             <img src="{{ wrap.data.top_tracks.0.album.images.0.url }}" alt="Album Cover" class="thumbnail">
                         {% endif %}
                     </li>
+                    
                 {% endfor %}
             </ul>
         {% else %}
