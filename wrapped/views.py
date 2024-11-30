@@ -455,7 +455,13 @@ def generate_wrap(request):
         "view_mode": view_mode,
         "language": language
     }
-    return render(request, 'wrapper.html', context)
+
+    if language == "en":
+        return render(request, "wrapper.html", context)
+    elif language == "de":
+        return render(request, "wrapper_de.html", context)
+    elif language == "es":
+        return render(request, "wrapper_es.html", context)
 
 @login_required
 def save_wrap(request):
