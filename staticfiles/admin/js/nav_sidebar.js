@@ -23,6 +23,12 @@
         });
     }
 
+    /**
+     * Initializes the quick filter for the navigation sidebar.
+     *
+     * - Filters the navigation sidebar based on the user's input.
+     * - Saves and restores the filter value to/from session storage.
+     */
     function initSidebarQuickFilter() {
         const options = [];
         const navSidebar = document.getElementById('nav-sidebar');
@@ -33,6 +39,11 @@
             options.push({title: container.innerHTML, node: container});
         });
 
+        /**
+         * Checks the filter value and updates the display of sidebar elements.
+         *
+         * @param {Event} event - The input or keyup event triggered by the filter field.
+         */
         function checkValue(event) {
             let filterValue = event.target.value;
             if (filterValue) {
@@ -74,6 +85,7 @@
             checkValue({target: nav, key: ''});
         }
     }
+
     window.initSidebarQuickFilter = initSidebarQuickFilter;
     initSidebarQuickFilter();
 }

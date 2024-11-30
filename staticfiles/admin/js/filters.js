@@ -3,7 +3,7 @@
  */
 'use strict';
 {
-    // Init filters.
+    // Initialize filters.
     let filters = JSON.parse(sessionStorage.getItem('django.admin.filtersState'));
 
     if (!filters) {
@@ -13,13 +13,18 @@
     Object.entries(filters).forEach(([key, value]) => {
         const detailElement = document.querySelector(`[data-filter-title='${CSS.escape(key)}']`);
 
-        // Check if the filter is present, it could be from other view.
+        // Check if the filter is present, it could be from another view.
         if (detailElement) {
             value ? detailElement.setAttribute('open', '') : detailElement.removeAttribute('open');
         }
     });
 
-    // Save filter state when clicks.
+    /**
+     * Saves the state of filter elements when toggled.
+     *
+     * Adds an event listener to all `<details>` elements to track their
+     * open/closed state and stores this information in `sessionStorage`.
+     */
     const details = document.querySelectorAll('details');
     details.forEach(detail => {
         detail.addEventListener('toggle', event => {
