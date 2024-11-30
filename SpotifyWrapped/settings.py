@@ -4,39 +4,22 @@ from decouple import config
 import django_heroku
 import dj_database_url
 
+# Paths
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-SECRET_KEY = os.getenv('SECRET_KEY', config('SECRET_KEY')) #config('SECRET_KEY', default='your_default_secret_key')
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.getenv('DEBUG', config('DEBUG', default=False))
-# Retrieve the variables from the environment
-SPOTIFY_CLIENT_ID = os.getenv('SPOTIFY_CLIENT_ID')
-SPOTIFY_CLIENT_SECRET = os.getenv('SPOTIFY_CLIENT_SECRET')
-
-"""
 # Environment variables
 SECRET_KEY = config('SECRET_KEY', default='your_default_secret_key')
 DEBUG = config('DEBUG', default=False, cast=bool)
-SPOTIFY_CLIENT_ID = config('SPOTIFY_CLIENT_ID')
-SPOTIFY_CLIENT_SECRET = config('SPOTIFY_CLIENT_SECRET')
 
+# Spotify configuration
+SPOTIFY_CLIENT_ID = config('SPOTIFY_CLIENT_ID', default=None)
+SPOTIFY_CLIENT_SECRET = config('SPOTIFY_CLIENT_SECRET', default=None)
+SPOTIFY_REDIRECT_URI = config('SPOTIFY_REDIRECT_URI', default='http://localhost:8000/callback/')
 
-print(f"SECRET_KEY: {config('SECRET_KEY', default='MISSING')}")
-print(f"DEBUG: {config('DEBUG', default='MISSING', cast=bool)}")
-print(f"SPOTIFY_CLIENT_ID: {config('SPOTIFY_CLIENT_ID', default='MISSING')}")
-print(f"SPOTIFY_CLIENT_SECRET: {config('SPOTIFY_CLIENT_SECRET', default='MISSING')}")
-"""
+# Allowed Hosts
+ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='localhost 127.0.0.1', cast=lambda v: v.split())
 
-ALLOWED_HOSTS = ['*']
-
-"""
-# Adjust ALLOWED_HOSTS
-if DEBUG:
-    ALLOWED_HOSTS = ['localhost', '127.0.0.1']
-else:
-    ALLOWED_HOSTS = ['*']
-"""
-
+# Installed apps
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -47,6 +30,7 @@ INSTALLED_APPS = [
     'wrapped.apps.WrappedConfig',
 ]
 
+# Middleware
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
@@ -57,8 +41,12 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
-ROOT_URLCONF = 'SpotifyWrapped.urls'
 
+# Root settings
+ROOT_URLCONF = 'SpotifyWrapped.urls'
+WSGI_APPLICATION = 'SpotifyWrapped.wsgi.application'
+
+# Templates
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
@@ -75,16 +63,12 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'SpotifyWrapped.wsgi.application'
-
-# Database configuration
-IS_HEROKU = "DYNO" in os.environ
-
+IS_HEROKU = 'DYNO' in os.environ
 if IS_HEROKU:
     DATABASES = {
         'default': dj_database_url.config(
             conn_max_age=600,  # Persistent connections
-            ssl_require=True   # Ensure SSL for PostgreSQL
+            ssl_require=True   # Ensure SSL on Heroku
         )
     }
 else:
@@ -95,6 +79,15 @@ else:
         }
     }
 
+"""# Database configuration
+DATABASES = {
+    'default': dj_database_url.config(
+        default=f'sqlite:///{BASE_DIR / "db.sqlite3"}',
+        conn_max_age=600,
+    )
+}"""
+
+# Password validation
 AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
     {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator'},
@@ -102,28 +95,23 @@ AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator'},
 ]
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/5.1/howto/static-files/
-STATIC_URL = 'static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-STATICFILES_DIRS = (os.path.join(BASE_DIR, 'wrapped/static'),) # test
-#STATICFILES_DIRS = []
-
-"""
+# Internationalization
 LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
 
+# Static files
 STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_DIRS = [BASE_DIR / 'wrapped/static']
 
-if not DEBUG:  # Use this only in production
+# Heroku-specific settings
+if not DEBUG:
     STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
+# Auto field
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
-"""
 
+# Heroku settings
 django_heroku.settings(locals())
-
