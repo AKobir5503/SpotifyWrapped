@@ -34,12 +34,22 @@ def landing(request):
         request.session["view_mode"] = view_mode
         request.session["language"] = language
 
-        return render(request, "landing.html", {"view_mode": view_mode, "language": language})
+        if language == "en":
+            return render(request, "landing.html", {"view_mode": view_mode})
+        elif language == "de":
+            return render(request, "landing_de.html", {"view_mode": view_mode})
+        elif language == "es":
+            return render(request, "landing_es.html", {"view_mode": view_mode})
 
     view_mode = request.session.get("view_mode", "light")
     language = request.session.get("language", "en")
 
-    return render(request, "landing.html", {"view_mode": view_mode, "language": language})
+    if language == "en":
+        return render(request, "landing.html", {"view_mode": view_mode})
+    elif language == "de":
+        return render(request, "landing_de.html", {"view_mode": view_mode})
+    elif language == "es":
+        return render(request, "landing_es.html", {"view_mode": view_mode})
 
 
 # Login view
@@ -68,14 +78,19 @@ def login_user(request):
                     "error": "Invalid credentials",
                     "view_mode": view_mode,
                     "language": language,
-                },
+                }
             )
 
     # Retrieve view mode and language settings from the session
     view_mode = request.session.get("view_mode", "light")
     language = request.session.get("language", "en")
 
-    return render(request, "login.html", {"view_mode": view_mode, "language": language})
+    if language == "en":
+        return render(request, "login.html", {"view_mode": view_mode})
+    elif language == "de":
+        return render(request, "login_de.html", {"view_mode": view_mode})
+    elif language == "es":
+        return render(request, "login_es.html", {"view_mode": view_mode})
 
 
 # Register user view
@@ -582,6 +597,4 @@ def delete_wrap(request, wrap_id):
         messages.success(request, 'Wrap deleted successfully.')
         return redirect('dashboard')  # Redirect to dashboard after deletion
 
-
     return redirect('dashboard')  # If not a POST request, redirect back to dashboard
-
