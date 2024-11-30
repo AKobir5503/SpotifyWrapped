@@ -78,15 +78,29 @@ def login_user(request):
 
 # Register user view
 def register_user(request):
+    # Handle "view_mode" and "language" for GET and POST requests
+    view_mode = request.session.get("view_mode", "light")
+    language = request.session.get("language", "en")
+
     if request.method == 'POST':
         form = UserCreationForm(request.POST)
         if form.is_valid():
             form.save()
+
+            # Save the settings to the session
+            request.session["view_mode"] = request.POST.get("view_mode", view_mode)
+            request.session["language"] = request.POST.get("language", language)
+
             return redirect('login')
     else:
         form = UserCreationForm()
 
-    return render(request, 'register.html', {'form': form})
+    return render(request, 'register.html', {
+        'form': form,
+        'view_mode': view_mode,
+        'language': language
+    })
+
 
 # Dashboard view (requires login)
 @login_required
