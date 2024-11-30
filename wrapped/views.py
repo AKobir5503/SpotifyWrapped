@@ -135,9 +135,6 @@ def dashboard(request):
         {"wraps": wraps, "view_mode": view_mode, "language": language},
     )
 
-
-
-
 def user_logout(request):
     logout(request)
     return redirect('landing')
@@ -210,6 +207,8 @@ def generate_wrap(request):
     time_frame = request.POST.get('time_frame', 'short_term')
     x = time_frame
     headers = {'Authorization': f'Bearer {access_token}'}
+    view_mode = request.session.get("view_mode", "dark")
+    language = request.session.get("language", "en")
 
     # Spotify API URLs with the selected time frame
     top_tracks_url = f'https://api.spotify.com/v1/me/top/tracks?time_range={time_frame}&limit=50'
@@ -414,6 +413,8 @@ def generate_wrap(request):
                 'total_genres_played': total_genres_played,  # Total number of genres played
                 'listening_patterns': listening_patterns,  # The time-of-day patterns
                 'genre_breakdown': genre_breakdown,  # Detailed genre breakdown (if needed for charts)
+                "view_mode": view_mode,
+                "language": language
             }
         )
         # Redirect back to the dashboard after saving
@@ -432,11 +433,10 @@ def generate_wrap(request):
         'total_songs_played': total_songs_played,
         'total_genres_played': total_genres_played,
         'total_duration_minutes': total_duration_minutes,
+        "view_mode": view_mode,
+        "language": language
     }
     return render(request, 'wrapper.html', context)
-
-
-
 
 @login_required
 def save_wrap(request):
@@ -479,7 +479,6 @@ def about(request):
     return render(request, "about.html", {"view_mode": view_mode, "language": language})
 
 # wrap features and attributes views go below
-
 def get_user_top_tracks(access_token):
     url = 'https://api.spotify.com/v1/me/top/tracks?limit=10'
     headers = {
@@ -528,7 +527,6 @@ def wrap_detail(request, wrap_id):
         "language": language,
     }
     return render(request, 'wrap_detail.html', context)
-
 
 def index(request):
     return render(request, 'index.html')
