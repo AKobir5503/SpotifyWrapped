@@ -43,17 +43,38 @@ def landing(request):
 
 # Login view
 def login_user(request):
-    if request.method == 'POST':
-        username = request.POST['username']
-        password = request.POST['password']
+    if request.method == "POST":
+        # Handle view mode and language settings
+        view_mode = request.POST.get("view_mode", "light")
+        language = request.POST.get("language", "en")
+
+        # Save the settings to the session
+        request.session["view_mode"] = view_mode
+        request.session["language"] = language
+
+        # Handle authentication
+        username = request.POST["username"]
+        password = request.POST["password"]
         user = authenticate(request, username=username, password=password)
         if user is not None:
             login(request, user)
-            return redirect('dashboard')  # Redirect to user dashboard
+            return redirect("dashboard")  # Redirect to user dashboard
         else:
-            return render(request, 'login.html', {'error': 'Invalid credentials'})
+            return render(
+                request,
+                "login.html",
+                {
+                    "error": "Invalid credentials",
+                    "view_mode": view_mode,
+                    "language": language,
+                },
+            )
 
-    return render(request, 'login.html')
+    # Retrieve view mode and language settings from the session
+    view_mode = request.session.get("view_mode", "light")
+    language = request.session.get("language", "en")
+
+    return render(request, "login.html", {"view_mode": view_mode, "language": language})
 
 # Register user view
 def register_user(request):
@@ -74,23 +95,32 @@ def dashboard(request):
     if request.method == "POST":
         view_mode = request.POST.get("view_mode", "light")
         language = request.POST.get("language", "en")
+
+        # Save the settings to the session
         request.session["view_mode"] = view_mode
         request.session["language"] = language
 
-    # Get session settings or defaults
+        # Query the user's saved wraps
+        wraps = request.user.spotify_wraps.all()
+        return render(
+            request,
+            "dashboard.html",
+            {"wraps": wraps, "view_mode": view_mode, "language": language},
+        )
+
+    # Handle GET requests and retrieve current settings
     view_mode = request.session.get("view_mode", "light")
     language = request.session.get("language", "en")
 
-    # Check for related SpotifyWrap objects
-    wraps = []
-    if hasattr(request.user, 'spotify_wraps'):
-        wraps = request.user.spotify_wraps.all()
+    # Query the user's saved wraps
+    wraps = request.user.spotify_wraps.all()
 
     return render(
         request,
         "dashboard.html",
         {"wraps": wraps, "view_mode": view_mode, "language": language},
     )
+
 
 
 
