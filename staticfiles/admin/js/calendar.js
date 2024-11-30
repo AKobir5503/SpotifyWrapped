@@ -1,105 +1,51 @@
-/*global gettext, pgettext, get_format, quickElement, removeChildren*/
-/*
-calendar.js - Calendar functions by Adrian Holovaty
-depends on core.js for utility functions like removeChildren or quickElement
-*/
 'use strict';
 {
     // CalendarNamespace -- Provides a collection of HTML calendar-related helper functions
     const CalendarNamespace = {
-        monthsOfYear: [
-            gettext('January'),
-            gettext('February'),
-            gettext('March'),
-            gettext('April'),
-            gettext('May'),
-            gettext('June'),
-            gettext('July'),
-            gettext('August'),
-            gettext('September'),
-            gettext('October'),
-            gettext('November'),
-            gettext('December')
-        ],
-        monthsOfYearAbbrev: [
-            pgettext('abbrev. month January', 'Jan'),
-            pgettext('abbrev. month February', 'Feb'),
-            pgettext('abbrev. month March', 'Mar'),
-            pgettext('abbrev. month April', 'Apr'),
-            pgettext('abbrev. month May', 'May'),
-            pgettext('abbrev. month June', 'Jun'),
-            pgettext('abbrev. month July', 'Jul'),
-            pgettext('abbrev. month August', 'Aug'),
-            pgettext('abbrev. month September', 'Sep'),
-            pgettext('abbrev. month October', 'Oct'),
-            pgettext('abbrev. month November', 'Nov'),
-            pgettext('abbrev. month December', 'Dec')
-        ],
-        daysOfWeek: [
-            gettext('Sunday'),
-            gettext('Monday'),
-            gettext('Tuesday'),
-            gettext('Wednesday'),
-            gettext('Thursday'),
-            gettext('Friday'),
-            gettext('Saturday')
-        ],
-        daysOfWeekAbbrev: [
-            pgettext('abbrev. day Sunday', 'Sun'),
-            pgettext('abbrev. day Monday', 'Mon'),
-            pgettext('abbrev. day Tuesday', 'Tue'),
-            pgettext('abbrev. day Wednesday', 'Wed'),
-            pgettext('abbrev. day Thursday', 'Thur'),
-            pgettext('abbrev. day Friday', 'Fri'),
-            pgettext('abbrev. day Saturday', 'Sat')
-        ],
-        daysOfWeekInitial: [
-            pgettext('one letter Sunday', 'S'),
-            pgettext('one letter Monday', 'M'),
-            pgettext('one letter Tuesday', 'T'),
-            pgettext('one letter Wednesday', 'W'),
-            pgettext('one letter Thursday', 'T'),
-            pgettext('one letter Friday', 'F'),
-            pgettext('one letter Saturday', 'S')
-        ],
-        firstDayOfWeek: parseInt(get_format('FIRST_DAY_OF_WEEK')),
+        /**
+         * Determines if a given year is a leap year.
+         * @param {number} year - The year to check.
+         * @returns {boolean} True if the year is a leap year, false otherwise.
+         */
         isLeapYear: function(year) {
             return (((year % 4) === 0) && ((year % 100) !== 0 ) || ((year % 400) === 0));
         },
+
+        /**
+         * Gets the number of days in a specific month of a specific year.
+         * @param {number} month - The month (1-12).
+         * @param {number} year - The year.
+         * @returns {number} The number of days in the month.
+         */
         getDaysInMonth: function(month, year) {
             let days;
             if (month === 1 || month === 3 || month === 5 || month === 7 || month === 8 || month === 10 || month === 12) {
                 days = 31;
-            }
-            else if (month === 4 || month === 6 || month === 9 || month === 11) {
+            } else if (month === 4 || month === 6 || month === 9 || month === 11) {
                 days = 30;
-            }
-            else if (month === 2 && CalendarNamespace.isLeapYear(year)) {
+            } else if (month === 2 && CalendarNamespace.isLeapYear(year)) {
                 days = 29;
-            }
-            else {
+            } else {
                 days = 28;
             }
             return days;
         },
-        draw: function(month, year, div_id, callback, selected) { // month = 1-12, year = 1-9999
+
+        /**
+         * Draws a calendar for a specific month and year in a given container.
+         * @param {number} month - The month to draw (1-12).
+         * @param {number} year - The year to draw.
+         * @param {string} div_id - The ID of the container where the calendar will be drawn.
+         * @param {function} callback - A callback function to execute when a day is clicked.
+         * @param {Date} [selected] - The selected date to highlight, if any.
+         */
+        draw: function(month, year, div_id, callback, selected) {
             const today = new Date();
             const todayDay = today.getDate();
             const todayMonth = today.getMonth() + 1;
             const todayYear = today.getFullYear();
             let todayClass = '';
 
-            // Use UTC functions here because the date field does not contain time
-            // and using the UTC function variants prevent the local time offset
-            // from altering the date, specifically the day field.  For example:
-            //
-            // ```
-            // var x = new Date('2013-10-02');
-            // var day = x.getDate();
-            // ```
-            //
-            // The day variable above will be 1 instead of 2 in, say, US Pacific time
-            // zone.
             let isSelectedMonth = false;
             if (typeof selected !== 'undefined') {
                 isSelectedMonth = (selected.getUTCFullYear() === year && (selected.getUTCMonth() + 1) === month);
@@ -151,7 +97,6 @@ depends on core.js for utility functions like removeChildren or quickElement
                     todayClass = '';
                 }
 
-                // use UTC function; see above for explanation.
                 if (isSelectedMonth && currentDay === selected.getUTCDate()) {
                     if (todayClass !== '') {
                         todayClass += " ";
@@ -175,13 +120,14 @@ depends on core.js for utility functions like removeChildren or quickElement
         }
     };
 
-    // Calendar -- A calendar instance
+    /**
+     * Creates a new calendar instance.
+     * @class
+     * @param {string} div_id - The ID of the container where the calendar will be drawn.
+     * @param {function} callback - A callback function to execute when a day is clicked.
+     * @param {Date} [selected] - The selected date to highlight, if any.
+     */
     function Calendar(div_id, callback, selected) {
-        // div_id (string) is the ID of the element in which the calendar will
-        //     be displayed
-        // callback (string) is the name of a JavaScript function that will be
-        //     called with the parameters (year, month, day) when a day in the
-        //     calendar is clicked
         this.div_id = div_id;
         this.callback = callback;
         this.today = new Date();
@@ -192,48 +138,71 @@ depends on core.js for utility functions like removeChildren or quickElement
         }
     }
     Calendar.prototype = {
+        /**
+         * Draws the calendar for the currently selected month and year.
+         */
         drawCurrent: function() {
             CalendarNamespace.draw(this.currentMonth, this.currentYear, this.div_id, this.callback, this.selected);
         },
+
+        /**
+         * Draws the calendar for a specific month and year.
+         * @param {number} month - The month to draw (1-12).
+         * @param {number} year - The year to draw.
+         * @param {Date} [selected] - The selected date to highlight, if any.
+         */
         drawDate: function(month, year, selected) {
             this.currentMonth = month;
             this.currentYear = year;
-
-            if(selected) {
+            if (selected) {
                 this.selected = selected;
             }
-
             this.drawCurrent();
         },
+
+        /**
+         * Draws the calendar for the previous month.
+         */
         drawPreviousMonth: function() {
             if (this.currentMonth === 1) {
                 this.currentMonth = 12;
                 this.currentYear--;
-            }
-            else {
+            } else {
                 this.currentMonth--;
             }
             this.drawCurrent();
         },
+
+        /**
+         * Draws the calendar for the next month.
+         */
         drawNextMonth: function() {
             if (this.currentMonth === 12) {
                 this.currentMonth = 1;
                 this.currentYear++;
-            }
-            else {
+            } else {
                 this.currentMonth++;
             }
             this.drawCurrent();
         },
+
+        /**
+         * Draws the calendar for the previous year.
+         */
         drawPreviousYear: function() {
             this.currentYear--;
             this.drawCurrent();
         },
+
+        /**
+         * Draws the calendar for the next year.
+         */
         drawNextYear: function() {
             this.currentYear++;
             this.drawCurrent();
         }
     };
+
     window.Calendar = Calendar;
     window.CalendarNamespace = CalendarNamespace;
 }
