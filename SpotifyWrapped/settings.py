@@ -80,7 +80,9 @@ WSGI_APPLICATION = 'SpotifyWrapped.wsgi.application'
 # Database configuration
 DATABASES = {
     'default': dj_database_url.config(
-        default=f'sqlite:///{BASE_DIR / "db.sqlite3"}'
+        default='sqlite:///db.sqlite3',  # Fallback for local development
+        conn_max_age=600,  # Persistent connection
+        ssl_require=True   # Enforce SSL for Heroku Postgres
     )
 }
 
