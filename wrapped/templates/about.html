@@ -138,6 +138,37 @@
             background-color: #000000;
             color: #ffff00;
         }
+
+        .team-member h3,
+        .team-member p {
+            transition: color 0.3s, background-color 0.3s;
+        }
+
+        body.light .team-member h3 {
+            color: #333; /* Darker text for readability */
+        }
+
+        body.light .team-member p {
+            color: #555; /* Softer text for description */
+        }
+
+        body.dark .team-member h3 {
+            color: #ffffff; /* Bright text for contrast */
+        }
+
+        body.dark .team-member p {
+            color: #cccccc; /* Softer white for readability */
+        }
+
+        body.high_contrast .team-member h3 {
+            color: #ffff00; /* Yellow text for high contrast */
+            background-color: #000000; /* Black background for high contrast */
+        }
+
+        body.high_contrast .team-member p {
+            color: #ffff00; /* White text for description */
+            background-color: #000000; /* Black background for contrast */
+        }
     </style>
 </head>
 <body class="{{ view_mode }}">
@@ -186,27 +217,22 @@
         <h2>Our Team</h2>
         <div class="team">
             <div class="team-member">
-                <img src="https://via.placeholder.com/100" alt="Team Member">
                 <h3>Kobir</h3>
                 <p>Scrum Master & Backend Developer</p>
             </div>
             <div class="team-member">
-                <img src="https://via.placeholder.com/100" alt="Team Member">
                 <h3>Mafaaz</h3>
                 <p>Playback & Figma Flowchart Designer</p>
             </div>
             <div class="team-member">
-                <img src="https://via.placeholder.com/100" alt="Team Member">
                 <h3>Mohammed</h3>
                 <p>About Page & Developer Contact</p>
             </div>
             <div class="team-member">
-                <img src="https://via.placeholder.com/100" alt="Team Member">
                 <h3>Youssef</h3>
-                <p>Dark/Light Mode Specialist</p>
+                <p>Lead Front-end Developer</p>
             </div>
             <div class="team-member">
-                <img src="https://via.placeholder.com/100" alt="Team Member">
                 <h3>Nabhan</h3>
                 <p>Hosting & Deployment</p>
             </div>
