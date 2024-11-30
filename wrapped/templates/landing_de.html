@@ -340,7 +340,7 @@
         <ul class="nav-links">
             <li><a href="{% url 'about' %}">Über Uns</a></li>
             {% if user.is_authenticated %}
-                <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
+                <li><a href="{% url 'dashboard' %}">Armaturenbrett</a></li>
                 <li><a href="{% url 'settings' %}">Einstellungen</a></li>
                 <form action="{% url 'logout' %}" method="post" class="logout-form">
                     {% csrf_token %}

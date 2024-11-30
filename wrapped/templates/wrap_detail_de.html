@@ -536,7 +536,7 @@
         <ul class="nav-links">
             <li><a href="{% url 'about' %}">Über Uns</a></li>
             {% if user.is_authenticated %}
-                <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
+                <li><a href="{% url 'dashboard' %}">Armaturenbrett</a></li>
                 <li><a href="{% url 'settings' %}">Einstellungen</a></li>
                 <form action="{% url 'logout' %}" method="post" class="logout-form">
                     {% csrf_token %}
@@ -623,7 +623,7 @@
 
     <!-- Navigation -->
     <div class="wrap-actions">
-        <a href="{% url 'dashboard' %}" class="btn btn-secondary">Zurück zum Dashboard</a>
+        <a href="{% url 'dashboard' %}" class="btn btn-secondary">Zurück zum Armaturenbrett</a>
         <form method="POST" action="{% url 'generate-wrap' %}">
             {% csrf_token %}
             <input type="hidden" name="time_frame" value="{{ wrap.time_frame }}">
