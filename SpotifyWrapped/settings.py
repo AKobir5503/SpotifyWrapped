@@ -78,13 +78,22 @@ TEMPLATES = [
 WSGI_APPLICATION = 'SpotifyWrapped.wsgi.application'
 
 # Database configuration
-DATABASES = {
-    'default': dj_database_url.config(
-        default='sqlite:///db.sqlite3',  # Fallback for local development
-        conn_max_age=600,  # Persistent connection
-        ssl_require=True   # Enforce SSL for Heroku Postgres
-    )
-}
+IS_HEROKU = "DYNO" in os.environ
+
+if IS_HEROKU:
+    DATABASES = {
+        'default': dj_database_url.config(
+            conn_max_age=600,  # Persistent connections
+            ssl_require=True   # Ensure SSL for PostgreSQL
+        )
+    }
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',  # Local SQLite database
+        }
+    }
 
 AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
