@@ -116,6 +116,11 @@ def dashboard(request):
 
         # Query the user's saved wraps
         wraps = request.user.spotify_wraps.all()
+
+        # Generate share URLs for each wrap
+        for wrap in wraps:
+            wrap.share_url = request.build_absolute_uri(f"/wrap/share/{wrap.share_token}/")
+
         return render(
             request,
             "dashboard.html",
@@ -128,6 +133,10 @@ def dashboard(request):
 
     # Query the user's saved wraps
     wraps = request.user.spotify_wraps.all()
+
+    # Generate share URLs for each wrap
+    for wrap in wraps:
+        wrap.share_url = request.build_absolute_uri(f"/wrap/share/{wrap.share_token}/")
 
     return render(
         request,
@@ -492,7 +501,6 @@ def get_user_top_tracks(access_token):
     else:
         return None
 
-@login_required
 def wrap_detail(request, wrap_id):
     wrap = get_object_or_404(SpotifyWrap, id=wrap_id)
 
