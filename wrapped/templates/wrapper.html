@@ -211,6 +211,7 @@
             <div class="save-wrap">
                 <form method="POST" action="">
                     {% csrf_token %}
+                    <input type="hidden" name="time_frame" value="{{ time_frame }}">
                     <button type="submit" name="save_wrap" class="btn btn-primary">Save Wrap</button>
                 </form>
             </div>

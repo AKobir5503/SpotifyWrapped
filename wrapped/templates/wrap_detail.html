@@ -5,7 +5,7 @@
 {% block content %}
 <div class="wrap-detail-container">
     <h1 class="wrap-title">Your Spotify Wrapped Details</h1>
-    <p class="time-frame">Time Frame: <span>{{ wrap.title|title }}</span></p>
+    <p><strong>Time Frame:</strong> {{ wrap.time_frame }}</p>
     <p class="created-on">Created On: {{ wrap.created_at|date:"M d, Y" }}</p>
 
     <!-- Total Stats Section -->
