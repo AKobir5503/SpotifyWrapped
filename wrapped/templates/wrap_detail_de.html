@@ -262,11 +262,11 @@
         }
 
         .share-btn.copy-btn {
-            background-color: #333;
+            background-color: #1db954;
         }
 
         .share-btn.copy-btn:hover {
-            background-color: #555;
+            background-color: #28a745;
         }
 
         /* Centering Buttons */
@@ -357,6 +357,15 @@
             background-color: #333;
             color: #fff;
             transition: all 0.3s ease-in-out;
+        }
+        
+        footer a {
+            color: #1db954;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
         }
 
         /* Media Queries */
@@ -499,44 +508,44 @@
     </div>
 </div>
 
-<!-- Share Buttons at the bottom of the page -->
-<div class="share-buttons" style="position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); z-index: 100;">
-    <!-- LinkedIn Share Button with Copy Functionality -->
-    <a href="https://www.linkedin.com/shareArticle?mini=true&url=http://localhost:8000/wrap/{{ wrap.id }}/&title=Mein%20Spotify%20Wrapped&summary=Schauen%20Sie%20sich%20mein%20Spotify%20Wrapped%20für%20dieses%20Jahr%20an."
-       target="_blank"
-       class="btn share-btn linkedin-btn"
-       onclick="copyToClipboard('http://localhost:8000/wrap/{{ wrap.id }}/');">
-        Auf LinkedIn teilen
-    </a>
-
-    <!-- Twitter Share Button with Copy Functionality -->
-    <a href="https://twitter.com/intent/tweet?text=Schauen%20Sie%20sich%20mein%20Spotify%20Wrapped%20für%20dieses%20Jahr%20an.%20http://localhost:8000/wrap/{{ wrap.id }}/"
-       target="_blank"
-       class="btn share-btn twitter-btn"
-       onclick="copyToClipboard('http://localhost:8000/wrap/{{ wrap.id }}/');">
-        Auf Twitter/X teilen
-    </a>
-
-    <!-- Instagram Share Button -->
-    <a href="https://www.instagram.com"
-       target="_blank"
-       class="btn share-btn instagram-btn"
-       onclick="copyToClipboard('http://localhost:8000/wrap/{{ wrap.id }}/');">
-        Auf Insta teilen
-    </a>
-
-    <!-- Copy Link Button -->
-    <button class="btn share-btn copy-btn" onclick="copyToClipboard('http://localhost:8000/wrap/{{ wrap.id }}/')">
-        Link kopieren
-    </button>
-</div>
-
 
 <footer>
     <p>
         Mit ❤️ gemacht von Team SpotifyWrapped |
         <a href="https://group35-2340.github.io/CS2340-Portfolio/contact.html" target="_blank" rel="noopener noreferrer">Kontaktieren
             Sie uns</a>
+        
+        <!-- Share Buttons at the bottom of the page -->
+        <div class="share-buttons" style="position: relative; top: 1px; bottom: 1px; left: 50%; transform: translateX(-50%); z-index: 100;">
+        <!-- LinkedIn Share Button with Copy Functionality -->
+        <a href="https://www.linkedin.com/shareArticle?mini=true&url=http://localhost:8000/wrap/{{ wrap.id }}/&title=Mein%20Spotify%20Wrapped&summary=Schauen%20Sie%20sich%20mein%20Spotify%20Wrapped%20für%20dieses%20Jahr%20an."
+           target="_blank"
+           class="btn share-btn linkedin-btn"
+           onclick="copyToClipboard('http://localhost:8000/wrap/{{ wrap.id }}/');">
+            Auf LinkedIn teilen
+        </a>
+    
+        <!-- Twitter Share Button with Copy Functionality -->
+        <a href="https://twitter.com/intent/tweet?text=Schauen%20Sie%20sich%20mein%20Spotify%20Wrapped%20für%20dieses%20Jahr%20an.%20http://localhost:8000/wrap/{{ wrap.id }}/"
+           target="_blank"
+           class="btn share-btn twitter-btn"
+           onclick="copyToClipboard('http://localhost:8000/wrap/{{ wrap.id }}/');">
+            Auf Twitter/X teilen
+        </a>
+    
+        <!-- Instagram Share Button -->
+        <a href="https://www.instagram.com"
+           target="_blank"
+           class="btn share-btn instagram-btn"
+           onclick="copyToClipboard('http://localhost:8000/wrap/{{ wrap.id }}/');">
+            Auf Insta teilen
+        </a>
+    
+        <!-- Copy Link Button -->
+        <button class="btn share-btn copy-btn" onclick="copyToClipboard('http://localhost:8000/wrap/{{ wrap.id }}/')">
+            Link kopieren
+        </button>
+        </div>
     </p>
 </footer>
 
