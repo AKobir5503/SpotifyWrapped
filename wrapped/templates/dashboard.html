@@ -5,207 +5,279 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About SpotifyWrapped</title>
-    <style>
-        /* General Styles */
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
-            transition: all 0.3s ease-in-out;
-        }
+    <style>/* General Styles */
+    body {
+        font-family: Arial, sans-serif;
+        line-height: 1.6;
+        margin: 0;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        min-height: 100vh;
+        transition: all 0.3s ease-in-out;
+    }
 
-        body.light {
-            background-color: #f8f9fa;
-            color: #333;
-        }
+    body.light {
+        background-color: #f8f9fa;
+        color: #333;
+    }
 
-        body.dark {
-            background-color: #121212;
-            color: #ffffff;
-        }
+    body.dark {
+        background-color: #121212;
+        color: #ffffff;
+    }
 
-        body.high_contrast {
-            background-color: #000000;
-            color: #ffff00;
-        }
+    body.high_contrast {
+        background-color: #000000;
+        color: #ffff00;
+    }
 
-        /* Header */
-        header {
-            padding: 20px 0;
-            background-color: #333;
-            color: #fff;
-            transition: all 0.3s ease-in-out;
-        }
+    /* Header */
+    header {
+        padding: 20px 0;
+        background-color: #333;
+        color: #fff;
+        transition: all 0.3s ease-in-out;
+    }
 
-        body.light header {
-            background-color: #333;
-            color: #fff;
-        }
+    body.light header {
+        background-color: #333;
+        color: #fff;
+    }
 
-        body.dark header {
-            background-color: #1f1f1f;
-            color: #ffffff;
-        }
+    body.dark header {
+        background-color: #1f1f1f;
+        color: #ffffff;
+    }
 
-        body.high_contrast header {
-            background-color: #000000;
-            color: #ffff00;
-        }
+    body.high_contrast header {
+        background-color: #000000;
+        color: #ffff00;
+    }
 
+    header .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        padding: 0 20px;
+    }
+
+    header .logo {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: inherit;
+        text-align: center;
+        flex: 1 1 auto;
+    }
+
+    header .nav-links {
+        list-style: none;
+        display: flex;
+        justify-content: center;
+        margin: 0;
+        padding: 0;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    header .nav-links li {
+        margin: 0 10px;
+    }
+
+    header .nav-links a {
+        text-decoration: none;
+        font-size: 1rem;
+        color: inherit;
+    }
+
+    /* Logout Button */
+    header .logout-form {
+        display: inline;
+        margin-left: 20px;
+    }
+
+    header .logout-btn {
+        background-color: #1db954;
+        color: white;
+        border: none;
+        padding: 8px 16px;
+        font-size: 1rem;
+        cursor: pointer;
+        border-radius: 5px;
+    }
+
+    header .logout-btn:hover {
+        background-color: #45a049;
+    }
+
+    /* Dashboard Container */
+    .dashboard-container {
+        flex: 1;
+        max-width: 100%;
+        margin: auto;
+        padding: 20px;
+        box-shadow: 0 4px 8px rgba(51, 51, 51, 0.1);
+        box-sizing: border-box;
+    }
+
+    .dashboard-container h1,
+    .dashboard-container h2 {
+        color: inherit;
+    }
+
+    /* Form Styles */
+    .form-select {
+        width: 100%;
+        max-width: 100%;
+        padding: 8px;
+        margin-top: 5px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-sizing: border-box;
+    }
+
+    .btn {
+        background-color: #1db954;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        margin-top: 10px;
+        cursor: pointer;
+        border-radius: 5px;
+    }
+
+    .btn:hover {
+        background-color: #45a049;
+    }
+
+    /* Wraps List */
+    .dashboard-container ul {
+        list-style-type: none;
+        padding: 0;
+    }
+
+    .dashboard-container li {
+        background-color: rgba(29, 185, 84, 0.1);
+        margin-bottom: 10px;
+        padding: 15px;
+        border-radius: 5px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .thumbnail {
+        max-width: 100px;
+        max-height: 100px;
+        border-radius: 5px;
+    }
+
+    /* Footer */
+    footer {
+        text-align: center;
+        padding: 20px;
+        background-color: #333;
+        color: #fff;
+        transition: all 0.3s ease-in-out;
+    }
+
+    body.light footer {
+        background-color: #333;
+        color: #fff;
+    }
+
+    body.dark footer {
+        background-color: #1f1f1f;
+        color: #ffffff;
+    }
+
+    body.high_contrast footer {
+        background-color: #000000;
+        color: #ffff00;
+    }
+
+    /* Links */
+    a {
+        color: #1db954;
+    }
+
+    a:hover {
+        text-decoration: underline;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
         header .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
+            flex-direction: column;
             align-items: center;
+            text-align: center;
         }
 
-        header .logo {
-            font-size: 24px;
-            font-weight: bold;
-            color: inherit;
-        }
-
-        /* Navigation Links */
         header .nav-links {
-            list-style: none;
-            display: flex;
-            justify-content: flex-end;
-            margin: 0;
-            padding: 0;
+            flex-direction: column;
+            gap: 5px;
         }
 
-        header .nav-links li {
-            margin: 0 15px;
-        }
-
-        header .nav-links a {
-            text-decoration: none;
-            font-size: 18px;
-            color: inherit;
-        }
-
-        /* Logout Button */
-        header .logout-form {
-            display: inline;
-            margin-left: 20px;
-        }
-
-        header .logout-btn {
-            background-color: #1db954;
-            color: white;
-            border: none;
-            padding: 8px 16px;
-            font-size: 16px;
-            cursor: pointer;
-            border-radius: 5px;
-        }
-
-        header .logout-btn:hover {
-            background-color: #45a049;
-        }
-
-        /* Dashboard Container */
         .dashboard-container {
-            flex: 1;
-            width: 1000px;
-            margin: auto;
-            padding: 20px;
-            box-shadow: 0 4px 8px rgb(51, 51, 51);
-
+            padding: 15px;
         }
 
-        .dashboard-container h1,
-        .dashboard-container h2 {
-            color: inherit;
-
-        }
-
-        /* Form Styles */
         .form-select {
             width: 100%;
-            max-width: 600px;
-            padding: 8px;
-            margin-top: 5px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            box-sizing: border-box;
-        }
-
-        .btn {
-            background-color: #1db954;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            margin-top: 10px;
-            cursor: pointer;
-            border-radius: 5px;
-        }
-
-        .btn:hover {
-            background-color: #45a049;
-        }
-
-        /* Wraps List */
-        .dashboard-container ul {
-            list-style-type: none;
-            padding: 0;
-
         }
 
         .dashboard-container li {
-            background-color: rgba(29, 185, 84, 0.1);
-            margin-bottom: 10px;
-            padding: 15px;
-            border-radius: 5px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-
+            flex-direction: column;
+            text-align: center;
+            gap: 15px;
         }
 
         .thumbnail {
-            max-width: 100px;
-            max-height: 100px;
-            border-radius: 5px;
+            margin: 0 auto;
+        }
+    }
+
+    @media (max-width: 480px) {
+        header {
+            padding: 15px 0;
         }
 
-        /* Footer */
-        footer {
-            text-align: center;
-            padding: 20px;
-            background-color: #333;
-            color: #fff;
-            transition: all 0.3s ease-in-out;
+        header .logo {
+            font-size: 1.25rem;
         }
 
-        body.light footer {
-            background-color: #333;
-            color: #fff;
+        header .nav-links a {
+            font-size: 0.9rem;
         }
 
-        body.dark footer {
-            background-color: #1f1f1f;
-            color: #ffffff;
+        header .logout-btn {
+            padding: 6px 12px;
+            font-size: 0.9rem;
         }
 
-        body.high_contrast footer {
-            background-color: #000000;
-            color: #ffff00;
+        .dashboard-container {
+            padding: 10px;
         }
 
-        /* Links */
-        a {
-            color: #1db954;
+        .btn {
+            padding: 8px 16px;
+            font-size: 0.9rem;
         }
 
-        a:hover {
-            text-decoration: underline;
+        .dashboard-container li {
+            padding: 10px;
         }
+
+        .thumbnail {
+            max-width: 80px;
+            max-height: 80px;
+        }
+    }
     </style>
 </head>
 <body class="{{ view_mode }}">
@@ -230,48 +302,49 @@
     </div>
 </header>
 
-    <div class="dashboard-container">
-        <h1>Welcome, {{ user.username }}!</h1>
-        <p>Your personalized Spotify insights await.</p>
+<div class="dashboard-container">
+    <h1>Welcome, {{ user.username }}!</h1>
+    <p>Your personalized Spotify insights await.</p>
 
-        <h2>Create a New Wrap</h2>
-        <form method="POST" action="{% url 'generate-wrap' %}">
-            {% csrf_token %}
-            <label for="time-frame">Select a Time Frame:</label>
-            <select id="time-frame" name="time_frame" class="form-select" required>
-                <option value="short_term">Last 4 Weeks</option>
-                <option value="medium_term">Last 6 Months</option>
-                <option value="long_term">Last 1 Year</option>
-            </select>
-            <button type="submit" class="btn btn-primary mt-3">Generate Wrap</button>
-        </form>
+    <h2>Create a New Wrap</h2>
+    <form method="POST" action="{% url 'generate-wrap' %}">
+        {% csrf_token %}
+        <label for="time-frame">Select a Time Frame:</label>
+        <select id="time-frame" name="time_frame" class="form-select" required>
+            <option value="short_term">Last 4 Weeks</option>
+            <option value="medium_term">Last 6 Months</option>
+            <option value="long_term">Last 1 Year</option>
+        </select>
+        <button type="submit" class="btn btn-primary mt-3">Generate Wrap</button>
+    </form>
 
-        <h2>Your Saved Wraps</h2>
-        {% if wraps %}
-            <ul>
-                {% for wrap in wraps %}
-                    <li>
-                        <h3>{{ wrap.name }}</h3>
-                        <p>Time Frame: {{ wrap.time_frame }}</p>
-                        <p>Created On: {{ wrap.created_at|date:"M d, Y" }}</p>
-                        <a href="{% url 'wrap_detail' wrap.id %}" class="btn btn-link">View Details</a>
-                        <form method="POST" action="{% url 'delete-wrap' wrap.id %}" onsubmit="return confirm('Are you sure you want to delete this wrap?');">
-                            {% csrf_token %}
-                            <button type="submit" class="btn btn-danger">Delete Wrap</button>
-                        </form>
-                        <!-- Optionally, display a thumbnail -->
+    <h2>Your Saved Wraps</h2>
+    {% if wraps %}
+        <ul>
+            {% for wrap in wraps %}
+                <li>
+                    <h3>{{ wrap.name }}</h3>
+                    <p>Time Frame: {{ wrap.time_frame }}</p>
+                    <p>Created On: {{ wrap.created_at|date:"M d, Y" }}</p>
+                    <a href="{% url 'wrap_detail' wrap.id %}" class="btn btn-link">View Details</a>
+                    <form method="POST" action="{% url 'delete-wrap' wrap.id %}"
+                          onsubmit="return confirm('Are you sure you want to delete this wrap?');">
+                        {% csrf_token %}
+                        <button type="submit" class="btn btn-danger">Delete Wrap</button>
+                    </form>
+                    <!-- Optionally, display a thumbnail -->
 
-                        {% if wrap.data.top_tracks %}
-                            <img src="{{ wrap.data.top_tracks.0.album.images.0.url }}" alt="Album Cover" class="thumbnail">
-                        {% endif %}
-                    </li>
+                    {% if wrap.data.top_tracks %}
+                        <img src="{{ wrap.data.top_tracks.0.album.images.0.url }}" alt="Album Cover" class="thumbnail">
+                    {% endif %}
+                </li>
 
-                {% endfor %}
-            </ul>
-        {% else %}
-            <p>You don't have any wraps saved yet. Start your first one above!</p>
-        {% endif %}
-    </div>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>You don't have any wraps saved yet. Start your first one above!</p>
+    {% endif %}
+</div>
 
 <footer>
     <p>

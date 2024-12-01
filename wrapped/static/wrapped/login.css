@@ -4,72 +4,161 @@ body {
     margin: 0;
     padding: 0;
 }
+
+/* Header */
 header {
     background-color: #333;
     padding: 20px;
     color: white;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    text-align: center;
 }
+
 header a.logo {
     text-decoration: none;
     color: white;
-    font-size: 24px;
+    font-size: 1.5rem;
     font-weight: bold;
 }
+
+/* Navigation */
 .nav-links {
     list-style: none;
     display: flex;
     justify-content: flex-end;
+    margin: 0;
+    padding: 0;
+    flex-wrap: wrap;
+    gap: 10px;
 }
+
 .nav-links li {
-    margin: 0 15px;
+    margin: 0 10px;
 }
+
 .nav-links a {
     color: white;
     text-decoration: none;
-    font-size: 18px;
+    font-size: 1rem;
 }
+
+/* Form Container */
 .form-container {
-    width: 40%;
+    width: 90%;
+    max-width: 600px;
     margin: 50px auto;
     padding: 20px;
     background-color: #fff;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
+
 .form-container h2 {
     text-align: center;
     color: #333;
+    font-size: 1.5rem;
 }
+
+/* Form Group */
 .form-group {
     margin-bottom: 20px;
 }
+
 .form-group label {
-    font-size: 16px;
+    font-size: 1rem;
     color: #333;
     display: block;
     margin-bottom: 5px;
 }
+
 .form-group input {
     width: 100%;
     padding: 10px;
-    font-size: 16px;
+    font-size: 1rem;
     border: 1px solid #ddd;
     border-radius: 5px;
 }
+
 .form-group input[type="submit"] {
     background-color: #4CAF50;
     color: white;
     border: none;
     cursor: pointer;
+    font-size: 1rem;
 }
+
 .form-group input[type="submit"]:hover {
     background-color: #45a049;
 }
+
 .form-group .error {
     color: red;
-    font-size: 14px;
+    font-size: 0.875rem;
 }
+
+/* Centered Text */
 .text-center {
     text-align: center;
     margin-top: 10px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    header {
+        padding: 15px;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .nav-links {
+        justify-content: center;
+    }
+
+    .form-container {
+        padding: 15px;
+    }
+
+    .form-container h2 {
+        font-size: 1.25rem;
+    }
+
+    .form-group input {
+        font-size: 0.9rem;
+    }
+
+    .form-group input[type="submit"] {
+        font-size: 0.9rem;
+        padding: 8px;
+    }
+}
+
+@media (max-width: 480px) {
+    header a.logo {
+        font-size: 1.25rem;
+    }
+
+    .nav-links a {
+        font-size: 0.9rem;
+    }
+
+    .form-container {
+        margin: 30px auto;
+        padding: 10px;
+    }
+
+    .form-container h2 {
+        font-size: 1rem;
+    }
+
+    .form-group input {
+        font-size: 0.875rem;
+    }
+
+    .form-group input[type="submit"] {
+        font-size: 0.875rem;
+        padding: 6px;
+    }
 }

@@ -7,133 +7,194 @@
     <title>Über SpotifyWrapped</title>
     <link rel="stylesheet" href="{% static 'wrapped/about.css' %}">
     <style>
-        /* View Mode Styles */
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            transition: all 0.3s ease-in-out;
-        }
+        /* General Styles */
+    body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        transition: all 0.3s ease-in-out;
+    }
 
-        body.light {
-            background-color: #f8f9fa;
-            color: #333;
-        }
+    body.light {
+        background-color: #f8f9fa;
+        color: #333;
+    }
 
-        body.dark {
-            background-color: #121212;
-            color: #ffffff;
-        }
+    body.dark {
+        background-color: #121212;
+        color: #ffffff;
+    }
 
-        body.high_contrast {
-            background-color: #000000;
-            color: #ffff00;
-        }
+    body.high_contrast {
+        background-color: #000000;
+        color: #ffff00;
+    }
 
-        header {
-            padding: 20px 0;
-            background-color: #333;
-            color: #fff;
-            transition: all 0.3s ease-in-out;
-        }
+    /* Header */
+    header {
+        padding: 20px 0;
+        background-color: #333;
+        color: #fff;
+        transition: all 0.3s ease-in-out;
+    }
 
-        body.light header {
-            background-color: #333;
-            color: #fff;
-        }
+    body.light header {
+        background-color: #333;
+        color: #fff;
+    }
 
-        body.dark header {
-            background-color: #1f1f1f;
-            color: #ffffff;
-        }
+    body.dark header {
+        background-color: #1f1f1f;
+        color: #ffffff;
+    }
 
-        body.high_contrast header {
-            background-color: #000000;
-            color: #ffff00;
-        }
+    body.high_contrast header {
+        background-color: #000000;
+        color: #ffff00;
+    }
 
+    header .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        padding: 0 20px;
+    }
+
+    header .logo {
+        font-size: 1.5rem;
+        font-weight: bold;
+        color: inherit;
+        text-align: center;
+        flex: 1 1 auto;
+    }
+
+    /* Navigation Links */
+    header .nav-links {
+        list-style: none;
+        display: flex;
+        justify-content: center;
+        margin: 0;
+        padding: 0;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    header .nav-links li {
+        margin: 0 10px;
+    }
+
+    header .nav-links a {
+        text-decoration: none;
+        font-size: 1rem;
+        color: inherit;
+    }
+
+    /* Logout Button */
+    header .logout-form {
+        display: inline;
+        margin-left: 20px;
+    }
+
+    header .logout-btn {
+        background-color: #1db954;
+        color: white;
+        border: none;
+        padding: 8px 16px;
+        font-size: 1rem;
+        cursor: pointer;
+        border-radius: 5px;
+    }
+
+    header .logout-btn:hover {
+        background-color: #45a049;
+    }
+
+    /* Main Content */
+    .container {
+        max-width: 100%;
+        margin: auto;
+        padding: 20px;
+        box-sizing: border-box;
+    }
+
+    .section {
+        margin-bottom: 40px;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(51, 51, 51, 0.1);
+        background-color: #76b2fe;
+        width: 100%;
+        max-width: 1200px;
+        margin: 0 auto;
+    }
+
+    body.light .section {
+        background-color: #f8f9fa;
+        color: #333;
+    }
+
+    body.dark .section {
+        background-color: #121212;
+        color: #ffffff;
+    }
+
+    body.high_contrast .section {
+        background-color: #000000;
+        color: #ffff00;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
         header .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
+            flex-direction: column;
             align-items: center;
+            text-align: center;
         }
 
-        header .logo {
-            font-size: 24px;
-            font-weight: bold;
-            color: inherit;
-        }
-
-        /* Navigation Links */
         header .nav-links {
-            list-style: none;
-            display: flex;
-            justify-content: flex-end;
-            margin: 0;
-            padding: 0;
-        }
-
-        header .nav-links li {
-            margin: 0 15px;
-        }
-
-        header .nav-links a {
-            text-decoration: none;
-            font-size: 18px;
-            color: inherit;
-        }
-
-        /* Logout Button */
-        header .logout-form {
-            display: inline;
-            margin-left: 20px;
-        }
-
-        header .logout-btn {
-            background-color: #1db954;
-            color: white;
-            border: none;
-            padding: 8px 16px;
-            font-size: 16px;
-            cursor: pointer;
-            border-radius: 5px;
-        }
-
-        header .logout-btn:hover {
-            background-color: #45a049;
-        }
-
-        .container {
-            width: 1000px;
-            margin: auto;
-            padding: 20px;
+            flex-direction: column;
+            gap: 5px;
         }
 
         .section {
-            margin-bottom: 40px;
-            padding: 20px;
-            background: #ffffff;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgb(51, 51, 51);
-            background-color: #76b2fe;
+            padding: 15px;
         }
 
-        body.light .section {
-            background-color: #f8f9fa;
-            color: #333;
+        header .logo {
+            font-size: 1.25rem;
         }
 
-        body.dark .section {
-            background-color: #121212;
-            color: #ffffff;
+        header .nav-links a {
+            font-size: 0.9rem;
         }
 
-        body.high_contrast .section {
-            background-color: #000000;
-            color: #ffff00;
+        header .logout-btn {
+            font-size: 0.9rem;
+            padding: 6px 12px;
         }
+    }
+
+    @media (max-width: 480px) {
+        header {
+            padding: 15px 0;
+        }
+
+        header .logo {
+            font-size: 1rem;
+        }
+
+        .section {
+            padding: 10px;
+        }
+
+        header .logout-btn {
+            font-size: 0.875rem;
+            padding: 5px 10px;
+        }
+    }
     </style>
 </head>
 <body class="{{ view_mode }}">
@@ -199,7 +260,8 @@
 <footer>
     <p>
         Mit ❤️ gemacht von Team SpotifyWrapped |
-        <a href="https://atlfoodfind.github.io/atlFoodFinder/" target="_blank" rel="noopener noreferrer">Kontaktieren Sie uns</a>
+        <a href="https://atlfoodfind.github.io/atlFoodFinder/" target="_blank" rel="noopener noreferrer">Kontaktieren
+            Sie uns</a>
     </p>
 </footer>
 
