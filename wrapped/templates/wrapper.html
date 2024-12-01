@@ -8,6 +8,27 @@
     <title>Your Spotify Wrapped</title>
     <style>
 
+        .genre-item {
+            background-color: #444; /* Background remains the same */
+            color: #fff !important; /* Force text color to white */
+        }
+
+        .genre-item h2 {
+            color: #fff !important; /* Ensure the text remains white */
+        }
+
+        .stats-card h2 {
+            font-size: 1.5rem;
+            margin: 0.5rem 0;
+            color: #fff !important;
+        }
+
+        .stats-card p {
+            margin: 0.25rem 0;
+            font-size: 0.9rem;
+            color: #fff !important;
+        }
+
         .light {
             box-sizing: border-box;
             overflow-x: hidden; /* Prevent horizontal scrolling */
@@ -1131,11 +1152,11 @@
 
 
         .dark a {
-            color: #1DB954; /* Green links in dark mode */
+            color: white; /* Green links in dark mode */
         }
 
         .dark a:hover {
-            color: #a4e7c8; /* Lighter green on hover */
+            color: #4CAF50; /* Lighter green on hover */
         }
 
         /* High contrast mode styles */
