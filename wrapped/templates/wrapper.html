@@ -8,6 +8,376 @@
     <title>Your Spotify Wrapped</title>
     <style>
 
+        /* General styles for streak content */
+        .streak-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 15px; /* Slightly smaller gap */
+        }
+
+        .streak-item {
+            display: flex;
+            flex-direction: column; /* Stack text vertically */
+            align-items: flex-start; /* Align text to the left */
+            justify-content: center;
+            background-color: #444;
+            border-radius: 8px;
+            padding: 10px; /* Reduce padding */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, background-color 0.3s ease;
+        }
+
+        .streak-item:hover {
+            transform: translateY(-3px);
+            background-color: #555;
+        }
+
+        /* Adjust text within streak items */
+        .streak-item h2 {
+            font-size: 1.2rem; /* Smaller font size */
+            margin-bottom: 5px; /* Adjust spacing */
+            color: #fff;
+        }
+
+        .streak-item p {
+            font-size: 0.9rem; /* Smaller font size for details */
+            margin: 0;
+            color: #ddd;
+        }
+
+        /* Mobile adjustments for streak content */
+        @media (max-width: 768px) {
+            .streak-item {
+                padding: 8px; /* Reduce padding further */
+            }
+
+            .streak-item h2 {
+                font-size: 1rem; /* Reduce heading size */
+            }
+
+            .streak-item p {
+                font-size: 0.8rem; /* Reduce detail text size */
+            }
+        }
+
+        /* Ultra-small screens adjustments (e.g., phones) */
+        @media (max-width: 480px) {
+            .streak-item {
+                padding: 5px; /* Compact padding */
+            }
+
+            .streak-item h2 {
+                font-size: 0.9rem; /* Reduce heading size further */
+            }
+
+            .streak-item p {
+                font-size: 0.7rem; /* Smaller text for tight spaces */
+            }
+        }
+        
+
+        /* General adjustments for all slides */
+        @media (max-width: 768px) {
+            .tracks-container,
+            .artists-container,
+            .albums-container,
+            .genres-container,
+            .mood-playlists-container,
+            .listening-stats-container {
+                gap: 10px; /* Reduce spacing between cards */
+                padding: 10px; /* Compact padding inside containers */
+            }
+
+            .track-item,
+            .artist-card,
+            .album-card,
+            .genre-item,
+            .stats-card {
+                flex: 0 1 calc(50% - 10px); /* Show two items per row */
+                padding: 10px; /* Smaller card padding */
+                margin: 5px; /* Reduce margin between items */
+                font-size: 0.8rem; /* Reduce overall font size */
+            }
+
+            .track-item img,
+            .artist-card img,
+            .album-card img,
+            .genre-item img {
+                width: 50px; /* Smaller images */
+                height: 50px;
+                border-radius: 5px;
+                margin-bottom: 5px;
+            }
+
+            .track-info h2,
+            .artist-info h2,
+            .album-info h2 {
+                font-size: 1rem; /* Reduce heading size */
+            }
+
+            .track-info p,
+            .artist-info p,
+            .album-info p {
+                font-size: 0.7rem; /* Smaller details */
+            }
+        }
+
+        /* Ultra-small screens (phones) */
+        @media (max-width: 480px) {
+            .tracks-container,
+            .artists-container,
+            .albums-container,
+            .genres-container,
+            .mood-playlists-container,
+            .listening-stats-container {
+                gap: 5px; /* Even less spacing between cards */
+                padding: 5px; /* Compact padding inside containers */
+            }
+
+            .track-item,
+            .artist-card,
+            .album-card,
+            .genre-item,
+            .stats-card {
+                flex: 0 1 calc(100% - 10px); /* Show one item per row */
+                padding: 8px; /* Compact card padding */
+                margin: 5px 0; /* Reduce vertical spacing */
+            }
+
+            .track-item img,
+            .artist-card img,
+            .album-card img,
+            .genre-item img {
+                width: 40px; /* Even smaller images */
+                height: 40px;
+            }
+
+            .track-info h2,
+            .artist-info h2,
+            .album-info h2 {
+                font-size: 0.9rem; /* Smaller heading size */
+            }
+
+            .track-info p,
+            .artist-info p,
+            .album-info p {
+                font-size: 0.6rem; /* Smaller details */
+            }
+
+            .playlist-grid {
+                grid-template-columns: repeat(auto-fit, minmax(40px, 1fr)); /* Compact grid */
+                gap: 5px;
+            }
+
+            .playlist-item .album-art {
+                width: 40px; /* Smaller playlist image */
+                height: 40px;
+            }
+        }
+
+
+        
+        /* Ensure header does not overlap content */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background-color: #333;
+            padding: 15px 0;
+            color: white;
+        }
+
+        /* Ensure body margin to prevent content overlap with header */
+        body {
+            margin: 0;
+            font-family: 'Helvetica Neue', Arial, sans-serif;
+            background-color: #121212;
+            color: white;
+            overflow-x: hidden; /* Prevent horizontal scrolling */
+            overflow-y: hidden; /* Prevent vertical scrolling */
+            height: 100vh; /* Fit viewport height */
+        }
+
+        /* Keep the slides aligned horizontally */
+        .slide-container {
+            display: flex;
+            width: 100%;
+            min-height: 100vh;
+            overflow: hidden; /* Prevent vertical scrolling here */
+            transition: transform 0.7s ease-in-out;
+        }
+
+        /* Each slide takes full viewport width */
+        /* Default layout: side-by-side */
+        .slide {
+            display: flex;
+            flex-direction: row; /* Side-by-side layout for larger screens */
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px;
+            gap: 20px;
+            text-align: left; /* Align text to the left */
+        }
+
+        /* Text container styles */
+        .slide .text-content {
+            flex: 1; /* Take equal space as the image/content */
+            padding: 20px;
+        }
+
+        /* Content (image or additional visuals) container */
+        .slide .image-content {
+            flex: 1; /* Take equal space as the text */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .slide .image-content img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+        }
+
+        /* Mobile adjustments */
+        @media (max-width: 768px) {
+            .slide {
+                flex-direction: column; /* Stack text and image vertically */
+                text-align: center; /* Center align for readability */
+            }
+
+            .slide .text-content {
+                padding: 10px 0;
+            }
+        }
+
+        /* Mobile adjustments */
+        /* Mobile adjustments */
+        /* Mobile adjustments */
+        @media (max-width: 768px) {
+            .slide {
+                flex-direction: column; /* Stack text and image vertically */
+                text-align: center; /* Center-align text */
+                padding: 15px; /* Consistent padding */
+                margin-top: 5px; /* Bring content closer to the top */
+                gap: 15px; /* Maintain space between elements */
+            }
+
+            .slide .text-content {
+                padding-top: 5px; /* Maintain minimal padding */
+            }
+
+            .slide .image-content {
+                margin-top: 5px; /* Adjust spacing between text and image */
+            }
+
+            .slide .image-content img {
+                width: 90%; /* Scale images for smaller screens */
+                height: auto;
+                margin: 0 auto; /* Center the image */
+            }
+        }
+
+        /* Ultra-small screens adjustments (e.g., phones) */
+        @media (max-width: 480px) {
+            .slide {
+                padding: 10px; /* Ensure proper padding */
+                margin-top: 5px; /* Bring content very close to the top */
+            }
+
+            .slide .image-content img {
+                width: 90%; /* Scale images for smaller screens */
+                height: auto;
+                margin: 0 auto; /* Center the image */
+            }
+        }
+
+        /* Mobile-specific adjustments */
+        @media (max-width: 768px) {
+            .controls {
+                bottom: 30px; /* Position buttons lower on mobile */
+            }
+        }
+
+        /* Ultra-small screens adjustments */
+        @media (max-width: 480px) {
+            .controls {
+                bottom: 20px; /* Lower the buttons further for smaller screens */
+            }
+        }
+
+
+        /* Slide content styles */
+        .slide h1 {
+            font-size: clamp(2rem, 6vw, 3rem);
+            margin-bottom: 20px;
+        }
+
+        /* Adjust controls for better placement */
+        .controls {
+            position: absolute; /* Stay at the bottom of the viewport */
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            z-index: 100; /* Ensure they stay on top of content */
+        }
+
+        /* Next and previous buttons */
+        .controls button {
+            padding: 10px 20px;
+            background-color: #1DB954;
+            color: #ffffff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: clamp(14px, 4vw, 16px);
+            transition: all 0.3s ease;
+        }
+
+        .controls button:hover {
+            background-color: #1ed760;
+        }
+
+        .controls button:active {
+            transform: scale(0.95);
+        }
+
+        /* Responsive adjustments for smaller screens */
+        @media (max-width: 768px) {
+            /* Adjust slide content for smaller screens */
+            .slide {
+                padding: 15px;
+            }
+
+            /* Controls remain centered */
+            .controls {
+                gap: 15px;
+            }
+        }
+
+        /* Ultra-small screens adjustments */
+        @media (max-width: 480px) {
+            /* Reduce text sizes */
+            .slide h1 {
+                font-size: clamp(1.5rem, 5vw, 2rem);
+            }
+
+            header .logo {
+                font-size: 18px;
+            }
+
+            .controls button {
+                font-size: 12px;
+                padding: 8px 12px;
+            }
+        }
+
         /* Base Responsive Styles */
         * {
             box-sizing: border-box;
@@ -378,7 +748,6 @@
             background-color: #121212;
             color: white;
             overflow-x: hidden;
-            overflow-y: hidden; /* Prevent vertical scrolling */
         }
 
         header {
@@ -899,7 +1268,7 @@
         </div>
 
         <div class="slide" id="slide2">
-            <h1>Your Top Tracks <br> (Time Frame: {{ time_frame }})</h1>
+            <h1>Your Top Tracks <br></h1>
             <div class="tracks-container">
                 {% for track in top_tracks %}
                     <div class="track-item">
@@ -1007,7 +1376,7 @@
         </div>
 
         <div class="slide" id="slide7">
-            <h1>Your Longest Track Streaks</h1>
+            <h1>Your Longest Streaks</h1>
             <div class="card">
                 <ul class="streak-list">
                     {% for track in longest_streaks %}
