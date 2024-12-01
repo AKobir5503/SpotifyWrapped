@@ -6,7 +6,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Acerca de SpotifyWrapped</title>
     <style>
-
         /* General Styles */
         body {
             font-family: Arial, sans-serif;
@@ -36,10 +35,25 @@
 
         /* Header */
         header {
-            padding: 20px;
+            padding: 20px 0;
             background-color: #333;
             color: #fff;
             transition: all 0.3s ease-in-out;
+        }
+
+        body.light header {
+            background-color: #333;
+            color: #fff;
+        }
+
+        body.dark header {
+            background-color: #1f1f1f;
+            color: #ffffff;
+        }
+
+        body.high_contrast header {
+            background-color: #000000;
+            color: #ffff00;
         }
 
         header .container {
@@ -49,34 +63,43 @@
             justify-content: space-between;
             align-items: center;
             flex-wrap: wrap;
+            padding: 0 20px;
         }
 
         header .logo {
-            font-size: 24px;
+            font-size: 1.5rem;
             font-weight: bold;
             color: inherit;
+            text-align: center;
+            flex: 1 1 auto;
         }
 
         header .nav-links {
             list-style: none;
             display: flex;
+            justify-content: center;
             margin: 0;
             padding: 0;
-            gap: 15px;
             flex-wrap: wrap;
+            gap: 10px;
         }
 
         header .nav-links li {
-            margin: 0;
+            margin: 0 10px;
         }
 
         header .nav-links a {
             text-decoration: none;
-            font-size: 18px;
+            font-size: 1rem;
             color: inherit;
         }
 
         /* Logout Button */
+        header .logout-form {
+            display: inline;
+            margin-left: 20px;
+        }
+
         header .logout-btn {
             background-color: #1db954;
             color: white;
@@ -85,7 +108,6 @@
             font-size: 1rem;
             cursor: pointer;
             border-radius: 5px;
-            transition: background-color 0.3s ease;
         }
 
         header .logout-btn:hover {
@@ -154,6 +176,10 @@
         .stats-info {
             font-size: 1rem;
             color: #ddd;
+        }
+
+        header .logo:hover {
+            color: #4CAF50;
         }
 
         /* General Button Updates */
@@ -339,10 +365,6 @@
             }
         }
 
-        header .logo:hover {
-            color: #4CAF50;
-        }
-
         @media (max-width: 480px) {
             .stats-container {
                 grid-template-columns: 1fr;
@@ -356,7 +378,6 @@
                 font-size: 1.5rem;
             }
         }
-
     </style>
 </head>
 <body class="{{ view_mode }}">
