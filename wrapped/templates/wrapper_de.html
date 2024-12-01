@@ -6,7 +6,6 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <title>Dein Spotify Wrapped</title>
     <style>
-
         body {
             margin: 0;
             font-family: 'Helvetica Neue', Arial, sans-serif;
@@ -541,6 +540,180 @@
                 font-size: 14px;
             }
         }
+
+        #slide7 {
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 0px 0px rgba(0, 0, 0, 0.2);
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        /* Light mode styles */
+        body.light #slide7 {
+            background-color: #f9f9f9;
+            color: #000;
+        }
+
+        /* Dark mode styles */
+        body.dark #slide7 {
+            background-color: #1c1c1c;
+            color: #e0e0e0;
+        }
+
+        /* High contrast mode styles */
+        body.high_contrast #slide7 {
+            background-color: #000;
+            color: #ff0;
+        }
+
+        .card {
+            background-color: #333;
+            border-radius: 10px;
+            padding: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .streak-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .streak-item {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            background-color: #444;
+            border-radius: 8px;
+            padding: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+            transition: transform 0.3s ease, background-color 0.3s ease;
+        }
+
+        .streak-item:hover {
+            transform: translateY(-5px);
+            background-color: #555;
+        }
+
+        .track-info {
+            display: flex;
+            align-items: center;
+            justify-content: flex-start;
+            width: 100%;
+        }
+
+        .track-image {
+            flex-shrink: 0;
+            margin-right: 15px;
+        }
+
+        .album-art {
+            width: 70px;
+            height: 70px;
+            border-radius: 10px;
+            object-fit: cover;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        }
+
+        .track-details {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+            justify-content: space-between;
+            width: 100%;
+        }
+
+        .track-name {
+            font-size: 1.2em;
+            color: #f39c12;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .track-streak-container {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 100%;
+        }
+
+        .track-streak {
+            font-size: 1.5em;
+            color: #e74c3c;
+            font-weight: bold;
+        }
+
+        .streak-label {
+            font-size: 1.1em;
+            color: #e74c3c;
+            font-weight: normal;
+            margin-left: 5px;
+        }
+
+        .track-emoji {
+            font-size: 2em;
+            margin-left: 10px;
+        }
+
+        /* Styling the title */
+        .save-title {
+            font-size: 2.5em;
+            font-weight: bold;
+            color: #1db954; /* Spotify's signature green */
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        /* Descriptive paragraph */
+        .save-description {
+            font-size: 1.1em;
+            color: #333;
+            text-align: center;
+            margin-bottom: 30px;
+            font-family: 'Helvetica', sans-serif;
+        }
+
+        /* The button and form */
+        .save-wrap {
+            text-align: center;
+            padding: 20px;
+        }
+
+        .save-form {
+            display: inline-block;
+            margin-top: 10px;
+        }
+
+        /* Button style */
+        .btn-save {
+            background-color: #1db954; /* Spotify green */
+            color: white;
+            font-size: 1.2em;
+            padding: 15px 40px;
+            border: none;
+            border-radius: 30px;
+            cursor: pointer;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .btn-save:hover {
+            background-color: #17ad48; /* Slightly darker green for hover */
+            transform: translateY(-2px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        .btn-save:active {
+            transform: translateY(0);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+
     </style>
 
 </head>
@@ -679,17 +852,32 @@
         </div>
 
         <div class="slide" id="slide7">
-            <h2>Deine längsten Songserien</h2>
+            <h1>Deine längsten Track-Serien</h1>
             <div class="card">
-                <ul>
+                <ul class="streak-list">
                     {% for track in longest_streaks %}
-                        <li style="list-style-type: none; margin: 10px 0;">{{ track.name }} - {{ track.streak }} Mal
-                            hintereinander gespielt
+                        <li class="streak-item">
+                            <div class="track-info">
+                                <div class="track-image">
+                                    <!-- Verwenden Sie album_art_url aus dem Backend -->
+                                    <img src="{{ track.album_art_url | default:'/static/default_album_cover.jpg' }}"
+                                         alt="Albumcover von {{ track.name }}" class="album-cover">
+                                </div>
+                                <div class="track-details">
+                                    <span class="track-name">{{ track.name }}</span>
+                                    <div class="track-streak-container">
+                                <span class="track-streak">{{ track.streak }}<span
+                                        class="streak-label"> Wiedergaben</span></span>
+                                        <span class="track-emoji">🎶</span>
+                                    </div>
+                                </div>
+                            </div>
                         </li>
                     {% endfor %}
                 </ul>
             </div>
         </div>
+
 
         {{ listening_patterns|json_script:"listening-patterns-data" }}
         {{ genre_breakdown|json_script:"genre-breakdown-data" }}
@@ -778,11 +966,11 @@
             // Calculate the offset and move the slide container
             slideContainer.style.transform = `translateX(-${slideNumber * 100}vw)`;
             currentSlide = slideNumber;
-            
+
             // Show/hide navigation buttons
             const prevButton = document.querySelector('.controls button:nth-child(1)');
             const nextButton = document.querySelector('.controls button:nth-child(2)');
-        
+
             prevButton.style.display = currentSlide === 0 ? 'none' : 'inline-block';
             nextButton.style.display = currentSlide === totalSlides - 1 ? 'none' : 'inline-block';
         }

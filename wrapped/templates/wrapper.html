@@ -545,10 +545,28 @@
         #slide7 {
             padding: 20px;
             border-radius: 15px;
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 px 0px rgba(0, 0, 0, 0.2);
             font-family: 'Arial', sans-serif;
-            color: white;
             text-align: center;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        /* Light mode styles */
+        body.light #slide7 {
+            background-color: #f9f9f9;
+            color: #000;
+        }
+
+        /* Dark mode styles */
+        body.dark #slide7 {
+            background-color: #1c1c1c;
+            color: #e0e0e0;
+        }
+
+        /* High contrast mode styles */
+        body.high_contrast #slide7 {
+            background-color: #000;
+            color: #ff0;
         }
 
         .card {
