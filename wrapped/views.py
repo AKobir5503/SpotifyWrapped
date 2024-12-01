@@ -247,8 +247,8 @@ def generate_wrap(request):
     top_tracks = response_tracks.json().get('items', []) if response_tracks.status_code == 200 else []
     top_artists = response_artists.json().get('items', []) if response_artists.status_code == 200 else []
     #display limit to 5
-    top_tracks_display = top_tracks[:5]
-    top_artists_display = top_artists[:5]
+    top_tracks_display = top_tracks[:3]
+    top_artists_display = top_artists[:3]
     # Get track IDs from top tracks
     track_ids = [track['id'] for track in top_tracks]
 
@@ -278,7 +278,7 @@ def generate_wrap(request):
             'artist': track['album']['artists'][0]['name'],
             'image_url': track['album']['images'][0]['url'] if track['album']['images'] else None
         }
-        for track in top_tracks[:5]
+        for track in top_tracks[:3]
     ]
 
     # Initialize mood playlists
@@ -289,7 +289,7 @@ def generate_wrap(request):
     }
 
     # Categorize tracks based on multiple audio features
-    for track, features in zip(top_tracks_display[:5], audio_features):
+    for track, features in zip(top_tracks_display[:3], audio_features):
         # Ensure the feature is available
         if features and all(key in features for key in ['energy', 'danceability', 'valence']):
             energy = features['energy']
