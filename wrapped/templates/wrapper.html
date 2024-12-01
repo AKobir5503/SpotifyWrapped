@@ -788,6 +788,13 @@
             // Calculate the offset and move the slide container
             slideContainer.style.transform = `translateX(-${slideNumber * 100}vw)`;
             currentSlide = slideNumber;
+            
+            // Show/hide navigation buttons
+            const prevButton = document.querySelector('.controls button:nth-child(1)');
+            const nextButton = document.querySelector('.controls button:nth-child(2)');
+        
+            prevButton.style.display = currentSlide === 0 ? 'none' : 'inline-block';
+            nextButton.style.display = currentSlide === totalSlides - 1 ? 'none' : 'inline-block';
         }
 
         // Navigation buttons
