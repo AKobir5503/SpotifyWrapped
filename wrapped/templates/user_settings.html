@@ -7,6 +7,30 @@
     <title>About SpotifyWrapped</title>
     <link rel="stylesheet" href="{% static 'wrapped/about.css' %}">
     <style>
+        /* Common button styling */
+        /* Common button styling */
+        .button {
+            background-color: #4CAF50; /* Green background */
+            color: white; /* White text */
+            border: none; /* No border */
+            padding: 6px 12px; /* Reduced padding for a skinnier look */
+            font-size: 14px; /* Smaller text size */
+            cursor: pointer; /* Pointer cursor on hover */
+            border-radius: 5px; /* Rounded corners */
+            transition: background-color 0.3s; /* Smooth transition for hover effect */
+        }
+
+        .button:hover {
+            background-color: #45a049; /* Darker green background on hover */
+        }
+
+
+        /* Apply the common button class to HTML elements */
+        /* Example HTML:
+        <button class="button">Save Settings</button>
+        <button class="button">Delete My Account</button>
+        */
+
         /* Sticky Footer */
         html, body {
             height: 100%;
@@ -449,7 +473,7 @@
                 <option value="de" {% if language == "de" %}selected{% endif %}>German</option>
             </select>
             <br><br>
-            <button type="submit">Save Settings</button>
+            <button type="submit" class="button">Save Settings</button>
         </form>
 
         <!-- Account Deletion Section: This is where I added the account deletion option -->
@@ -461,7 +485,7 @@
                 <!-- Form to delete the account -->
                 <form method="POST" action="{% url 'delete_account' %}">
                     {% csrf_token %}
-                    <button type="submit" class="delete-account-btn">Delete My Account</button>
+                    <button type="submit" class="button">Delete My Account</button>
                 </form>
             </div>
         {% endif %}
