@@ -392,9 +392,12 @@ def generate_wrap(request):
         for track_id, streak_count in sorted_streaks:
             track_data = next((item['track'] for item in recently_played if item['track']['id'] == track_id), None)
             if track_data:
+                # Get album artwork URL
+                album_art_url = track_data['album']['images'][1]['url'] if 'images' in track_data['album'] else None
                 longest_streaks.append({
                     'name': track_data['name'],
-                    'streak': streak_count
+                    'streak': streak_count,
+                    'album_art_url': album_art_url  # Add album art URL here
                 })
 
         return longest_streaks
