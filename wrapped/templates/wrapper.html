@@ -949,10 +949,27 @@
         .chart-container {
             width: 100%;
             max-width: 600px;
-            height: 300px;
+            height: 400px;
             background-color: #222;
             border-radius: 8px;
             margin: 20px 0;
+        }
+        .chart-container-table {
+            width: 100%;
+            max-width: 600px;
+            height: 250px;
+            background-color: #222;
+            border-radius: 8px;
+            margin: 20px 0;
+        }
+        .light .chart-title {
+            color: #ffffff;
+            text-align: center;
+        }
+        
+        .light .chart-description{
+            color: #ffffff;
+            text-align: center;
         }
 
         .albums-container {
@@ -1002,10 +1019,12 @@
         }
 
         .mood-playlists-container {
-            display: flex;
+            display: table-column;
             gap: 20px;
             justify-content: space-around;
         }
+        
+        
 
         .card {
             border-radius: 10px;
@@ -1424,7 +1443,7 @@
         <div class="slide" id="slide9">
             <h1>Your Most Listened times</h1>
             <!-- Time of Day Listening Graph -->
-            <div class="chart-container">
+            <div class="chart-container-table">
                 <h2 class="chart-title">Listening Habits</h2>
                 <div class="chart-wrapper">
                     <canvas id="timeOfDayChart"></canvas>
