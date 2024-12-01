@@ -8,6 +8,27 @@
     <title>Your Spotify Wrapped</title>
     <style>
 
+        .light {
+            box-sizing: border-box;
+            overflow-x: hidden; /* Prevent horizontal scrolling */
+            overflow-y: auto; /* Allow vertical scrolling */
+        }
+
+        .dark {
+            position: relative;
+            box-sizing: border-box;
+            overflow-x: hidden; /* Prevent horizontal scrolling */
+            overflow-y: auto; /* Allow vertical scrolling */
+        }
+
+        .high_contrast {
+            position: relative;
+            box-sizing: border-box;
+            overflow-x: hidden; /* Prevent horizontal scrolling */
+            overflow-y: auto; /* Allow vertical scrolling */
+        }
+
+
         /* General styles for streak content */
         .streak-list {
             list-style: none;
@@ -179,10 +200,9 @@
         }
 
 
-
         /* Ensure header does not overlap content */
         header {
-            position: sticky;
+            position: relative;
             top: 0;
             z-index: 1000;
             background-color: #333;
@@ -657,6 +677,8 @@
         .high_contrast {
             background-color: #000000;
             color: #FFFF00;
+            overflow-y: auto; /* Prevent vertical overflow within the container */
+            position: relative;
         }
 
         /* Tablet and Mobile Adjustments */
@@ -954,6 +976,7 @@
             border-radius: 8px;
             margin: 20px 0;
         }
+
         .chart-container-table {
             width: 100%;
             max-width: 600px;
@@ -962,12 +985,13 @@
             border-radius: 8px;
             margin: 20px 0;
         }
+
         .light .chart-title {
             color: #ffffff;
             text-align: center;
         }
-        
-        .light .chart-description{
+
+        .light .chart-description {
             color: #ffffff;
             text-align: center;
         }
@@ -1023,8 +1047,7 @@
             gap: 20px;
             justify-content: space-around;
         }
-        
-        
+
 
         .card {
             border-radius: 10px;
@@ -1101,6 +1124,7 @@
         }
 
         .dark .header {
+            position: relative;
             background-color: #333; /* Dark background for header */
             color: #f1f1f1;
         }
@@ -1121,6 +1145,7 @@
         }
 
         .high_contrast header {
+            position: relative;
             background-color: #000000; /* Black header */
             color: #FFFF00; /* Yellow header text */
         }
@@ -1134,18 +1159,20 @@
         }
 
         /* Mobile Adjustments */
+        /* General Mobile Adjustments (Small and Medium Devices) */
         @media (max-width: 768px) {
-            /* Make track, artist, and album cards full-width on smaller screens */
+            /* Cards (Track, Artist, Album, Genre) */
             .track-item, .artist-card, .album-card, .genre-item {
-                width: 100%; /* Full width on smaller screens */
+                width: 100%; /* Full width */
                 flex-direction: column;
-                margin: 10px;
+                margin: 5%;
             }
 
-            /* Adjust navigation links to be stacked vertically */
+            /* Navigation */
             header .nav-links {
                 flex-direction: column;
                 align-items: center;
+                gap: 10px; /* Add spacing between links */
             }
 
             header .container, .slide {
@@ -1153,107 +1180,127 @@
                 text-align: center;
             }
 
-            /* Adjust header logo size and padding for smaller screens */
+            /* Logo and Header */
             header .logo {
-                font-size: 20px;
+                font-size: 1.25rem; /* Relative font size */
             }
 
-            /* Dark mode styles */
+            /* Slide Content */
+            .slide h1 {
+                font-size: 2rem; /* Slightly smaller on medium devices */
+            }
+
+            /* Listening Stats (Adjust Layout) */
+            .listening-stats-container {
+                display: flex;
+                justify-content: center;
+                flex-wrap: wrap;
+                gap: 15px;
+                margin-top: 10px;
+            }
+
+            .stats-card {
+                background-color: #1DB954;
+                padding: 1rem;
+                border-radius: 10px;
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+                text-align: center;
+                width: 45%; /* Two per row */
+                max-width: 300px; /* Cap size for larger devices */
+            }
+
+            .stats-card h2 {
+                font-size: 1.5rem;
+                margin: 0.5rem 0;
+                color: #fff;
+            }
+
+            .stats-card p {
+                margin: 0.25rem 0;
+                font-size: 0.9rem;
+                color: #fff;
+            }
+
+            /* Controls */
+            .controls {
+                width: 100%;
+                display: flex;
+                justify-content: space-around;
+                position: static;
+                transform: none;
+            }
+
+            /* Theme-Specific Adjustments */
+            body.light #slide7 {
+                background-color: #ffffff;
+                color: #000000;
+            }
+
             body.dark #slide7 {
                 background-color: #121212;
                 color: #e0e0e0;
             }
 
-            /* High contrast mode styles */
             body.high_contrast #slide7 {
-                background-color: #000;
-                color: #ff0;
-            }
-
-            .slide h1 {
-                font-size: 2.5rem;
-            }
-
-            .listening-stats-container {
-                display: flex;
-                justify-content: center;
-                flex-wrap: wrap;
-                gap: 20px;
-                margin-top: 20px;
-            }
-
-            .stats-card {
-                background-color: #1DB954;
-                padding: 20px;
-                border-radius: 10px;
-                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-                text-align: center;
-                width: 250px;
-            }
-
-            .stats-card h2 {
-                font-size: 2rem;
-                margin: 10px 0;
-                color: #fff;
-            }
-
-            .stats-card p {
-                margin: 5px 0;
-                color: #fff;
-            }
-
-            /* Adjust controls for smaller screens */
-            .controls {
-                width: 100%;
-                position: static;
-                transform: none;
-                display: flex;
-                justify-content: space-around;
+                background-color: #000000;
+                color: #ffff00;
             }
         }
 
-        /* Light mode specific adjustments */
-        .light {
-            background-color: #ffffff;
-            color: #000000;
-        }
 
-        .light .header {
-            background-color: #f1f1f1; /* Light background for header */
-            color: #333;
-        }
-
-
-        .light a {
-            color: #ffffff; /* Blue links in light mode */
-        }
-
-        .light a:hover {
-            color: #555;
-        }
-
+        /* Ultra-Small Phones (320px - 480px) */
         @media (max-width: 480px) {
-            /* Make text smaller on mobile */
+            /* General Font Adjustments */
             body {
-                font-size: 14px;
+                font-size: 0.9rem; /* Smaller base font */
             }
 
             header .logo {
-                font-size: 18px;
+                font-size: 1rem; /* Further reduce size */
             }
 
             .slide h1 {
-                font-size: 2rem;
+                font-size: 1.5rem; /* Fit smaller screens */
             }
 
+            /* Cards */
             .track-info h2, .artist-info h2, .album-info h2 {
-                font-size: 1.2rem;
+                font-size: 1rem;
             }
 
             .track-info p, .artist-info p, .album-info p {
-                font-size: 0.8rem;
+                font-size: 0.75rem;
+            }
+
+            /* Stats Cards */
+            .stats-card {
+                width: 90%; /* Full width for small phones */
+            }
+
+            /* Buttons */
+            .controls button {
+                padding: 0.5rem 1rem;
+                font-size: 0.85rem;
             }
         }
+
+        /* Edge Cases for Large Phones (600px) */
+        @media (max-width: 600px) {
+            /* Slightly larger cards for better spacing */
+            .stats-card {
+                width: 70%;
+                max-width: 300px;
+            }
+
+            .slide h1 {
+                font-size: 1.75rem; /* Adjust to fit better */
+            }
+
+            header .logo {
+                font-size: 1.15rem;
+            }
+        }
+
     </style>
 
 </head>
