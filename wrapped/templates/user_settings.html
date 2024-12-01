@@ -7,194 +7,388 @@
     <title>About SpotifyWrapped</title>
     <link rel="stylesheet" href="{% static 'wrapped/about.css' %}">
     <style>
-        /* General Styles */
-    body {
-        font-family: Arial, sans-serif;
-        margin: 0;
-        padding: 0;
-        transition: all 0.3s ease-in-out;
-    }
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+            color: #333;
+        }
 
-    body.light {
-        background-color: #f8f9fa;
-        color: #333;
-    }
+        /* Header Styles */
+        header {
+            background-color: #333;
+            padding: 20px 0;
+            color: white;
+        }
 
-    body.dark {
-        background-color: #121212;
-        color: #ffffff;
-    }
-
-    body.high_contrast {
-        background-color: #000000;
-        color: #ffff00;
-    }
-
-    /* Header */
-    header {
-        padding: 20px 0;
-        background-color: #333;
-        color: #fff;
-        transition: all 0.3s ease-in-out;
-    }
-
-    body.light header {
-        background-color: #333;
-        color: #fff;
-    }
-
-    body.dark header {
-        background-color: #1f1f1f;
-        color: #ffffff;
-    }
-
-    body.high_contrast header {
-        background-color: #000000;
-        color: #ffff00;
-    }
-
-    header .container {
-        max-width: 1200px;
-        margin: 0 auto;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        flex-wrap: wrap;
-        padding: 0 20px;
-    }
-
-    header .logo {
-        font-size: 1.5rem;
-        font-weight: bold;
-        color: inherit;
-        text-align: center;
-        flex: 1 1 auto;
-    }
-
-    /* Navigation Links */
-    header .nav-links {
-        list-style: none;
-        display: flex;
-        justify-content: center;
-        margin: 0;
-        padding: 0;
-        flex-wrap: wrap;
-        gap: 10px;
-    }
-
-    header .nav-links li {
-        margin: 0 10px;
-    }
-
-    header .nav-links a {
-        text-decoration: none;
-        font-size: 1rem;
-        color: inherit;
-    }
-
-    /* Logout Button */
-    header .logout-form {
-        display: inline;
-        margin-left: 20px;
-    }
-
-    header .logout-btn {
-        background-color: #1db954;
-        color: white;
-        border: none;
-        padding: 8px 16px;
-        font-size: 1rem;
-        cursor: pointer;
-        border-radius: 5px;
-    }
-
-    header .logout-btn:hover {
-        background-color: #45a049;
-    }
-
-    /* Main Content */
-    .container {
-        max-width: 100%;
-        margin: auto;
-        padding: 20px;
-        box-sizing: border-box;
-    }
-
-    .section {
-        margin-bottom: 40px;
-        padding: 20px;
-        border-radius: 10px;
-        box-shadow: 0 4px 8px rgba(51, 51, 51, 0.1);
-        background-color: #76b2fe;
-        width: 100%;
-        max-width: 1200px;
-        margin: 0 auto;
-    }
-
-    body.light .section {
-        background-color: #f8f9fa;
-        color: #333;
-    }
-
-    body.dark .section {
-        background-color: #121212;
-        color: #ffffff;
-    }
-
-    body.high_contrast .section {
-        background-color: #000000;
-        color: #ffff00;
-    }
-
-    /* Responsive Design */
-    @media (max-width: 768px) {
         header .container {
-            flex-direction: column;
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
             align-items: center;
-            text-align: center;
+        }
+
+        header .logo {
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        header .logo:hover {
+            color: #4CAF50;
         }
 
         header .nav-links {
-            flex-direction: column;
-            gap: 5px;
+            list-style: none;
+            display: flex;
+            justify-content: flex-end;
+            margin: 0;
+            padding: 0;
         }
 
-        .section {
-            padding: 15px;
-        }
-
-        header .logo {
-            font-size: 1.25rem;
+        header .nav-links li {
+            margin: 0 15px;
         }
 
         header .nav-links a {
-            font-size: 0.9rem;
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+        }
+
+        header .nav-links a:hover {
+            color: #4CAF50;
+        }
+
+        /* Logout button */
+        header .logout-form {
+            display: inline;
+            margin-left: 20px;
         }
 
         header .logout-btn {
-            font-size: 0.9rem;
-            padding: 6px 12px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 5px;
         }
-    }
 
-    @media (max-width: 480px) {
-        header {
-            padding: 15px 0;
+        header .logout-btn:hover {
+            background-color: #45a049;
         }
 
-        header .logo {
-            font-size: 1rem;
+        .nav-links a:hover {
+            color: #4CAF50;
+            text-decoration: underline;
+        }
+
+        .container {
+            max-width: 1000px;
+            margin: auto;
+            padding: 20px;
         }
 
         .section {
-            padding: 10px;
+            margin-bottom: 40px;
+            padding: 20px;
+            background: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .section h2 {
+            color: #1db954;
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+
+        .section p {
+            font-size: 18px;
+            margin: 10px 0;
+        }
+
+        .team {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+        }
+
+        .team-member {
+            text-align: center;
+            margin: 20px;
+            max-width: 200px;
+        }
+
+        .team-member img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin-bottom: 10px;
+        }
+
+        .team-member h3 {
+            margin: 5px 0;
+            font-size: 20px;
+            color: #333;
+        }
+
+        .team-member p {
+            font-size: 16px;
+            color: #555;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #333;
+            color: #fff;
+            transition: all 0.3s ease-in-out;
+        }
+
+        body.light footer {
+            background-color: #333;
+            color: #fff;
+        }
+
+        body.dark footer {
+            background-color: #1f1f1f;
+            color: #ffffff;
+        }
+
+        body.high_contrast footer {
+            background-color: #000000;
+            color: #ffff00;
+        }
+
+        footer a {
+            color: #1db954;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* General Styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            transition: all 0.3s ease-in-out;
+        }
+
+        body.light {
+            background-color: #f8f9fa;
+            color: #333;
+        }
+
+        body.dark {
+            background-color: #121212;
+            color: #ffffff;
+        }
+
+        body.high_contrast {
+            background-color: #000000;
+            color: #ffff00;
+        }
+
+        /* Header */
+        header {
+            padding: 20px 0;
+            background-color: #333;
+            color: #fff;
+            transition: all 0.3s ease-in-out;
+        }
+
+        body.light header {
+            background-color: #333;
+            color: #fff;
+        }
+
+        body.dark header {
+            background-color: #1f1f1f;
+            color: #ffffff;
+        }
+
+        body.high_contrast header {
+            background-color: #000000;
+            color: #ffff00;
+        }
+
+        header .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            padding: 0 20px;
+        }
+
+        header .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: inherit;
+            text-align: center;
+            flex: 1 1 auto;
+        }
+
+        /* Navigation Links */
+        header .nav-links {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            margin: 0;
+            padding: 0;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        header .nav-links li {
+            margin: 0 10px;
+        }
+
+        header .nav-links a {
+            text-decoration: none;
+            font-size: 1rem;
+            color: inherit;
+        }
+
+        /* Logout Button */
+        header .logout-form {
+            display: inline;
+            margin-left: 20px;
         }
 
         header .logout-btn {
-            font-size: 0.875rem;
-            padding: 5px 10px;
+            background-color: #1db954;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            font-size: 1rem;
+            cursor: pointer;
+            border-radius: 5px;
         }
-    }
+
+        header .logout-btn:hover {
+            background-color: #45a049;
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 100%;
+            margin: auto;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .section {
+            margin-bottom: 40px;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(51, 51, 51, 0.1);
+            background-color: #76b2fe;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        body.light .section {
+            background-color: #f8f9fa;
+            color: #333;
+        }
+
+        body.dark .section {
+            background-color: #121212;
+            color: #ffffff;
+        }
+
+        body.high_contrast .section {
+            background-color: #000000;
+            color: #ffff00;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            header .container {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+
+            header .nav-links {
+                flex-direction: column;
+                gap: 5px;
+            }
+
+            .section {
+                padding: 15px;
+            }
+
+            header .logo {
+                font-size: 1.25rem;
+            }
+
+            header .nav-links a {
+                font-size: 0.9rem;
+            }
+
+            header .logout-btn {
+                font-size: 0.9rem;
+                padding: 6px 12px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            header {
+                padding: 15px 0;
+            }
+
+            header .logo {
+                font-size: 1rem;
+            }
+
+            .section {
+                padding: 10px;
+            }
+
+            header .logout-btn {
+                font-size: 0.875rem;
+                padding: 5px 10px;
+            }
+
+            /* Footer */
+            footer {
+                text-align: center;
+                padding: 20px;
+                background-color: #333;
+                color: #fff;
+                transition: all 0.3s ease-in-out;
+            }
+
+            body.light footer {
+                background-color: #f1f1f1;
+                color: #333;
+            }
+
+            body.dark footer {
+                background-color: #1f1f1f;
+                color: #ffffff;
+            }
+
+            body.high_contrast footer {
+                background-color: #000000;
+                color: #ffff00;
+            }
+
+        }
     </style>
 </head>
 <body class="{{ view_mode }}">
@@ -228,7 +422,8 @@
             <select name="view_mode" id="view-mode">
                 <option value="light" {% if view_mode == "light" %}selected{% endif %}>Light Mode</option>
                 <option value="dark" {% if view_mode == "dark" %}selected{% endif %}>Dark Mode</option>
-                <option value="high_contrast" {% if view_mode == "high_contrast" %}selected{% endif %}>High Contrast</option>
+                <option value="high_contrast" {% if view_mode == "high_contrast" %}selected{% endif %}>High Contrast
+                </option>
             </select>
             <br><br>
             <label for="language">Language:</label>
@@ -245,7 +440,8 @@
         {% if user.is_authenticated %}
             <div class="delete-account-section">
                 <h3>Delete Account</h3>
-                <p>Once you delete your account, it cannot be undone. Please confirm if you wish to delete your account.</p>
+                <p>Once you delete your account, it cannot be undone. Please confirm if you wish to delete your
+                    account.</p>
                 <!-- Form to delete the account -->
                 <form method="POST" action="{% url 'delete_account' %}">
                     {% csrf_token %}
