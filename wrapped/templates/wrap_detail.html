@@ -341,6 +341,78 @@
         .btn-secondary:hover {
             background-color: #bbb;
         }
+        
+                /* General styles for the share buttons */
+        .share-buttons a, .share-buttons button {
+            display: inline-block;
+            padding: 10px 20px;
+            margin: 5px;
+            font-size: 16px;
+            font-weight: bold;
+            color: white;
+            border-radius: 25px;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+        
+        .share-buttons button {
+            background-color: #333;
+            cursor: pointer;
+        }
+        
+        .share-buttons button:hover {
+            background-color: #555;
+        }
+        .share-button {
+            width: 100px; /* Adjust the width of each button */
+            margin: 0 10px; /* Add margin between buttons */
+        }
+
+        .share-buttons-container {
+            display: flex;
+            justify-content: space-between; /* or use justify-content: center; for equal spacing */
+            align-items: center; /* This will align buttons vertically */
+            flex-wrap: wrap; /* In case the buttons overflow, they will wrap to the next line */
+            width: 100%; /* Ensure it takes up the full width */
+            max-width: 600px; /* Adjust as needed */
+
+        }
+
+        /* LinkedIn Button */
+        .share-btn.linkedin-btn {
+            background-color: #0077b5; /* LinkedIn blue */
+        }
+        
+        .share-btn.linkedin-btn:hover {
+            background-color: #005f8e;
+        }
+        
+        /* Twitter Button */
+        .share-btn.twitter-btn {
+            background-color: #1DA1F2; /* Twitter light blue */
+        }
+        
+        .share-btn.twitter-btn:hover {
+            background-color: #1A91DA;
+        }
+        
+        /* Instagram Button */
+        .share-btn.instagram-btn {
+            background-color: #E1306C; /* Instagram pink */
+        }
+        
+        .share-btn.instagram-btn:hover {
+            background-color: #C13584;
+        }
+        
+        /* Copy Link Button */
+        .share-btn.copy-btn {
+            background-color: #333; /* Dark gray */
+        }
+        
+        .share-btn.copy-btn:hover {
+            background-color: #555;
+        }
 
     </style>
 </head>
@@ -445,6 +517,38 @@
             <button type="submit" class="btn btn-primary">Regenerate Wrap</button>
         </form>
     </div>
+</div>
+
+<!-- Share Buttons at the bottom of the page -->
+<div class="share-buttons" style="position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); z-index: 100;">
+    <!-- LinkedIn Share Button with Copy Functionality -->
+    <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://spotifywrapped35-7ed41b719d25.herokuapp.com/wrap/{{ wrap.id }}/&title=My%20Spotify%20Wrapped&summary=Check%20out%20my%20Spotify%20Wrapped%20for%20this%20year!" 
+       target="_blank" 
+       class="btn share-btn linkedin-btn"
+       onclick="copyToClipboard('https://spotifywrapped35-7ed41b719d25.herokuapp.com/wrap/{{ wrap.id }}/');">
+        Share on LinkedIn
+    </a>
+
+    <!-- Twitter Share Button with Copy Functionality -->
+    <a href="https://twitter.com/intent/tweet?text=Check%20out%20my%20Spotify%20Wrapped%20for%20this%20year!%20https://spotifywrapped35-7ed41b719d25.herokuapp.com/wrap/{{ wrap.id }}/" 
+       target="_blank" 
+       class="btn share-btn twitter-btn"
+       onclick="copyToClipboard('https://spotifywrapped35-7ed41b719d25.herokuapp.com/wrap/{{ wrap.id }}/');">
+        Share on Twitter/X
+    </a>
+
+    <!-- Instagram Share Button -->
+    <a href="https://www.instagram.com"  
+       target="_blank" 
+       class="btn share-btn instagram-btn"
+       onclick="copyToClipboard('https://spotifywrapped35-7ed41b719d25.herokuapp.com/wrap/{{ wrap.id }}/');">
+        Share on Instagram
+    </a>
+
+    <!-- Copy Link Button -->
+    <button class="btn share-btn copy-btn" onclick="copyToClipboard('https://spotifywrapped35-7ed41b719d25.herokuapp.com/wrap/{{ wrap.id }}/')">
+        Copy Link
+    </button>
 </div>
 
 <style>
@@ -676,6 +780,19 @@
                 });
         });
     });
+        function copyToClipboard(link) {
+        // Use the Clipboard API to write text to the clipboard
+        navigator.clipboard.writeText(link)
+            .then(() => {
+                // Notify the user that the link was successfully copied
+                alert("Link copied to clipboard!");
+            })
+            .catch(err => {
+                // Log an error and notify the user if copying fails
+                console.error("Failed to copy: ", err);
+                alert("Failed to copy the link. Please try again.");
+            });
+    }
 </script>
 </body>
 </html>

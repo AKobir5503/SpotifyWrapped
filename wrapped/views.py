@@ -626,3 +626,34 @@ def delete_wrap(request, wrap_id):
         return redirect('dashboard')  # Redirect to dashboard after deletion
 
     return redirect('dashboard')  # If not a POST request, redirect back to dashboard
+
+def share_wrap(request, share_token):
+    # Get the wrap using the share_token
+    wrap = get_object_or_404(SpotifyWrap, share_token=share_token)
+
+    # Context data to pass to the template
+    context = {
+        'wrap': wrap,
+    }
+
+    return render(request, 'shared_wrap.html', context)
+
+@login_required
+def share_view(request, share_token):
+    # Get the wrap object using the share_token
+    wrap = get_object_or_404(Wrap, share_token=share_token)
+
+    # Generate the share URL dynamically
+    share_url = request.build_absolute_uri(f'/wrap/share/{wrap.share_token}/')
+
+    # Create a title and summary for the LinkedIn post
+    title = f"Check out {wrap.user.username}'s Wrap!"
+    summary = f"Check out {wrap.user.username}'s wrap! See the cool stats and details."
+
+    # Pass all the necessary data to the template
+    return render(request, 'share_view.html', {
+        'wrap': wrap,
+        'share_url': share_url,
+        'title': title,
+        'summary': summary,
+    })

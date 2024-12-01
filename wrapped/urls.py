@@ -17,4 +17,6 @@ urlpatterns = [
     path('wrap/<int:wrap_id>/', views.wrap_detail, name='wrap_detail'),  # Define the URL pattern for wrap details
     path('wrap/<int:wrap_id>/delete/', views.delete_wrap, name='delete-wrap'),
     path('delete_account/', views.delete_account, name='delete_account'),
+    path('wrap/share/<str:share_token>/', views.share_wrap, name='share_wrap'),
+    path('wrap/share-view/<str:share_token>/', views.share_view, name='share_view'),
 ]
