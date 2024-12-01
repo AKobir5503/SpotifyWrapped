@@ -6,274 +6,292 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Página Principal</title>
     <link rel="stylesheet" href="{% static 'wrapped/about.css' %}">
-    <style>\
-    /* Sticky Footer */
-    html, body {
-        height: 100%;
-        margin: 0;
-    }
+    <style>
+        /* Get Started Button Styling */
+        .cta {
+            display: inline-block; /* Makes the link behave like a button */
+            background-color: #1db954; /* Spotify green for brand consistency */
+            color: white; /* White text for contrast */
+            text-decoration: none; /* Removes underline from link */
+            padding: 10px 20px; /* Padding for a larger click area */
+            border-radius: 5px; /* Rounded corners for a modern look */
+            transition: background-color 0.3s; /* Smooth transition for hover effect */
+            font-weight: bold; /* Bold text for emphasis */
+        }
 
-    body {
-        display: flex;
-        flex-direction: column;
-    }
+        .cta:hover, .cta:focus {
+            background-color: #45a049; /* Darker green on hover/focus for feedback */
+            color: white; /* Maintains white text on interaction */
+            text-decoration: none; /* Ensures no underline appears on hover */
+        }
 
-    footer {
-        margin-top: auto; /* Pushes the footer to the bottom of the flex container */
-        width: 100%; /* Ensures the footer is full width */
-    }
+        /* Sticky Footer */
+        html, body {
+            height: 100%;
+            margin: 0;
+        }
 
-    /* General Styles */
-    body {
-        font-family: Arial, sans-serif;
-        line-height: 1.6;
-        margin: 0;
-        padding: 0;
-        display: flex;
-        flex-direction: column;
-        min-height: 100vh;
-        transition: all 0.3s ease-in-out;
-    }
-
-    body.light {
-        background-color: #f8f9fa;
-        color: #333;
-    }
-
-    body.dark {
-        background-color: #121212;
-        color: #ffffff;
-    }
-
-    body.high_contrast {
-        background-color: #000000;
-        color: #ffff00;
-    }
-
-    /* Header */
-    header {
-        padding: 20px 0;
-        background-color: #333;
-        color: #fff;
-        transition: all 0.3s ease-in-out;
-    }
-
-    body.light header {
-        background-color: #333;
-        color: #fff;
-    }
-
-    body.dark header {
-        background-color: #1f1f1f;
-        color: #ffffff;
-    }
-
-    body.high_contrast header {
-        background-color: #000000;
-        color: #ffff00;
-    }
-
-    header .container {
-        max-width: 1200px;
-        margin: 0 auto;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        flex-wrap: wrap;
-        padding: 0 20px;
-    }
-
-    header .logo {
-        font-size: 1.5rem;
-        font-weight: bold;
-        color: inherit;
-        text-align: center;
-        flex: 1 1 auto;
-    }
-
-    header .nav-links {
-        list-style: none;
-        display: flex;
-        justify-content: center;
-        margin: 0;
-        padding: 0;
-        flex-wrap: wrap;
-        gap: 10px;
-    }
-
-    header .nav-links li {
-        margin: 0 10px;
-    }
-
-    header .nav-links a {
-        text-decoration: none;
-        font-size: 1rem;
-        color: inherit;
-    }
-
-    /* Logout Button */
-    header .logout-form {
-        display: inline;
-        margin-left: 20px;
-    }
-
-    header .logout-btn {
-        background-color: #1db954;
-        color: white;
-        border: none;
-        padding: 8px 16px;
-        font-size: 1rem;
-        cursor: pointer;
-        border-radius: 5px;
-    }
-
-    header .logout-btn:hover {
-        background-color: #45a049;
-    }
-
-    /* Main Content */
-    .container {
-        flex: 1;
-        max-width: 100%;
-        margin: auto;
-        padding: 20px;
-        box-sizing: border-box;
-    }
-
-    .section {
-        margin-bottom: 40px;
-        padding: 20px;
-        border-radius: 10px;
-        box-shadow: 0 4px 8px rgba(51, 51, 51, 0.1);
-        background-color: #76b2fe;
-        width: 100%;
-        max-width: 1200px;
-        margin: 0 auto;
-        text-align: center;
-    }
-
-    body.light .section {
-        background-color: #f8f9fa;
-        color: #333;
-    }
-
-    body.dark .section {
-        background-color: #121212;
-        color: #ffffff;
-    }
-
-    body.high_contrast .section {
-        background-color: #000000;
-        color: #ffff00;
-    }
-
-    /* Dropdowns */
-    select {
-        width: 100%;
-        max-width: 100%;
-        padding: 8px;
-        margin-top: 5px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        box-sizing: border-box;
-    }
-
-    /* Link Hover Effects */
-    a {
-        color: #1db954;
-    }
-
-    a:hover {
-        text-decoration: underline;
-    }
-
-    /* Footer */
-    footer {
-        text-align: center;
-        padding: 20px;
-        background-color: #333;
-        color: #fff;
-        transition: all 0.3s ease-in-out;
-    }
-
-    body.light footer {
-        background-color: #333;
-        color: #fff;
-    }
-
-    body.dark footer {
-        background-color: #1f1f1f;
-        color: #ffffff;
-    }
-
-    body.high_contrast footer {
-        background-color: #000000;
-        color: #ffff00;
-    }
-
-    /* Hero Section */
-    .hero {
-        text-align: center;
-        padding: 20px;
-    }
-
-    /* Responsive Design */
-    @media (max-width: 768px) {
-        header .container {
+        body {
+            display: flex;
             flex-direction: column;
-            align-items: center;
-            text-align: center;
         }
 
-        header .nav-links {
+        footer {
+            margin-top: auto; /* Pushes the footer to the bottom of the flex container */
+            width: 100%; /* Ensures the footer is full width */
+        }
+
+        /* General Styles */
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 0;
+            padding: 0;
+            display: flex;
             flex-direction: column;
-            gap: 5px;
+            min-height: 100vh;
+            transition: all 0.3s ease-in-out;
         }
 
-        .container {
-            padding: 15px;
+        body.light {
+            background-color: #f8f9fa;
+            color: #333;
         }
 
-        .section {
-            padding: 15px;
+        body.dark {
+            background-color: #121212;
+            color: #ffffff;
         }
 
-        select {
-            width: 100%;
+        body.high_contrast {
+            background-color: #000000;
+            color: #ffff00;
         }
-    }
 
-    @media (max-width: 480px) {
+        /* Header */
         header {
-            padding: 15px 0;
+            padding: 20px 0;
+            background-color: #333;
+            color: #fff;
+            transition: all 0.3s ease-in-out;
+        }
+
+        body.light header {
+            background-color: #333;
+            color: #fff;
+        }
+
+        body.dark header {
+            background-color: #1f1f1f;
+            color: #ffffff;
+        }
+
+        body.high_contrast header {
+            background-color: #000000;
+            color: #ffff00;
+        }
+
+        header .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            padding: 0 20px;
         }
 
         header .logo {
-            font-size: 1.25rem;
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: inherit;
+            text-align: center;
+            flex: 1 1 auto;
+        }
+
+        header .nav-links {
+            list-style: none;
+            display: flex;
+            justify-content: center;
+            margin: 0;
+            padding: 0;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        header .nav-links li {
+            margin: 0 10px;
         }
 
         header .nav-links a {
-            font-size: 0.9rem;
+            text-decoration: none;
+            font-size: 1rem;
+            color: inherit;
+        }
+
+        /* Logout Button */
+        header .logout-form {
+            display: inline;
+            margin-left: 20px;
         }
 
         header .logout-btn {
-            padding: 6px 12px;
-            font-size: 0.9rem;
+            background-color: #1db954;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            font-size: 1rem;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+
+        header .logout-btn:hover {
+            background-color: #45a049;
+        }
+
+        /* Main Content */
+        .container {
+            flex: 1;
+            max-width: 100%;
+            margin: auto;
+            padding: 20px;
+            box-sizing: border-box;
         }
 
         .section {
-            padding: 10px;
+            margin-bottom: 40px;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(51, 51, 51, 0.1);
+            background-color: #76b2fe;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            text-align: center;
         }
 
+        body.light .section {
+            background-color: #f8f9fa;
+            color: #333;
+        }
+
+        body.dark .section {
+            background-color: #121212;
+            color: #ffffff;
+        }
+
+        body.high_contrast .section {
+            background-color: #000000;
+            color: #ffff00;
+        }
+
+        /* Dropdowns */
         select {
-            padding: 6px;
-            font-size: 0.9rem;
+            width: 100%;
+            max-width: 100%;
+            padding: 8px;
+            margin-top: 5px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
         }
-    }
 
-    header .logo:hover {
-        color: #4CAF50;
-    }
+        /* Link Hover Effects */
+        a {
+            color: #1db954;
+        }
+
+        a:hover {
+            text-decoration: underline;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #333;
+            color: #fff;
+            transition: all 0.3s ease-in-out;
+        }
+
+        body.light footer {
+            background-color: #333;
+            color: #fff;
+        }
+
+        body.dark footer {
+            background-color: #1f1f1f;
+            color: #ffffff;
+        }
+
+        body.high_contrast footer {
+            background-color: #000000;
+            color: #ffff00;
+        }
+
+        /* Hero Section */
+        .hero {
+            text-align: center;
+            padding: 20px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            header .container {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+
+            header .nav-links {
+                flex-direction: column;
+                gap: 5px;
+            }
+
+            .container {
+                padding: 15px;
+            }
+
+            .section {
+                padding: 15px;
+            }
+
+            select {
+                width: 100%;
+            }
+        }
+
+        @media (max-width: 480px) {
+            header {
+                padding: 15px 0;
+            }
+
+            header .logo {
+                font-size: 1.25rem;
+            }
+
+            header .nav-links a {
+                font-size: 0.9rem;
+            }
+
+            header .logout-btn {
+                padding: 6px 12px;
+                font-size: 0.9rem;
+            }
+
+            .section {
+                padding: 10px;
+            }
+
+            select {
+                padding: 6px;
+                font-size: 0.9rem;
+            }
+        }
+
+        header .logo:hover {
+            color: #4CAF50;
+        }
     </style>
 </head>
 <body class="{{ view_mode }}">
@@ -302,13 +320,14 @@
     <h1>Bienvenido a SpotifyWrapped</h1>
     <p>Tus estadísticas de escucha, tendencias y momentos destacados personalizados de Spotify, preparados solo para
         ti.</p>
-    <button>
+    <button style="background: none; border: none; padding: 0; cursor: pointer;">
         {% if user.is_authenticated %}
             <a href="{% url 'dashboard' %}" class="cta">Comenzar</a>
         {% else %}
             <a href="{% url 'login' %}" class="cta">Comenzar</a>
         {% endif %}
     </button>
+
 </div>
 
 

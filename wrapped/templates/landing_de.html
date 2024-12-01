@@ -7,7 +7,25 @@
     <title>Startseite</title>
     <link rel="stylesheet" href="{% static 'wrapped/about.css' %}">
     <style>
-        
+        /* Get Started Button Styling */
+        .cta {
+            display: inline-block; /* Makes the link behave like a button */
+            background-color: #1db954; /* Spotify green for brand consistency */
+            color: white; /* White text for contrast */
+            text-decoration: none; /* Removes underline from link */
+            padding: 10px 20px; /* Padding for a larger click area */
+            border-radius: 5px; /* Rounded corners for a modern look */
+            transition: background-color 0.3s; /* Smooth transition for hover effect */
+            font-weight: bold; /* Bold text for emphasis */
+        }
+
+        .cta:hover, .cta:focus {
+            background-color: #45a049; /* Darker green on hover/focus for feedback */
+            color: white; /* Maintains white text on interaction */
+            text-decoration: none; /* Ensures no underline appears on hover */
+        }
+
+
         /* Sticky Footer */
         html, body {
             height: 100%;
@@ -302,7 +320,7 @@
 <div class="hero">
     <h1>Willkommen bei SpotifyWrapped</h1>
     <p>Ihre personalisierten Spotify-Hörstatistiken, Trends und Highlights – nur für Sie verpackt.</p>
-    <button>
+    <button style="background: none; border: none; padding: 0; cursor: pointer;">
         {% if user.is_authenticated %}
             <a href="{% url 'dashboard' %}" class="cta">Loslegen</a>
         {% else %}
@@ -325,7 +343,8 @@
         </div>
         <div class="feature-item">
             <h3>Hörtrends</h3>
-            <p>Sehen Sie, wie sich Ihre Musikgewohnheiten im Laufe der Zeit, je nach Tag, Stimmung oder Jahreszeit ändern.</p>
+            <p>Sehen Sie, wie sich Ihre Musikgewohnheiten im Laufe der Zeit, je nach Tag, Stimmung oder Jahreszeit
+                ändern.</p>
         </div>
     </div>
 </section>
