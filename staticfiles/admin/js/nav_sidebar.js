@@ -11,6 +11,9 @@
         main.classList.toggle('shifted', navSidebarIsOpen === 'true');
         navSidebar.setAttribute('aria-expanded', navSidebarIsOpen);
 
+        /**
+         * Toggles the visibility of the navigation sidebar and updates local storage.
+         */
         toggleNavSidebar.addEventListener('click', function() {
             if (navSidebarIsOpen === 'true') {
                 navSidebarIsOpen = 'false';
@@ -23,6 +26,9 @@
         });
     }
 
+    /**
+     * Initializes the quick filter for the navigation sidebar.
+     */
     function initSidebarQuickFilter() {
         const options = [];
         const navSidebar = document.getElementById('nav-sidebar');
@@ -33,6 +39,10 @@
             options.push({title: container.innerHTML, node: container});
         });
 
+        /**
+         * Filters the navigation sidebar items based on user input.
+         * @param {Event} event - The input event triggering the filter.
+         */
         function checkValue(event) {
             let filterValue = event.target.value;
             if (filterValue) {
@@ -40,7 +50,7 @@
             }
             if (event.key === 'Escape') {
                 filterValue = '';
-                event.target.value = ''; // clear input
+                event.target.value = ''; // Clear input
             }
             let matches = false;
             for (const o of options) {
@@ -52,7 +62,7 @@
                         matches = true;
                     }
                 }
-                // show/hide parent <TR>
+                // Show/hide parent <TR>
                 o.node.parentNode.parentNode.style.display = displayValue;
             }
             if (!filterValue || matches) {
@@ -74,6 +84,8 @@
             checkValue({target: nav, key: ''});
         }
     }
+
+    // Expose the initialization function globally and initialize it immediately.
     window.initSidebarQuickFilter = initSidebarQuickFilter;
     initSidebarQuickFilter();
 }
