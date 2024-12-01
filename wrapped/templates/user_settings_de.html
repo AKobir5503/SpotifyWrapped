@@ -7,6 +7,22 @@
     <title>Über SpotifyWrapped</title>
     <link rel="stylesheet" href="{% static 'wrapped/about.css' %}">
     <style>
+        /* Sticky Footer */
+        html, body {
+            height: 100%;
+            margin: 0;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+        }
+
+        footer {
+            margin-top: auto; /* Pushes the footer to the bottom of the flex container */
+            width: 100%; /* Ensures the footer is full width */
+        }
+
         body {
             font-family: Arial, sans-serif;
             line-height: 1.6;
