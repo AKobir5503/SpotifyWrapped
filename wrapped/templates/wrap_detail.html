@@ -35,25 +35,10 @@
 
         /* Header */
         header {
-            padding: 20px 0;
+            padding: 20px;
             background-color: #333;
             color: #fff;
             transition: all 0.3s ease-in-out;
-        }
-
-        body.light header {
-            background-color: #333;
-            color: #fff;
-        }
-
-        body.dark header {
-            background-color: #1f1f1f;
-            color: #ffffff;
-        }
-
-        body.high_contrast header {
-            background-color: #000000;
-            color: #ffff00;
         }
 
         header .container {
@@ -62,6 +47,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            flex-wrap: wrap;
         }
 
         header .logo {
@@ -70,17 +56,17 @@
             color: inherit;
         }
 
-        /* Navigation Links */
         header .nav-links {
             list-style: none;
             display: flex;
-            justify-content: flex-end;
             margin: 0;
             padding: 0;
+            gap: 15px;
+            flex-wrap: wrap;
         }
 
         header .nav-links li {
-            margin: 0 15px;
+            margin: 0;
         }
 
         header .nav-links a {
@@ -90,19 +76,15 @@
         }
 
         /* Logout Button */
-        header .logout-form {
-            display: inline;
-            margin-left: 20px;
-        }
-
         header .logout-btn {
             background-color: #1db954;
             color: white;
             border: none;
             padding: 8px 16px;
-            font-size: 16px;
+            font-size: 1rem;
             cursor: pointer;
             border-radius: 5px;
+            transition: background-color 0.3s ease;
         }
 
         header .logout-btn:hover {
@@ -112,9 +94,11 @@
         /* Dashboard Container */
         .dashboard-container {
             flex: 1;
-            width: 1000px;
+            width: 90%;
+            max-width: 1200px;
             margin: auto;
             padding: 20px;
+            border-radius: 10px;
             box-shadow: 0 4px 8px rgb(51, 51, 51);
         }
 
@@ -123,161 +107,165 @@
             color: inherit;
         }
 
-        /* Form Styles */
-        .form-select {
-            width: 100%;
-            max-width: 600px;
-            padding: 8px;
-            margin-top: 5px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            box-sizing: border-box;
+        /* Stats Container */
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Responsive grid */
+            gap: 20px;
+            margin-top: 20px;
         }
 
+        .stats-card {
+            background-color: #1DB954;
+            padding: 25px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        body.dark .stats-card {
+            background-color: #1f1f1f;
+            color: #ffffff;
+        }
+
+        body.high_contrast .stats-card {
+            background-color: #000000;
+            color: #ffff00;
+        }
+
+        .stats-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+        }
+
+        .stats-title {
+            font-size: 1.2rem;
+            color: #fff;
+        }
+
+        .stats-number {
+            font-size: 2.5rem;
+            margin: 10px 0;
+            color: #fff;
+        }
+
+        .stats-info {
+            font-size: 1rem;
+            color: #ddd;
+        }
+
+        /* General Button Updates */
         .btn {
-            background-color: #1db954;
-            color: white;
             border: none;
             padding: 10px 20px;
-            margin-top: 10px;
+            margin: 5px;
             cursor: pointer;
             border-radius: 5px;
+            font-size: 16px;
+            font-weight: bold;
+            transition: background-color 0.3s ease, transform 0.2s ease;
         }
 
-        .btn:hover {
-            background-color: #45a049;
+        /* Updated Button Colors */
+        .btn-primary {
+            background-color: #28a745; /* Blue */
+            color: white;
         }
 
-        /* Wraps List */
-        .dashboard-container ul {
-            list-style-type: none;
-            padding: 0;
+        .btn-primary:hover {
+            background-color: #218838;
+            transform: translateY(-3px);
         }
 
-        .dashboard-container li {
-            background-color: rgba(29, 185, 84, 0.1);
-            margin-bottom: 10px;
-            padding: 15px;
-            border-radius: 5px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        .btn-secondary {
+            background-color: #28a745; /* Green */
+            color: white;
         }
 
-        .thumbnail {
-            max-width: 100px;
-            max-height: 100px;
-            border-radius: 5px;
+        .btn-secondary:hover {
+            background-color: #218838;
+            transform: translateY(-3px);
         }
 
-        /* Footer */
-        footer {
+
+        /* Share Buttons */
+
+        .share-buttons .share-btn {
+            padding: 10px 25px;
+            border-radius: 30px;
+            font-size: 1rem;
+            font-weight: bold;
             text-align: center;
-            padding: 20px;
+            text-decoration: none;
+            color: white;
+            transition: all 0.3s ease;
+            white-space: nowrap; /* Prevents buttons from breaking into multiple lines */
+
+        }
+
+        .share-btn.linkedin-btn {
+            background-color: #0077b5;
+        }
+
+        .share-btn.linkedin-btn:hover {
+            background-color: #005f8e;
+        }
+
+        .share-btn.twitter-btn {
+            background-color: #1da1f2;
+        }
+
+        .share-btn.twitter-btn:hover {
+            background-color: #1a91da;
+        }
+
+        .share-btn.instagram-btn {
+            background-color: #e1306c;
+        }
+
+        .share-btn.instagram-btn:hover {
+            background-color: #c13584;
+        }
+
+        .share-btn.copy-btn {
             background-color: #333;
-            color: #fff;
-            transition: all 0.3s ease-in-out;
         }
 
-        body.light footer {
-            background-color: #333;
-            color: #fff;
+        .share-btn.copy-btn:hover {
+            background-color: #555;
         }
 
-        body.dark footer {
-            background-color: #1f1f1f;
-            color: #ffffff;
+        /* Centering Buttons */
+        .centered-buttons {
+            display: flex;
+            flex-wrap: wrap; /* Allows buttons to wrap to the next line */
+            justify-content: center;
+            align-items: center;
+            margin: 20px 0;
+            gap: 15px; /* Add spacing between buttons */
+            padding: 10px; /* Ensure enough padding to prevent clipping */
+            max-width: 100%; /* Prevents content from overflowing */
+            box-sizing: border-box; /* Includes padding in total width */
         }
 
-        body.high_contrast footer {
-            background-color: #000000;
-            color: #ffff00;
-        }
-
-        /* Links */
-        a {
-            color: #1db954;
-        }
-
-        a:hover {
-            text-decoration: underline;
-        }
-
-        /* Spotify Wrapped Details */
-        body.light .wrap-detail-container h1,
-        body.light .wrap-detail-container h2 {
-            color: #333;
-        }
-
-        body.dark .wrap-detail-container h1,
-        body.dark .wrap-detail-container h2 {
-            color: #ffffff;
-        }
-
-        body.high_contrast .wrap-detail-container h1,
-        body.high_contrast .wrap-detail-container h2 {
-            color: #ffff00;
-        }
-
-        /* Top Songs Section */
-        body.light .wrap-section h2 {
-            color: #333;
-        }
-
-        body.dark .wrap-section h2 {
-            color: #ffffff;
-        }
-
-        body.high_contrast .wrap-section h2 {
-            color: #ffff00;
-        }
-
-        /* Wrap Details Container */
-        body.light .wrap-detail-container {
-            padding: 20px;
-            border-radius: 8px;
-            max-width: 800px;
-            margin: 0 auto;
-            box-shadow: 0 4px 8px rgb(51, 51, 51);
-            background-color: #f9f9f9;
-        }
-
-        body.dark .wrap-detail-container {
-            padding: 20px;
-            border-radius: 8px;
-            max-width: 800px;
-            margin: 0 auto;
-            box-shadow: 0 4px 8px rgb(51, 51, 51);
-            background-color: #1f1f1f;
-        }
-
-        body.high_contrast .wrap-detail-container {
-            padding: 20px;
-            border-radius: 8px;
-            max-width: 800px;
-            margin: 0 auto;
-            box-shadow: 0 4px 8px rgb(51, 51, 51);
-            background-color: #000000;
-            color: #ffff00;
-        }
 
         /* Tracks and Artists Section */
-        .tracks-container, .artists-container {
-            display: flex;
-            flex-wrap: wrap;
+        .tracks-container,
+        .artists-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); /* Responsive grid */
             gap: 20px;
         }
 
-        .track-item, .artist-card {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 15px;
+        .track-item,
+        .artist-card {
             background-color: #fff;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgb(51, 51, 51);
-            max-width: 200px;
+            border-radius: 12px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
             text-align: center;
+            padding: 15px;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
 
         body.dark .track-item,
@@ -292,128 +280,77 @@
             color: #ffff00;
         }
 
-        .track-item img, .artist-card img {
-            border-radius: 8px;
-            width: 100%;
-            height: auto;
+        .track-item:hover,
+        .artist-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+        }
+
+        .track-item img,
+        .artist-card img {
+            border-radius: 10px;
+            max-width: 100%;
             max-height: 150px;
+            margin-bottom: 10px;
         }
 
-        .track-info, .artist-info {
-            margin-top: 10px;
+        /* Wrap Detail Section */
+        .wrap-detail-container {
+            padding: 20px;
+            border-radius: 12px;
+            max-width: 1000px;
+            margin: 20px auto;
+            background: linear-gradient(145deg, #0d0d0d, #181818);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
+            color: #fff;
         }
 
-        .track-info h3, .artist-info h3 {
-            margin: 0;
-            font-size: 1.1rem;
-        }
-
-        /* Wrap Actions */
-        .wrap-actions {
-            margin-top: 30px;
-            text-align: center;
-        }
-
-        .btn {
-            padding: 10px 20px;
-            margin: 5px;
-            border: none;
-            border-radius: 4px;
-            font-size: 16px;
-            cursor: pointer;
-            text-decoration: none;
-        }
-
-        .btn-primary {
-            background-color: #1DB954;
-            color: white;
-        }
-
-        .btn-primary:hover {
-            background-color: #1ed760;
-        }
-
-        .btn-secondary {
-            background-color: #ccc;
+        body.light .wrap-detail-container {
+            background: linear-gradient(145deg, #ffffff, #f0f0f0);
             color: #333;
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
         }
 
-        .btn-secondary:hover {
-            background-color: #bbb;
+        body.high_contrast .wrap-detail-container {
+            background: linear-gradient(145deg, #000000, #1a1a1a);
+            color: #ffff00;
+            box-shadow: 0 12px 24px rgba(255, 255, 0, 0.3);
         }
-        
-                /* General styles for the share buttons */
-        .share-buttons a, .share-buttons button {
-            display: inline-block;
-            padding: 10px 20px;
-            margin: 5px;
-            font-size: 16px;
-            font-weight: bold;
-            color: white;
-            border-radius: 25px;
-            text-decoration: none;
-            transition: background-color 0.3s ease;
-        }
-        
-        .share-buttons button {
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 20px;
             background-color: #333;
-            cursor: pointer;
-        }
-        
-        .share-buttons button:hover {
-            background-color: #555;
-        }
-        .share-button {
-            width: 100px; /* Adjust the width of each button */
-            margin: 0 10px; /* Add margin between buttons */
+            color: #fff;
+            transition: all 0.3s ease-in-out;
         }
 
-        .share-buttons-container {
-            display: flex;
-            justify-content: space-between; /* or use justify-content: center; for equal spacing */
-            align-items: center; /* This will align buttons vertically */
-            flex-wrap: wrap; /* In case the buttons overflow, they will wrap to the next line */
-            width: 100%; /* Ensure it takes up the full width */
-            max-width: 600px; /* Adjust as needed */
+        /* Media Queries */
+        @media (max-width: 768px) {
+            header .container {
+                flex-direction: column;
+                align-items: center;
+            }
 
-        }
-
-        /* LinkedIn Button */
-        .share-btn.linkedin-btn {
-            background-color: #0077b5; /* LinkedIn blue */
-        }
-        
-        .share-btn.linkedin-btn:hover {
-            background-color: #005f8e;
-        }
-        
-        /* Twitter Button */
-        .share-btn.twitter-btn {
-            background-color: #1DA1F2; /* Twitter light blue */
-        }
-        
-        .share-btn.twitter-btn:hover {
-            background-color: #1A91DA;
-        }
-        
-        /* Instagram Button */
-        .share-btn.instagram-btn {
-            background-color: #E1306C; /* Instagram pink */
-        }
-        
-        .share-btn.instagram-btn:hover {
-            background-color: #C13584;
-        }
-        
-        /* Copy Link Button */
-        .share-btn.copy-btn {
-            background-color: #333; /* Dark gray */
-        }
-        
-        .share-btn.copy-btn:hover {
-            background-color: #555;
+            .stats-container {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            }
         }
 
+        @media (max-width: 480px) {
+            .stats-container {
+                grid-template-columns: 1fr;
+            }
+
+            .wrap-detail-container {
+                padding: 15px;
+            }
+
+            header .logo {
+                font-size: 1.5rem;
+            }
+        }
     </style>
 </head>
 <body class="{{ view_mode }}">
@@ -510,11 +447,13 @@
 
     <!-- Navigation and Actions -->
     <div class="wrap-actions">
-        <a href="{% url 'dashboard' %}" class="btn btn-secondary">Back to Dashboard</a>
         <form method="POST" action="{% url 'generate-wrap' %}">
             {% csrf_token %}
             <input type="hidden" name="time_frame" value="{{ wrap.time_frame }}">
-            <button type="submit" class="btn btn-primary">Regenerate Wrap</button>
+            <div class="centered-buttons">
+                <a href="{% url 'dashboard' %}" class="btn btn-primary">Back to Dashboard</a>
+                <button type="submit" class="btn btn-secondary">Regenerate Wrap</button>
+            </div>
         </form>
     </div>
 </div>
@@ -522,24 +461,24 @@
 <!-- Share Buttons at the bottom of the page -->
 <div class="share-buttons" style="position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); z-index: 100;">
     <!-- LinkedIn Share Button with Copy Functionality -->
-    <a href="https://www.linkedin.com/shareArticle?mini=true&url=http://localhost:8000/wrap/{{ wrap.id }}/&title=My%20Spotify%20Wrapped&summary=Check%20out%20my%20Spotify%20Wrapped%20for%20this%20year!" 
-       target="_blank" 
+    <a href="https://www.linkedin.com/shareArticle?mini=true&url=http://localhost:8000/wrap/{{ wrap.id }}/&title=My%20Spotify%20Wrapped&summary=Check%20out%20my%20Spotify%20Wrapped%20for%20this%20year!"
+       target="_blank"
        class="btn share-btn linkedin-btn"
        onclick="copyToClipboard('http://localhost:8000/wrap/{{ wrap.id }}/');">
         Share on LinkedIn
     </a>
 
     <!-- Twitter Share Button with Copy Functionality -->
-    <a href="https://twitter.com/intent/tweet?text=Check%20out%20my%20Spotify%20Wrapped%20for%20this%20year!%20http://localhost:8000/wrap/{{ wrap.id }}/" 
-       target="_blank" 
+    <a href="https://twitter.com/intent/tweet?text=Check%20out%20my%20Spotify%20Wrapped%20for%20this%20year!%20http://localhost:8000/wrap/{{ wrap.id }}/"
+       target="_blank"
        class="btn share-btn twitter-btn"
        onclick="copyToClipboard('http://localhost:8000/wrap/{{ wrap.id }}/');">
         Share on Twitter/X
     </a>
 
     <!-- Instagram Share Button -->
-    <a href="https://www.instagram.com"  
-       target="_blank" 
+    <a href="https://www.instagram.com"
+       target="_blank"
        class="btn share-btn instagram-btn"
        onclick="copyToClipboard('http://localhost:8000/wrap/{{ wrap.id }}/');">
         Share on Instagram
@@ -551,191 +490,6 @@
     </button>
 </div>
 
-
-<style>
-    /* Base Styles */
-    .wrap-detail-container {
-        padding: 40px;
-        background: linear-gradient(145deg, #0d0d0d, #181818);
-        border-radius: 12px;
-        max-width: 1000px;
-        margin: 0 auto;
-        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
-        color: #fff;
-    }
-
-    /* Light Mode */
-    body.light .wrap-detail-container {
-        background: linear-gradient(145deg, #ffffff, #f0f0f0);
-        color: #333;
-        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
-    }
-
-    /* Dark Mode */
-    body.dark .wrap-detail-container {
-        background: linear-gradient(145deg, #0d0d0d, #181818);
-        color: #fff;
-        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
-    }
-
-    /* High Contrast Mode */
-    body.high_contrast .wrap-detail-container {
-        background: linear-gradient(145deg, #000000, #1a1a1a);
-        color: #ffff00;
-        box-shadow: 0 12px 24px rgba(255, 255, 0, 0.3);
-    }
-
-
-    .wrap-title {
-        font-size: 2.5rem;
-        text-align: center;
-        color: #1DB954;
-        margin-bottom: 20px;
-    }
-
-    .time-frame, .created-on {
-        font-size: 1.1rem;
-        text-align: center;
-        color: #bbb;
-    }
-
-    .time-frame span {
-        font-weight: bold;
-        color: #fff;
-    }
-
-    .wrap-section {
-        margin-top: 40px;
-    }
-
-    .section-title {
-        font-size: 2rem;
-        color: #fff;
-        margin-bottom: 20px;
-        text-align: center;
-        font-weight: 700;
-        border-bottom: 2px solid #1DB954;
-        padding-bottom: 10px;
-    }
-
-    .stats-container {
-        display: flex;
-        justify-content: space-between;
-        gap: 30px;
-        flex-wrap: wrap;
-        margin-top: 20px;
-    }
-
-    .stats-card {
-        background-color: #1DB954;
-        padding: 25px;
-        border-radius: 12px;
-        text-align: center;
-        width: 260px;
-        box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
-        transition: all 0.3s ease;
-    }
-
-    .stats-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
-    }
-
-    .stats-title {
-        font-size: 1.2rem;
-        color: #fff;
-    }
-
-    .stats-number {
-        font-size: 2.5rem;
-        margin: 10px 0;
-        color: #fff;
-    }
-
-    .stats-info {
-        font-size: 1rem;
-        color: #ddd;
-    }
-
-    .tracks-container, .artists-container {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 20px;
-    }
-
-    .track-item, .artist-card {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        padding: 20px;
-        background-color: #fff;
-        border-radius: 12px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        max-width: 250px;
-        text-align: center;
-        transition: all 0.3s ease;
-    }
-
-    .track-item:hover, .artist-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
-    }
-
-    .album-cover, .artist-image {
-        border-radius: 12px;
-        width: 100%;
-        height: auto;
-        max-height: 180px;
-        object-fit: cover;
-    }
-
-    .track-info, .artist-info {
-        margin-top: 10px;
-    }
-
-    .track-info h3, .artist-info h3 {
-        margin: 0;
-        font-size: 1.1rem;
-        color: #333;
-    }
-
-    .wrap-actions {
-        margin-top: 40px;
-        text-align: center;
-    }
-
-    .btn {
-        padding: 12px 25px;
-        margin: 5px;
-        border: none;
-        border-radius: 30px;
-        font-size: 16px;
-        cursor: pointer;
-        text-decoration: none;
-        transition: background-color 0.3s ease;
-    }
-
-    .btn-primary {
-        background-color: #1DB954;
-        color: white;
-        font-weight: bold;
-    }
-
-    .btn-primary:hover {
-        background-color: #1ed760;
-    }
-
-    .btn-secondary {
-        background-color: #ccc;
-        color: #333;
-        font-weight: bold;
-    }
-
-    .btn-secondary:hover {
-        background-color: #bbb;
-    }
-</style>
 <footer>
     <p>
         Made with ❤️ by Team SpotifyWrapped |
@@ -781,7 +535,8 @@
                 });
         });
     });
-        function copyToClipboard(link) {
+
+    function copyToClipboard(link) {
         // Use the Clipboard API to write text to the clipboard
         navigator.clipboard.writeText(link)
             .then(() => {
