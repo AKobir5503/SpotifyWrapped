@@ -282,9 +282,14 @@
     <h1>Welcome to SpotifyWrapped</h1>
     <p>Your personalized Spotify listening stats, trends, and highlights—wrapped just for you.</p>
     <button>
-        <a href="{% url 'spotify-login' %}" class="cta">Get Started</a>
+        {% if user.is_authenticated %}
+            <a href="{% url 'dashboard' %}" class="cta">Get Started</a>
+        {% else %}
+            <a href="{% url 'login' %}" class="cta">Get Started</a>
+        {% endif %}
     </button>
 </div>
+
 
 <section class="section features">
     <h2>Why SpotifyWrapped?</h2>

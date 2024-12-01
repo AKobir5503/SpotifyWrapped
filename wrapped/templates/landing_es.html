@@ -133,6 +133,7 @@
             width: 100%;
             max-width: 1200px;
             margin: 0 auto;
+            text-align: center;
         }
 
         body.light .section {
@@ -283,10 +284,51 @@
 
 <div class="hero">
     <h1>Bienvenido a SpotifyWrapped</h1>
+    <p>Tus estadísticas de escucha, tendencias y momentos destacados personalizados de Spotify, preparados solo para ti.</p>
     <button>
-        <a href="{% url 'spotify-login' %}" class="cta">Comenzar</a>
+        {% if user.is_authenticated %}
+            <a href="{% url 'dashboard' %}" class="cta">Comenzar</a>
+        {% else %}
+            <a href="{% url 'login' %}" class="cta">Comenzar</a>
+        {% endif %}
     </button>
 </div>
+
+
+<section class="section features">
+    <h2>¿Por qué SpotifyWrapped?</h2>
+    <div class="feature-list">
+        <div class="feature-item">
+            <h3>Tus temas principales</h3>
+            <p>Descubre tus canciones más reproducidas y revive tus momentos favoritos.</p>
+        </div>
+        <div class="feature-item">
+            <h3>Tus artistas favoritos</h3>
+            <p>Descubre qué artistas te hicieron compañía durante todo el año.</p>
+        </div>
+        <div class="feature-item">
+            <h3>Tendencias auditivas</h3>
+            <p>Vea cómo cambian sus hábitos musicales con el tiempo, según el día, el estado de ánimo o la estación.</p>
+        </div>
+    </div>
+</section>
+
+<section class="section how-it-works">
+    <h2>Cómo funciona</h2>
+
+    <ol>1.Inicie sesión con Spotify para sincronizar sus datos de forma segura.</ol>
+    <ol>2.Explora tus conocimientos musicales personalizados.</ol>
+    <ol>3.¡Comparte tus momentos destacados de Wrapped con amigos!</ol>
+
+</section>
+
+<section class="section testimonials">
+    <h2>Lo que dicen los usuarios</h2>
+    <blockquote>
+        <p>"¡SpotifyWrapped me dio una perspectiva completamente nueva sobre mis gustos musicales!"</p>
+        <footer>- Un oyente feliz</footer>
+    </blockquote>
+</section>
 
 <footer>
     <p>
@@ -295,45 +337,22 @@
     </p>
 </footer>
 
+
 <script>
-    const savedViewMode = localStorage.getItem("viewMode") || "{{ view_mode }}
-    ";
-    document.docum
-    n
-    Element.classN
-    savedViewMode;
+    const savedViewMode = localStorage.getItem("viewMode") || "{{ view_mode }}";
+    document.documentElement.className = savedViewMode;
 
-    document.addEventListener
-    "DOMCont nt o
-    nctio()
-    {
-        o
-        st
-        viewModeSelect = document.getEleme
-        ie - mode
-        ");
-        i
-        lect
-    )
-        {
-            i
-            wModeSelect.va
-            ewMode;
-            viewModeSelect.addEve
-            tListene(" h
-            )
-            {
-                onst
-                select
-                ue;
-                document.docum
-                n
-                Element.class
-                de;
-                localStorage
-                setItem("viewM
-                dMo
-
-            }</script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const viewModeSelect = document.getElementById("view-mode");
+        if (viewModeSelect) {
+            viewModeSelect.value = savedViewMode;
+            viewModeSelect.addEventListener("change", function () {
+                const selectedMode = this.value;
+                document.documentElement.className = selectedMode;
+                localStorage.setItem("viewMode", selectedMode);
+            });
+        }
+    });
+</script>
 </body>
 </html>

@@ -133,6 +133,7 @@
             width: 100%;
             max-width: 1200px;
             margin: 0 auto;
+            text-align: center;
         }
 
         body.light .section {
@@ -283,10 +284,51 @@
 
 <div class="hero">
     <h1>Willkommen bei SpotifyWrapped</h1>
+    <p>Ihre personalisierten Spotify-Hörstatistiken, Trends und Highlights – nur für Sie verpackt.</p>
     <button>
-        <a href="{% url 'spotify-login' %}" class="cta">Loslegen</a>
+        {% if user.is_authenticated %}
+            <a href="{% url 'dashboard' %}" class="cta">Loslegen</a>
+        {% else %}
+            <a href="{% url 'login' %}" class="cta">Loslegen</a>
+        {% endif %}
     </button>
 </div>
+
+
+<section class="section features">
+    <h2>Warum SpotifyWrapped??</h2>
+    <div class="feature-list">
+        <div class="feature-item">
+            <h3>Ihre Top-Titel</h3>
+            <p>Entdecken Sie Ihre meistgespielten Songs und erleben Sie Ihre Lieblingsmomente noch einmal.</p>
+        </div>
+        <div class="feature-item">
+            <h3>Ihre Lieblingskünstler</h3>
+            <p>Finden Sie heraus, welche Künstler Ihnen das ganze Jahr über Gesellschaft geleistet haben.</p>
+        </div>
+        <div class="feature-item">
+            <h3>Hörtrends</h3>
+            <p>Sehen Sie, wie sich Ihre Musikgewohnheiten im Laufe der Zeit, je nach Tag, Stimmung oder Jahreszeit ändern.</p>
+        </div>
+    </div>
+</section>
+
+<section class="section how-it-works">
+    <h2>Wie es funktioniert</h2>
+
+    <ol>1. Melden Sie sich bei Spotify an, um Ihre Daten sicher zu synchronisieren.</ol>
+    <ol>2. Entdecken Sie Ihre personalisierten Musikeinblicke.</ol>
+    <ol>3.Teilen Sie Ihre verpackten Highlights mit Freunden!</ol>
+
+</section>
+
+<section class="section testimonials">
+    <h2>Was Benutzer sagen</h2>
+    <blockquote>
+        <p>"SpotifyWrapped hat mir eine ganz neue Perspektive auf meinen Musikgeschmack gegeben!"</p>
+        <footer>- Ein glücklicher Zuhörer</footer>
+    </blockquote>
+</section>
 
 <footer>
     <p>
