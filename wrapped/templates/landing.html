@@ -133,6 +133,7 @@
         width: 100%;
         max-width: 1200px;
         margin: 0 auto;
+        text-align: center;
     }
 
     body.light .section {
@@ -279,17 +280,55 @@
 
 <div class="hero">
     <h1>Welcome to SpotifyWrapped</h1>
+    <p>Your personalized Spotify listening stats, trends, and highlights—wrapped just for you.</p>
     <button>
         <a href="{% url 'spotify-login' %}" class="cta">Get Started</a>
     </button>
 </div>
+
+<section class="section features">
+    <h2>Why SpotifyWrapped?</h2>
+    <div class="feature-list">
+        <div class="feature-item">
+            <h3>Your Top Tracks</h3>
+            <p>Discover your most-played songs and relive your favorite moments.</p>
+        </div>
+        <div class="feature-item">
+            <h3>Your Favorite Artists</h3>
+            <p>Find out which artists kept you company throughout the year.</p>
+        </div>
+        <div class="feature-item">
+            <h3>Listening Trends</h3>
+            <p>See how your music habits change over time, by day, mood, or season.</p>
+        </div>
+    </div>
+</section>
+
+<section class="section how-it-works">
+    <h2>How It Works</h2>
+
+    <ol>1.Log in with Spotify to sync your data securely.</ol>
+    <ol>2.Explore your personalized music insights.</ol>
+    <ol>3.Share your Wrapped highlights with friends!</ol>
+
+</section>
+
+<section class="section testimonials">
+    <h2>What Users Say</h2>
+    <blockquote>
+        <p>"SpotifyWrapped gave me a whole new perspective on my music taste!"</p>
+        <footer>- A Happy Listener</footer>
+    </blockquote>
+</section>
 
 <footer>
     <p>
         Made with ❤️ by Team SpotifyWrapped |
         <a href="https://atlfoodfind.github.io/atlFoodFinder/" target="_blank" rel="noopener noreferrer">Contact Us</a>
     </p>
+    <p>Follow us on <a href="#" target="_blank">Instagram</a> | <a href="#" target="_blank">Twitter</a></p>
 </footer>
+
 
 <script>
     const savedViewMode = localStorage.getItem("viewMode") || "{{ view_mode }}";

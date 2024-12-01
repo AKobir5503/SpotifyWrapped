@@ -4,12 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="287ce0f1-7566-40d0-b2fb-124076850c40" name="Changes" comment="added interactive slide for streaks.">
+    <list default="true" id="287ce0f1-7566-40d0-b2fb-124076850c40" name="Changes" comment="fixed language updates for slide7">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/db.sqlite3" beforeDir="false" afterPath="$PROJECT_DIR$/db.sqlite3" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wrapped/templates/wrapper.html" beforeDir="false" afterPath="$PROJECT_DIR$/wrapped/templates/wrapper.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wrapped/templates/wrapper_de.html" beforeDir="false" afterPath="$PROJECT_DIR$/wrapped/templates/wrapper_de.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/wrapped/templates/wrapper_es.html" beforeDir="false" afterPath="$PROJECT_DIR$/wrapped/templates/wrapper_es.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/wrapped/templates/landing.html" beforeDir="false" afterPath="$PROJECT_DIR$/wrapped/templates/landing.html" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -128,7 +126,8 @@
       <workItem from="1732757371543" duration="4328000" />
       <workItem from="1733018399161" duration="398000" />
       <workItem from="1733024900159" duration="1102000" />
-      <workItem from="1733027224251" duration="1082000" />
+      <workItem from="1733027224251" duration="1254000" />
+      <workItem from="1733031890563" duration="1734000" />
     </task>
     <task id="LOCAL-00001" summary="top artists and top tracks officially work properly now.">
       <option name="closed" value="true" />
@@ -266,7 +265,15 @@
       <option name="project" value="LOCAL" />
       <updated>1733025959400</updated>
     </task>
-    <option name="localTasksCounter" value="18" />
+    <task id="LOCAL-00018" summary="fixed language updates for slide7">
+      <option name="closed" value="true" />
+      <created>1733028447916</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1733028447916</updated>
+    </task>
+    <option name="localTasksCounter" value="19" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -295,7 +302,8 @@
     <MESSAGE value="heroku and localhost hybrid worked yay!!!" />
     <MESSAGE value="pulled in mafaaz's branch which allows delete account feature in user settings." />
     <MESSAGE value="added interactive slide for streaks." />
-    <option name="LAST_COMMIT_MESSAGE" value="added interactive slide for streaks." />
+    <MESSAGE value="fixed language updates for slide7" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixed language updates for slide7" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
