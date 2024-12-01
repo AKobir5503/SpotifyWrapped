@@ -4,17 +4,17 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="287ce0f1-7566-40d0-b2fb-124076850c40" name="Changes" comment="Completed documentation for actions.js, autocomplete.js, calendar.js, cancel.js, change_form.js, and core.js.">
+    <list default="true" id="287ce0f1-7566-40d0-b2fb-124076850c40" name="Changes" comment="Completed documentation prepopulate_init,SelectBox, SelectFilter2, theme, unusable_password_fields .js">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/staticfiles/admin/js/filters.js" beforeDir="false" afterPath="$PROJECT_DIR$/staticfiles/admin/js/filters.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/staticfiles/admin/js/inlines.js" beforeDir="false" afterPath="$PROJECT_DIR$/staticfiles/admin/js/inlines.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/staticfiles/admin/js/nav_sidebar.js" beforeDir="false" afterPath="$PROJECT_DIR$/staticfiles/admin/js/nav_sidebar.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/staticfiles/admin/js/prepopulate.js" beforeDir="false" afterPath="$PROJECT_DIR$/staticfiles/admin/js/prepopulate.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/wrapped/models.py" beforeDir="false" afterPath="$PROJECT_DIR$/wrapped/models.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="DjangoConsoleOptions" custom-start-script="import sys; print('Python %s on %s' % (sys.version, sys.platform))&#10;import django; print('Django %s' % django.get_version())&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;if 'setup' in dir(django): django.setup()&#10;import django_manage_shell; django_manage_shell.run(PROJECT_ROOT)">
+    <option name="myCustomStartScript" value="import sys; print('Python %s on %s' % (sys.version, sys.platform))&#10;import django; print('Django %s' % django.get_version())&#10;sys.path.extend([WORKING_DIR_AND_PYTHON_PATHS])&#10;if 'setup' in dir(django): django.setup()&#10;import django_manage_shell; django_manage_shell.run(PROJECT_ROOT)" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -249,7 +249,23 @@
       <option name="project" value="LOCAL" />
       <updated>1732944663893</updated>
     </task>
-    <option name="localTasksCounter" value="16" />
+    <task id="LOCAL-00016" summary="Completed documentation for filters, inlines, nav_sidebar and prepopulate.">
+      <option name="closed" value="true" />
+      <created>1732946204735</created>
+      <option name="number" value="00016" />
+      <option name="presentableId" value="LOCAL-00016" />
+      <option name="project" value="LOCAL" />
+      <updated>1732946204735</updated>
+    </task>
+    <task id="LOCAL-00017" summary="Completed documentation prepopulate_init,SelectBox, SelectFilter2, theme, unusable_password_fields .js">
+      <option name="closed" value="true" />
+      <created>1732947230708</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1732947230708</updated>
+    </task>
+    <option name="localTasksCounter" value="18" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -266,7 +282,7 @@
                   <entry key="branch">
                     <value>
                       <list>
-                        <option value="mohammed" />
+                        <option value="origin/mohammed" />
                       </list>
                     </value>
                   </entry>
@@ -290,6 +306,8 @@
     <MESSAGE value="changed settings to allow heroku and localhost switch dynamically" />
     <MESSAGE value="Completed documentation regarding views.py's functions" />
     <MESSAGE value="Completed documentation for actions.js, autocomplete.js, calendar.js, cancel.js, change_form.js, and core.js." />
-    <option name="LAST_COMMIT_MESSAGE" value="Completed documentation for actions.js, autocomplete.js, calendar.js, cancel.js, change_form.js, and core.js." />
+    <MESSAGE value="Completed documentation for filters, inlines, nav_sidebar and prepopulate." />
+    <MESSAGE value="Completed documentation prepopulate_init,SelectBox, SelectFilter2, theme, unusable_password_fields .js" />
+    <option name="LAST_COMMIT_MESSAGE" value="Completed documentation prepopulate_init,SelectBox, SelectFilter2, theme, unusable_password_fields .js" />
   </component>
 </project>
