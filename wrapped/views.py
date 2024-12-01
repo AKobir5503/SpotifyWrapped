@@ -31,6 +31,18 @@ else:  # Local environment
 
 # Landing page view
 def landing(request):
+    """
+        Handles the landing page with support for view mode and language preferences.
+
+        - Saves user preferences for `view_mode` and `language` in the session.
+        - Renders the appropriate localized landing page template.
+
+        Args:
+            request (HttpRequest): The HTTP request object.
+
+        Returns:
+            HttpResponse: The rendered landing page template.
+        """
     if request.method == "POST":
         view_mode = request.POST.get("view_mode", "light")
         language = request.POST.get("language", "en")
@@ -58,6 +70,19 @@ def landing(request):
 
 # Login view
 def login_user(request):
+    """
+        Handles user login, authentication, and session preference settings.
+
+        - Authenticates user with provided username and password.
+        - Saves view mode and language preferences in the session.
+        - Redirects authenticated users to the dashboard.
+
+        Args:
+            request (HttpRequest): The HTTP request object.
+
+        Returns:
+            HttpResponse: The login page or a redirect to the dashboard.
+    """
     if request.method == "POST":
         # Handle view mode and language settings
         view_mode = request.POST.get("view_mode", "light")
@@ -98,6 +123,18 @@ def login_user(request):
 
 # Register user view
 def register_user(request):
+    """
+        Handles user registration with session preference settings.
+
+        - Processes the registration form.
+        - Saves view mode and language preferences in the session.
+
+        Args:
+            request (HttpRequest): The HTTP request object.
+
+        Returns:
+            HttpResponse: The registration page or a redirect to the login page.
+    """
     # Handle "view_mode" and "language" for GET and POST requests
     view_mode = request.session.get("view_mode", "light")
     language = request.session.get("language", "en")
@@ -127,6 +164,18 @@ def register_user(request):
 # Dashboard view (requires login)
 @login_required
 def dashboard(request):
+    """
+    Displays the user dashboard with saved Spotify wraps.
+
+    - Handles preference updates for view mode and language.
+    - Queries the user's saved wraps for display.
+
+    Args:
+        request (HttpRequest): The HTTP request object.
+
+    Returns:
+        HttpResponse: The rendered dashboard template.
+    """
     # Handle POST requests for settings
     if request.method == "POST":
         view_mode = request.POST.get("view_mode", "light")
@@ -161,12 +210,30 @@ def dashboard(request):
 
 
 def user_logout(request):
+    """
+        Logs the user out and redirects to the landing page.
+
+        Args:
+            request (HttpRequest): The HTTP request object.
+
+        Returns:
+            HttpResponse: A redirect to the landing page.
+    """
     logout(request)
     return redirect('landing')
 
 #Delete account
 @login_required
 def delete_account(request):
+    """
+        Deletes the currently authenticated user's account.
+
+        Args:
+            request (HttpRequest): The HTTP request object.
+
+        Returns:
+            HttpResponse: A redirect to the landing page.
+    """
     if request.method == 'POST':
         user = request.user
         user.delete()
@@ -176,12 +243,30 @@ def delete_account(request):
 
 # Spotify login view
 def spotify_login(request):
+    """
+        Initiates Spotify OAuth authentication flow.
+
+        Args:
+            request (HttpRequest): The HTTP request object.
+
+        Returns:
+            HttpResponse: A redirect to Spotify's authorization endpoint.
+    """
     scope = 'user-top-read user-read-recently-played'
     spotify_auth_url = f"https://accounts.spotify.com/authorize?client_id={SPOTIFY_CLIENT_ID}&response_type=code&redirect_uri={SPOTIFY_REDIRECT_URI}&scope={scope}"
     return redirect(spotify_auth_url)
 
 # Spotify callback view
 def callback(request):
+    """
+        Handles the Spotify OAuth callback, exchanging the code for an access token.
+
+        Args:
+            request (HttpRequest): The HTTP request object.
+
+        Returns:
+            HttpResponse: A redirect to the generate-wrap view or an error page.
+        """
     code = request.GET.get('code')
     token_url = 'https://accounts.spotify.com/api/token'
     token_data = {
@@ -224,6 +309,19 @@ def get_top_tracks(access_token, time_frame):
 # Generate the user's Spotify wrap
 @login_required
 def generate_wrap(request):
+    """
+        Generates the user's Spotify wrap based on their listening data.
+
+        - Fetches top tracks, artists, and audio features using Spotify API.
+        - Calculates listening patterns, genre breakdowns, and mood playlists.
+        - Optionally saves the generated wrap to the database.
+
+        Args:
+            request (HttpRequest): The HTTP request object.
+
+        Returns:
+            HttpResponse: The rendered wrap template or a redirect to Spotify login.
+    """
     access_token = request.session.get('spotify_access_token')
     if not access_token:
         return redirect('spotify-login')
@@ -311,7 +409,15 @@ def generate_wrap(request):
 
     #analyze the listening times throughout the day for the bar graph
     def analyze_listening_patterns(recently_played):
-        """Analyze listening patterns from recently played tracks."""
+        """
+            Analyzes listening patterns from recently played tracks.
+
+            Args:
+                recently_played (list): A list of recently played track data.
+
+            Returns:
+                dict: The analyzed listening patterns by time of day.
+        """
         patterns = {
             'time_of_day': {
                 'morning': 0,
@@ -346,7 +452,15 @@ def generate_wrap(request):
 
     #analyze the genre breakdowns for graphs
     def analyze_genres(top_artists):
-        """Analyze genres from the top artists."""
+        """
+            Analyzes genre data from top artists.
+
+            Args:
+                top_artists (list): A list of top artist data.
+
+            Returns:
+                dict: A dictionary of genre counts.
+        """
         genre_counts_graph = {}
 
         for artist in top_artists:
@@ -359,7 +473,15 @@ def generate_wrap(request):
 
     # Analyze longest track streaks
     def get_longest_streaks(recently_played):
-        """Calculate the longest track streaks from recently played data."""
+        """
+            Calculates the longest track streaks from recently played data.
+
+            Args:
+                recently_played (list): A list of recently played track data.
+
+            Returns:
+                list: The top 3 longest track streaks.
+        """
         streaks = defaultdict(int)  # Track streaks per song
         longest_streaks = []  # Final list of longest streaks
 
@@ -491,6 +613,15 @@ def save_wrap(request):
 
 # About page view
 def about(request):
+    """"
+    Renders the About page with support for view mode and language preferences.
+
+    Args:
+        request (HttpRequest): The HTTP request object.
+
+    Returns:
+        HttpResponse: The rendered About page template.
+    """
     if request.method == "POST":
         view_mode = request.POST.get("view_mode", "light")
         language = request.POST.get("language", "en")
@@ -518,6 +649,15 @@ def about(request):
 
 # wrap features and attributes views go below
 def get_user_top_tracks(access_token):
+    """
+        Fetches the user's top tracks from Spotify.
+
+        Args:
+            access_token (str): The Spotify API access token.
+
+        Returns:
+            list: The user's top tracks or None if the request fails.
+    """
     url = 'https://api.spotify.com/v1/me/top/tracks?limit=10'
     headers = {
         'Authorization': f'Bearer {access_token}',
@@ -531,6 +671,19 @@ def get_user_top_tracks(access_token):
 
 @login_required
 def wrap_detail(request, wrap_id):
+    """
+        Displays the details of a specific Spotify wrap.
+
+        - Handles updates to view mode and language preferences.
+        - Retrieves wrap details for display.
+
+        Args:
+            request (HttpRequest): The HTTP request object.
+            wrap_id (int): The ID of the wrap to display.
+
+        Returns:
+            HttpResponse: The rendered wrap detail template.
+    """
     wrap = get_object_or_404(SpotifyWrap, id=wrap_id)
 
     if request.method == "POST":
@@ -591,6 +744,15 @@ def delete_account(request):
     return render(request, 'delete_account.html')
 
 def user_settings(request):
+    """
+        Renders the user settings page with support for view mode and language preferences.
+
+        Args:
+            request (HttpRequest): The HTTP request object.
+
+        Returns:
+            HttpResponse: The rendered user settings template.
+    """
     if request.method == "POST":
         view_mode = request.POST.get("view_mode", "light")
         language = request.POST.get("language", "en")
@@ -619,6 +781,16 @@ def user_settings(request):
 
 @login_required
 def delete_wrap(request, wrap_id):
+    """
+        Deletes a specific Spotify wrap.
+
+        Args:
+            request (HttpRequest): The HTTP request object.
+            wrap_id (int): The ID of the wrap to delete.
+
+        Returns:
+            HttpResponse: A redirect to the dashboard.
+    """
     # Find the wrap for the current user
     wrap = get_object_or_404(SpotifyWrap, id=wrap_id, user=request.user)
 
