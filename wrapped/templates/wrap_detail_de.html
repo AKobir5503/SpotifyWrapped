@@ -705,34 +705,37 @@
 <!-- Share Buttons at the bottom of the page -->
 <div class="share-buttons" style="position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); z-index: 100;">
     <!-- LinkedIn Share Button with Copy Functionality -->
-    <a href="https://www.linkedin.com/shareArticle?mini=true&url=https://spotifywrapped35-7ed41b719d25.herokuapp.com/wrap/{{ wrap.id }}/&title=My%20Spotify%20Wrapped&summary=Check%20out%20my%20Spotify%20Wrapped%20for%20this%20year!" 
-       target="_blank" 
+    <a href="https://www.linkedin.com/shareArticle?mini=true&url=http://localhost:8000/wrap/{{ wrap.id }}/&title=Mein%20Spotify%20Wrapped&summary=Schauen%20Sie%20sich%20mein%20Spotify%20Wrapped%20für%20dieses%20Jahr%20an."
+       target="_blank"
        class="btn share-btn linkedin-btn"
-       onclick="copyToClipboard('https://spotifywrapped35-7ed41b719d25.herokuapp.com/wrap/{{ wrap.id }}/');">
+       onclick="copyToClipboard('http://localhost:8000/wrap/{{ wrap.id }}/');">
         Auf LinkedIn teilen
     </a>
 
     <!-- Twitter Share Button with Copy Functionality -->
-    <a href="https://twitter.com/intent/tweet?text=Check%20out%20my%20Spotify%20Wrapped%20for%20this%20year!%20https://spotifywrapped35-7ed41b719d25.herokuapp.com/wrap/{{ wrap.id }}/" 
-       target="_blank" 
+    <a href="https://twitter.com/intent/tweet?text=Schauen%20Sie%20sich%20mein%20Spotify%20Wrapped%20für%20dieses%20Jahr%20an.%20http://localhost:8000/wrap/{{ wrap.id }}/"
+       target="_blank"
        class="btn share-btn twitter-btn"
-       onclick="copyToClipboard('https://spotifywrapped35-7ed41b719d25.herokuapp.com/wrap/{{ wrap.id }}/');">
+       onclick="copyToClipboard('http://localhost:8000/wrap/{{ wrap.id }}/');">
         Auf Twitter/X teilen
     </a>
 
     <!-- Instagram Share Button -->
-    <a href="https://www.instagram.com"  
-       target="_blank" 
+    <a href="https://www.instagram.com"
+       target="_blank"
        class="btn share-btn instagram-btn"
-       onclick="copyToClipboard('https://spotifywrapped35-7ed41b719d25.herokuapp.com/wrap/{{ wrap.id }}/');">
+       onclick="copyToClipboard('http://localhost:8000/wrap/{{ wrap.id }}/');">
         Auf Insta teilen
     </a>
 
     <!-- Copy Link Button -->
-    <button class="btn share-btn copy-btn" onclick="copyToClipboard('https://spotifywrapped35-7ed41b719d25.herokuapp.com/wrap/{{ wrap.id }}/')">
+    <button class="btn share-btn copy-btn" onclick="copyToClipboard('http://localhost:8000/wrap/{{ wrap.id }}/')">
         Link kopieren
     </button>
 </div>
+
+
+
 
 <footer>
     <p>
