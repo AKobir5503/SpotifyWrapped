@@ -20,30 +20,36 @@ header .container {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    padding: 0 20px;
+    flex-wrap: wrap;
 }
 
 header .logo {
     color: white;
-    font-size: 24px;
+    font-size: 1.5rem;
     font-weight: bold;
+    text-align: center;
+    flex: 1 1 100%;
 }
 
 header .nav-links {
     list-style: none;
     display: flex;
-    justify-content: flex-end;
-    margin: 0;
+    justify-content: center;
+    margin: 10px 0 0 0;
     padding: 0;
+    flex-wrap: wrap;
+    gap: 10px;
 }
 
 header .nav-links li {
-    margin: 0 15px;
+    margin: 0 10px;
 }
 
 header .nav-links a {
     color: white;
     text-decoration: none;
-    font-size: 18px;
+    font-size: 1rem;
 }
 
 header .nav-links a:hover {
@@ -52,8 +58,8 @@ header .nav-links a:hover {
 
 /* Logout button */
 header .logout-form {
-    display: inline;
-    margin-left: 20px;
+    display: inline-block;
+    margin-top: 10px;
 }
 
 header .logout-btn {
@@ -61,7 +67,7 @@ header .logout-btn {
     color: white;
     border: none;
     padding: 8px 16px;
-    font-size: 16px;
+    font-size: 1rem;
     cursor: pointer;
     border-radius: 5px;
 }
@@ -75,9 +81,10 @@ header .logout-btn:hover {
 }
 
 .container {
-    max-width: 1000px;
+    max-width: 100%;
     margin: auto;
     padding: 20px;
+    box-sizing: border-box;
 }
 
 .section {
@@ -90,42 +97,44 @@ header .logout-btn:hover {
 
 .section h2 {
     color: #1db954;
-    font-size: 28px;
+    font-size: 1.75rem;
     margin-bottom: 10px;
 }
 
 .section p {
-    font-size: 18px;
+    font-size: 1rem;
     margin: 10px 0;
 }
 
 .team {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-around;
+    justify-content: center;
+    gap: 20px;
 }
 
 .team-member {
     text-align: center;
-    margin: 20px;
+    margin: 10px;
+    flex: 1 1 45%;
     max-width: 200px;
 }
 
 .team-member img {
-    width: 100px;
-    height: 100px;
+    width: 80px;
+    height: 80px;
     border-radius: 50%;
     margin-bottom: 10px;
 }
 
 .team-member h3 {
     margin: 5px 0;
-    font-size: 20px;
+    font-size: 1.25rem;
     color: #333;
 }
 
 .team-member p {
-    font-size: 16px;
+    font-size: 0.9rem;
     color: #555;
 }
 
@@ -134,7 +143,7 @@ footer {
     padding: 20px;
     background-color: #333;
     color: white;
-    font-size: 14px;
+    font-size: 0.9rem;
 }
 
 footer a {
@@ -144,4 +153,70 @@ footer a {
 
 footer a:hover {
     text-decoration: underline;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    header .container {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    header .nav-links {
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    header .logout-form {
+        margin-top: 15px;
+    }
+
+    .team-member {
+        flex: 1 1 80%;
+        max-width: 100%;
+    }
+}
+
+@media (max-width: 480px) {
+    header {
+        padding: 15px 0;
+    }
+
+    header .logo {
+        font-size: 1.25rem;
+    }
+
+    header .nav-links a {
+        font-size: 0.9rem;
+    }
+
+    header .logout-btn {
+        padding: 6px 12px;
+        font-size: 0.9rem;
+    }
+
+    .section h2 {
+        font-size: 1.5rem;
+    }
+
+    .section p {
+        font-size: 0.9rem;
+    }
+
+    .team-member img {
+        width: 60px;
+        height: 60px;
+    }
+
+    .team-member h3 {
+        font-size: 1rem;
+    }
+
+    .team-member p {
+        font-size: 0.8rem;
+    }
+
+    footer {
+        font-size: 0.8rem;
+    }
 }
