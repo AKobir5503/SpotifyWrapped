@@ -347,6 +347,8 @@ def generate_wrap(request):
     #display limit to 5
     top_tracks_display = top_tracks[:3]
     top_artists_display = top_artists[:3]
+    top_tracks_details = top_tracks[:5]
+    top_artists_details = top_artists[:5]
     # Get track IDs from top tracks
     track_ids = [track['id'] for track in top_tracks]
 
@@ -547,8 +549,8 @@ def generate_wrap(request):
             data={
                 'wrap_name': wrap_name,
                 'time_frame': time_frame,
-                'top_tracks': top_tracks,
-                'top_artists': top_artists,
+                'top_tracks': top_tracks_details,
+                'top_artists': top_artists_details,
                 'favorite_genres': favorite_genres,
                 'top_albums': top_albums,
                 'longest_streaks': longest_streaks,
