@@ -358,7 +358,7 @@
             color: #fff;
             transition: all 0.3s ease-in-out;
         }
-        
+
         footer a {
             color: #1db954;
             text-decoration: none;
@@ -402,6 +402,7 @@
             }
         }
     </style>
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 </head>
 <body class="{{ view_mode }}">
 <header>
@@ -513,41 +514,41 @@
         Made with ❤️ by Team SpotifyWrapped |
         <a href="https://group35-2340.github.io/CS2340-Portfolio/contact.html" target="_blank"
            rel="noopener noreferrer">Contact Us</a>
-        
+
         <!-- Share Buttons at the bottom of the page -->
-    <div class="share-buttons" style="position: relative; top: 1px; bottom: 1px; left: 50%; transform: translateX(-50%); z-index: 100;">
-    <!-- LinkedIn Share Button with Copy Functionality -->
-    <a href="https://www.linkedin.com/shareArticle?mini=true&url=http://localhost:8000/wrap/{{ wrap.id }}/&title=My%20Spotify%20Wrapped&summary=Check%20out%20my%20Spotify%20Wrapped%20for%20this%20year!"
-       target="_blank"
-       class="btn share-btn linkedin-btn"
-       onclick="copyToClipboard('http://localhost:8000/wrap/{{ wrap.id }}/');">
-        Share on LinkedIn
-    </a>
+    <div class="share-buttons"
+         style="position: relative; top: 1px; bottom: 1px; left: 50%; transform: translateX(-50%); z-index: 100;">
+        <!-- LinkedIn Share Button with Copy Functionality -->
+        <!-- Copy Link Button -->
+        <button class="btn share-btn copy-btn" onclick="copyMainContentAsImage()">
+            Copy Image
+        </button>
+    
+        <a
+           href="https://www.linkedin.com/shareArticle?mini=true&url=http://localhost:8000/wrap/{{ wrap.id }}/&title=My%20Spotify%20Wrapped&summary=Check%20out%20my%20Spotify%20Wrapped%20for%20this%20year!"
+           target="_blank"
+           class="btn share-btn linkedin-btn">
+            Open LinkedIn
+        </a>
 
-    <!-- Twitter Share Button with Copy Functionality -->
-    <a href="https://twitter.com/intent/tweet?text=Check%20out%20my%20Spotify%20Wrapped%20for%20this%20year!%20http://localhost:8000/wrap/{{ wrap.id }}/"
-       target="_blank"
-       class="btn share-btn twitter-btn"
-       onclick="copyToClipboard('http://localhost:8000/wrap/{{ wrap.id }}/');">
-        Share on Twitter/X
-    </a>
+        <!-- Twitter Share Button with Copy Functionality -->
+        <a href="https://twitter.com/intent/tweet?text=Check%20out%20my%20Spotify%20Wrapped%20for%20this%20year!%20http://localhost:8000/wrap/{{ wrap.id }}/"
+           target="_blank"
+           class="btn share-btn twitter-btn">
+            Open Twitter/X
+        </a>
 
-    <!-- Instagram Share Button -->
-    <a href="https://www.instagram.com"
-       target="_blank"
-       class="btn share-btn instagram-btn"
-       onclick="copyToClipboard('http://localhost:8000/wrap/{{ wrap.id }}/');">
-        Share on Instagram
-    </a>
+        <!-- Instagram Share Button -->
+        <a href="https://www.instagram.com"
+           target="_blank"
+           class="btn share-btn instagram-btn">
+            Open Instagram
+        </a>
 
-    <!-- Copy Link Button -->
-    <button class="btn share-btn copy-btn" onclick="copyToClipboard('http://localhost:8000/wrap/{{ wrap.id }}/')">
-        Copy Link
-    </button>
-</div>
+    </div>
 
     </p>
-    
+
 </footer>
 
 <script>
@@ -589,19 +590,37 @@
         });
     });
 
-    function copyToClipboard(link) {
-        // Use the Clipboard API to write text to the clipboard
-        navigator.clipboard.writeText(link)
-            .then(() => {
-                // Notify the user that the link was successfully copied
-                alert("Link copied to clipboard!");
-            })
-            .catch(err => {
-                // Log an error and notify the user if copying fails
-                console.error("Failed to copy: ", err);
-                alert("Failed to copy the link. Please try again.");
-            });
+    function copyMainContentAsImage() {
+        const contentToCapture = document.querySelector('.wrap-detail-container'); // Target the main content
+
+        html2canvas(contentToCapture).then(canvas => {
+            canvas.toBlob(blob => {
+                if (!blob) {
+                    alert("Failed to capture the main content as an image.");
+                    return;
+                }
+
+                try {
+                    const item = new ClipboardItem({"image/png": blob});
+                    navigator.clipboard.write([item])
+                        .then(() => {
+                            alert("Main content copied as an image!");
+                        })
+                        .catch(err => {
+                            console.error("Failed to copy image: ", err);
+                            alert("Clipboard permissions are required or unsupported in this browser.");
+                        });
+                } catch (error) {
+                    console.error("Error creating ClipboardItem: ", error);
+                    alert("Your browser may not support copying images to the clipboard.");
+                }
+            }, 'image/png'); // Specify the Blob type as PNG
+        }).catch(err => {
+            console.error("html2canvas error: ", err);
+            alert("Failed to capture the main content. Ensure the page is served over HTTPS.");
+        });
     }
+
 </script>
 </body>
 </html>
