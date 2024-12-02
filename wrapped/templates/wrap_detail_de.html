@@ -403,15 +403,15 @@
         }
     </style>
     <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Über SpotifyWrapped</title>
-    <style>
-        /* Add your CSS styles here, translation not necessary */
-    </style>
-    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
-</head>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Über SpotifyWrapped</title>
+        <style>
+            /* Add your CSS styles here, translation not necessary */
+        </style>
+        <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+    </head>
 <body class="{{ view_mode }}">
 <header>
     <div class="container">
@@ -501,6 +501,72 @@
             </div>
         {% else %}
             <p>Keine Top-Künstler verfügbar.</p>
+        {% endif %}
+    </div>
+
+    <!-- Abschnitt: Top-Genres -->
+    <div class="wrap-section">
+        <h2 class="section-title">Deine Top-Genres</h2>
+        {% if wrap.data.favorite_genres %}
+            <div class="artists-container">
+                {% for genre in wrap.data.favorite_genres %}
+                    <div class="artist-card">
+                        <div class="genre-item">
+                            <h2>{{ genre }}</h2>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>Keine Top-Genres verfügbar.</p>
+        {% endif %}
+    </div>
+
+    <!-- Abschnitt: Top-Alben -->
+    <div class="wrap-section">
+        <h2 class="section-title">Deine Top-Alben</h2>
+        {% if wrap.data.top_albums %}
+            <div class="artists-container">
+                {% for album in wrap.data.top_albums %}
+                    <div class="artist-card">
+                        <img src="{{ album.image_url }}" alt="{{ album.name }}" class="album-cover">
+                        <div class="album-info">
+                            <h2>{{ album.name }}</h2>
+                            <p>Künstler: {{ album.artist }}</p>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>Keine Top-Alben verfügbar.</p>
+        {% endif %}
+    </div>
+
+    <!-- Abschnitt: Top-Wiederholungen -->
+    <div class="wrap-section">
+        <h2 class="section-title">Lieder, die Du Nicht Aufhören Konntest Wieder und Wieder zu Hören</h2>
+        {% if wrap.data.longest_streaks %}
+            <div class="artists-container">
+                {% for track in wrap.data.longest_streaks %}
+                    <div class="artist-card">
+                        <div class="track-image">
+                            <!-- Verwende das album_art_url aus dem Backend -->
+                            <img src="{{ track.album_art_url | default:'/static/default_album_cover.jpg' }}"
+                                 alt="Albumcover von {{ track.name }}" class="album-cover">
+                        </div>
+                        <div class="track-details">
+                            <span class="track-name">{{ track.name }}</span>
+                            <div class="track-streak-container">
+                                <span class="track-streak">{{ track.streak }}<span
+                                        class="streak-label"> Mal in Folge gespielt!!! </span></span>
+                                <span class="track-emoji">🎶</span>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>Keine Top-Alben verfügbar.</p>
         {% endif %}
     </div>
 

@@ -496,6 +496,72 @@
         {% endif %}
     </div>
 
+    <!-- Top genres Section -->
+    <div class="wrap-section">
+        <h2 class="section-title">Your Top genres</h2>
+        {% if wrap.data.favorite_genres %}
+            <div class="artists-container">
+                {% for genre in wrap.data.favorite_genres %}
+                    <div class="artist-card">
+                        <div class="genre-item">
+                            <h2>{{ genre }}</h2>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>No top genres available.</p>
+        {% endif %}
+    </div>
+
+    <!-- Top albums Section -->
+    <div class="wrap-section">
+        <h2 class="section-title">Your Top Albums</h2>
+        {% if wrap.data.top_albums %}
+            <div class="artists-container">
+                {% for album in wrap.data.top_albums %}
+                    <div class="artist-card">
+                        <img src="{{ album.image_url }}" alt="{{ album.name }}" class="album-cover">
+                        <div class="album-info">
+                            <h2>{{ album.name }}</h2>
+                            <p>Artist: {{ album.artist }}</p>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>No top albums available.</p>
+        {% endif %}
+    </div>
+
+    <!-- Top streaks Section -->
+    <div class="wrap-section">
+        <h2 class="section-title">Songs You Couldn't Stop Playing Over and Over Again</h2>
+        {% if wrap.data.longest_streaks %}
+            <div class="artists-container">
+                {% for track in wrap.data.longest_streaks %}
+                    <div class="artist-card">
+                        <div class="track-image">
+                            <!-- Use the album_art_url from the backend -->
+                            <img src="{{ track.album_art_url | default:'/static/default_album_cover.jpg' }}"
+                                 alt="{{ track.name }} album cover" class="album-cover">
+                        </div>
+                        <div class="track-details">
+                            <span class="track-name">{{ track.name }}</span>
+                            <div class="track-streak-container">
+                                    <span class="track-streak">{{ track.streak }}<span
+                                            class="streak-label"> plays in a row!!! </span></span>
+                                <span class="track-emoji">🎶</span>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>No top albums available.</p>
+        {% endif %}
+    </div>
+
     <!-- Navigation and Actions -->
     <div class="wrap-actions">
         <form method="POST" action="{% url 'generate-wrap' %}">
@@ -523,14 +589,14 @@
         <button class="btn share-btn copy-btn" onclick="copyMainContentAsImage()">
             Copy Image
         </button>
-    
+
         <a href="https://www.linkedin.com/shareArticle?mini=true"
            target="_blank"
            class="btn share-btn linkedin-btn">
             Open LinkedIn
         </a>
 
-               <!-- Twitter Share Button with Copy Functionality -->
+        <!-- Twitter Share Button with Copy Functionality -->
         <a href="https://twitter.com/intent/tweet?text=Check%20out%20my%20Spotify%20Wrapped!"
            target="_blank"
            class="btn share-btn twitter-btn">

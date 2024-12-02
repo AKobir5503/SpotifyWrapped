@@ -504,6 +504,72 @@
         {% endif %}
     </div>
 
+    <!-- Sección de Géneros Principales -->
+    <div class="wrap-section">
+        <h2 class="section-title">Tus Géneros Principales</h2>
+        {% if wrap.data.favorite_genres %}
+            <div class="artists-container">
+                {% for genre in wrap.data.favorite_genres %}
+                    <div class="artist-card">
+                        <div class="genre-item">
+                            <h2>{{ genre }}</h2>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>No hay géneros principales disponibles.</p>
+        {% endif %}
+    </div>
+
+    <!-- Sección de Álbumes Principales -->
+    <div class="wrap-section">
+        <h2 class="section-title">Tus Álbumes Principales</h2>
+        {% if wrap.data.top_albums %}
+            <div class="artists-container">
+                {% for album in wrap.data.top_albums %}
+                    <div class="artist-card">
+                        <img src="{{ album.image_url }}" alt="{{ album.name }}" class="album-cover">
+                        <div class="album-info">
+                            <h2>{{ album.name }}</h2>
+                            <p>Artista: {{ album.artist }}</p>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>No hay álbumes principales disponibles.</p>
+        {% endif %}
+    </div>
+
+    <!-- Sección de Repeticiones Principales -->
+    <div class="wrap-section">
+        <h2 class="section-title">Canciones que No Podías Dejar de Escuchar una y Otra Vez</h2>
+        {% if wrap.data.longest_streaks %}
+            <div class="artists-container">
+                {% for track in wrap.data.longest_streaks %}
+                    <div class="artist-card">
+                        <div class="track-image">
+                            <!-- Usa el album_art_url desde el backend -->
+                            <img src="{{ track.album_art_url | default:'/static/default_album_cover.jpg' }}"
+                                 alt="Portada del álbum {{ track.name }}" class="album-cover">
+                        </div>
+                        <div class="track-details">
+                            <span class="track-name">{{ track.name }}</span>
+                            <div class="track-streak-container">
+                                <span class="track-streak">{{ track.streak }}<span
+                                        class="streak-label"> reproducciones seguidas!!! </span></span>
+                                <span class="track-emoji">🎶</span>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p>No hay álbumes principales disponibles.</p>
+        {% endif %}
+    </div>
+
     <!-- Navegación y acciones -->
     <div class="wrap-actions">
         <form method="POST" action="{% url 'generate-wrap' %}">
