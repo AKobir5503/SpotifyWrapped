@@ -1,7 +1,7 @@
 
 SpotifyWrapped
 
-Team Website URL: — 
+Portfolio Website URL: — https://group35-2340.github.io/SpotifyWrappedPortfolio/index2.html
 
 SpotifyWrapped is a project designed to provide users with a personalized summary of their Spotify listening habits. It analyzes your music data and presents engaging visualizations, stats, and playlists based on your preferences.
 
