@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Über SpotifyWrapped</title>
+    <title>About SpotifyWrapped</title>
     <style>
         header .logo:hover,
         header .nav-links a:hover {
@@ -358,7 +358,7 @@
             color: #fff;
             transition: all 0.3s ease-in-out;
         }
-        
+
         footer a {
             color: #1db954;
             text-decoration: none;
@@ -402,6 +402,15 @@
             }
         }
     </style>
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Über SpotifyWrapped</title>
+    <style>
+        /* Add your CSS styles here, translation not necessary */
+    </style>
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 </head>
 <body class="{{ view_mode }}">
 <header>
@@ -426,40 +435,40 @@
 </header>
 
 <div class="wrap-detail-container">
-    <h1 class="wrap-title">Ihre SpotifyWrapped-Details</h1>
+    <h1 class="wrap-title">Deine SpotifyWrapped Details</h1>
     <p><strong>Zeitraum:</strong> {{ wrap.time_frame }}</p>
-    <p class="created-on">Erstellt am: {{ wrap.created_at|date:"M d, Y" }}</p>
+    <p class="created-on">Erstellt am: {{ wrap.created_at|date:"d. M, Y" }}</p>
 
-    <!-- Hörstatistiken -->
+    <!-- Gesamtstatistiken -->
     <div class="wrap-section">
-        <h2 class="section-title">Ihre Hörstatistiken</h2>
+        <h2 class="section-title">Deine Hörstatistiken</h2>
         <div class="stats-container">
             <div class="stats-card">
-                <p class="stats-title">Sie haben</p>
+                <p class="stats-title">Du hast gespielt</p>
                 <h3 class="stats-number">{{ wrap.data.total_songs_played }}</h3>
-                <p class="stats-info">Songs in diesem Zeitraum gespielt</p>
+                <p class="stats-info">Lieder in diesem Zeitraum</p>
             </div>
             <div class="stats-card">
-                <p class="stats-title">Aus</p>
+                <p class="stats-title">Insgesamt</p>
                 <h3 class="stats-number">{{ wrap.data.total_genres_played }}</h3>
                 <p class="stats-info">Genres</p>
             </div>
             <div class="stats-card">
-                <p class="stats-title">Für insgesamt</p>
+                <p class="stats-title">Insgesamt gehört für</p>
                 <h3 class="stats-number">{{ wrap.data.total_duration_minutes }}</h3>
-                <p class="stats-info">gehörte Minuten</p>
+                <p class="stats-info">Minuten</p>
             </div>
         </div>
     </div>
 
-    <!-- Top Tracks -->
+    <!-- Top-Titel -->
     <div class="wrap-section">
-        <h2 class="section-title">Ihre Top-Titel</h2>
+        <h2 class="section-title">Deine Top-Titel</h2>
         {% if wrap.data.top_tracks %}
             <div class="tracks-container">
                 {% for track in wrap.data.top_tracks %}
                     <div class="track-item">
-                        <img src="{{ track.album.images.0.url }}" alt="{{ track.name }} Album Cover"
+                        <img src="{{ track.album.images.0.url }}" alt="{{ track.name }} Albumcover"
                              class="album-cover">
                         <div class="track-info">
                             <h3>{{ track.name }}</h3>
@@ -474,9 +483,9 @@
         {% endif %}
     </div>
 
-    <!-- Top Künstler -->
+    <!-- Top-Künstler -->
     <div class="wrap-section">
-        <h2 class="section-title">Ihre Top-Künstler</h2>
+        <h2 class="section-title">Deine Top-Künstler</h2>
         {% if wrap.data.top_artists %}
             <div class="artists-container">
                 {% for artist in wrap.data.top_artists %}
@@ -495,7 +504,7 @@
         {% endif %}
     </div>
 
-    <!-- Navigation -->
+    <!-- Navigation und Aktionen -->
     <div class="wrap-actions">
         <form method="POST" action="{% url 'generate-wrap' %}">
             {% csrf_token %}
@@ -508,80 +517,120 @@
     </div>
 </div>
 
-
 <footer>
     <p>
-        Mit ❤️ gemacht von Team SpotifyWrapped |
-        <a href="https://group35-2340.github.io/CS2340-Portfolio/contact.html" target="_blank" rel="noopener noreferrer">Kontaktieren
-            Sie uns</a>
-        
-        <!-- Share Buttons at the bottom of the page -->
-        <div class="share-buttons" style="position: relative; top: 1px; bottom: 1px; left: 50%; transform: translateX(-50%); z-index: 100;">
-        <!-- LinkedIn Share Button with Copy Functionality -->
-        <a href="https://www.linkedin.com/shareArticle?mini=true&url=http://localhost:8000/wrap/{{ wrap.id }}/&title=Mein%20Spotify%20Wrapped&summary=Schauen%20Sie%20sich%20mein%20Spotify%20Wrapped%20für%20dieses%20Jahr%20an."
+        Mit ❤️ erstellt von Team SpotifyWrapped |
+        <a href="https://group35-2340.github.io/CS2340-Portfolio/contact.html" target="_blank"
+           rel="noopener noreferrer">Kontakt</a>
+    </p>
+
+    <!-- Teilen-Buttons -->
+    <div class="share-buttons"
+         style="position: relative; top: 1px; bottom: 1px; left: 50%; transform: translateX(-50%); z-index: 100;">
+        <!-- LinkedIn-Button -->
+        <button class="btn share-btn copy-btn" onclick="copyMainContentAsImage()">
+            Bild kopieren
+        </button>
+        <a
+           href="https://www.linkedin.com/shareArticle?mini=true&url=http://localhost:8000/wrap/{{ wrap.id }}/&title=Mein%20Spotify%20Wrapped&summary=Schau%20dir%20mein%20Spotify%20Wrapped%20dieses%20Jahr%20an!"
            target="_blank"
-           class="btn share-btn linkedin-btn"
-           onclick="copyToClipboard('http://localhost:8000/wrap/{{ wrap.id }}/');">
+           class="btn share-btn linkedin-btn">
             Auf LinkedIn teilen
         </a>
-    
-        <!-- Twitter Share Button with Copy Functionality -->
-        <a href="https://twitter.com/intent/tweet?text=Schauen%20Sie%20sich%20mein%20Spotify%20Wrapped%20für%20dieses%20Jahr%20an.%20http://localhost:8000/wrap/{{ wrap.id }}/"
+
+        <!-- Twitter-Button -->
+        <a href="https://twitter.com/intent/tweet?text=Schau%20dir%20mein%20Spotify%20Wrapped%20dieses%20Jahr%20an!%20http://localhost:8000/wrap/{{ wrap.id }}/"
            target="_blank"
-           class="btn share-btn twitter-btn"
-           onclick="copyToClipboard('http://localhost:8000/wrap/{{ wrap.id }}/');">
+           class="btn share-btn twitter-btn">
             Auf Twitter/X teilen
         </a>
-    
-        <!-- Instagram Share Button -->
+
+        <!-- Instagram-Button -->
         <a href="https://www.instagram.com"
            target="_blank"
-           class="btn share-btn instagram-btn"
-           onclick="copyToClipboard('http://localhost:8000/wrap/{{ wrap.id }}/');">
-            Auf Insta teilen
+           class="btn share-btn instagram-btn">
+            Auf Instagram teilen
         </a>
-    
-        <!-- Copy Link Button -->
-        <button class="btn share-btn copy-btn" onclick="copyToClipboard('http://localhost:8000/wrap/{{ wrap.id }}/')">
-            Link kopieren
-        </button>
-        </div>
-    </p>
+    </div>
 </footer>
 
 <script>
-    // Skript zur Anzeigeeinstellungen
+    // JavaScript code remains the same
+</script>
+</body>
+</html>
+
+
+<script>
+    // View Mode Persistence Script
     document.addEventListener('DOMContentLoaded', function () {
         const savedViewMode = localStorage.getItem('viewMode') || '{{ view_mode }}';
+
+        // Set initial view mode
         document.documentElement.className = savedViewMode;
 
+        // Add view mode change listener
         const viewModeSelect = document.createElement('select');
         viewModeSelect.id = 'view-mode';
         viewModeSelect.innerHTML = `
-                <option value="light" ${savedViewMode === 'light' ? 'selected' : ''}>Helles Thema</option>
-                <option value="dark" ${savedViewMode === 'dark' ? 'selected' : ''}>Dunkles Thema</option>
-                <option value="high_contrast" ${savedViewMode === 'high_contrast' ? 'selected' : ''}>Hoher Kontrast</option>
+                <option value="light" ${savedViewMode === 'light' ? 'selected' : ''}>Light Mode</option>
+                <option value="dark" ${savedViewMode === 'dark' ? 'selected' : ''}>Dark Mode</option>
+                <option value="high_contrast" ${savedViewMode === 'high_contrast' ? 'selected' : ''}>High Contrast</option>
             `;
+
+        // Add change event listener
         viewModeSelect.addEventListener('change', function () {
             const selectedMode = this.value;
             document.documentElement.className = selectedMode;
             localStorage.setItem('viewMode', selectedMode);
+
+            // Send AJAX request to update server-side preference
+            fetch("{% url 'settings' %}", {
+                method: "POST",
+                headers: {
+                    "X-CSRFToken": "{{ csrf_token }}",
+                    "Content-Type": "application/x-www-form-urlencoded",
+                },
+                body: `view_mode=${selectedMode}`
+            })
+                .then(response => response.json())
+                .catch(error => {
+                    console.error("Error updating view mode:", error);
+                });
         });
     });
 
-    function copyToClipboard(link) {
-        // Use the Clipboard API to write text to the clipboard
-        navigator.clipboard.writeText(link)
-            .then(() => {
-                // Notify the user that the link was successfully copied
-                alert("Link in die Zwischenablage kopiert!");
-            })
-            .catch(err => {
-                // Log an error and notify the user if copying fails
-                console.error("Kopieren fehlgeschlagen: ", err);
-                alert("Der Link konnte nicht kopiert werden. Bitte versuchen Sie es erneut.");
-            });
+    function copyMainContentAsImage() {
+        const contentToCapture = document.querySelector('.wrap-detail-container'); // Target the main content
+
+        html2canvas(contentToCapture).then(canvas => {
+            canvas.toBlob(blob => {
+                if (!blob) {
+                    alert("Failed to capture the main content as an image.");
+                    return;
+                }
+
+                try {
+                    const item = new ClipboardItem({"image/png": blob});
+                    navigator.clipboard.write([item])
+                        .then(() => {
+                            alert("Main content copied as an image!");
+                        })
+                        .catch(err => {
+                            console.error("Failed to copy image: ", err);
+                            alert("Clipboard permissions are required or unsupported in this browser.");
+                        });
+                } catch (error) {
+                    console.error("Error creating ClipboardItem: ", error);
+                    alert("Your browser may not support copying images to the clipboard.");
+                }
+            }, 'image/png'); // Specify the Blob type as PNG
+        }).catch(err => {
+            console.error("html2canvas error: ", err);
+            alert("Failed to capture the main content. Ensure the page is served over HTTPS.");
+        });
     }
+
 </script>
 </body>
 </html>

@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Acerca de SpotifyWrapped</title>
+    <title>About SpotifyWrapped</title>
     <style>
         header .logo:hover,
         header .nav-links a:hover {
@@ -260,7 +260,7 @@
         .share-btn.instagram-btn:hover {
             background-color: #c13584;
         }
-        
+
         .share-btn.copy-btn {
             background-color: #1db954;
         }
@@ -358,7 +358,7 @@
             color: #fff;
             transition: all 0.3s ease-in-out;
         }
-        
+
         footer a {
             color: #1db954;
             text-decoration: none;
@@ -402,22 +402,31 @@
             }
         }
     </style>
+    <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+</head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Acerca de SpotifyWrapped</title>
+<style>
+    /* Agrega tus estilos CSS aquí, no es necesario traducirlos */
+</style>
+<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 </head>
 <body class="{{ view_mode }}">
 <header>
     <div class="container">
         <a href="/" class="logo">SpotifyWrapped</a>
         <ul class="nav-links">
-            <li><a href="{% url 'about' %}">Acerca de Nosotros</a></li>
+            <li><a href="{% url 'about' %}">Acerca de</a></li>
             {% if user.is_authenticated %}
-                <li><a href="{% url 'dashboard' %}">Panel</a></li>
+                <li><a href="{% url 'dashboard' %}">Tablero</a></li>
                 <li><a href="{% url 'settings' %}">Configuración</a></li>
                 <form action="{% url 'logout' %}" method="post" class="logout-form">
                     {% csrf_token %}
-                    <button type="submit" class="logout-btn">Cerrar Sesión</button>
+                    <button type="submit" class="logout-btn">Cerrar sesión</button>
                 </form>
             {% else %}
-                <li><a href="{% url 'login' %}">Iniciar Sesión</a></li>
+                <li><a href="{% url 'login' %}">Iniciar sesión</a></li>
                 <li><a href="{% url 'register' %}">Registrarse</a></li>
                 <li><a href="{% url 'settings' %}">Configuración</a></li>
             {% endif %}
@@ -426,18 +435,18 @@
 </header>
 
 <div class="wrap-detail-container">
-    <h1 class="wrap-title">Tus Detalles de SpotifyWrapped</h1>
-    <p><strong>Período de Tiempo:</strong> {{ wrap.time_frame }}</p>
-    <p class="created-on">Creado el: {{ wrap.created_at|date:"M d, Y" }}</p>
+    <h1 class="wrap-title">Tus detalles de SpotifyWrapped</h1>
+    <p><strong>Periodo de tiempo:</strong> {{ wrap.time_frame }}</p>
+    <p class="created-on">Creado el: {{ wrap.created_at|date:"d M, Y" }}</p>
 
-    <!-- Estadísticas -->
+    <!-- Estadísticas generales -->
     <div class="wrap-section">
-        <h2 class="section-title">Tus Estadísticas</h2>
+        <h2 class="section-title">Tus estadísticas de escucha</h2>
         <div class="stats-container">
             <div class="stats-card">
                 <p class="stats-title">Reprodujiste</p>
                 <h3 class="stats-number">{{ wrap.data.total_songs_played }}</h3>
-                <p class="stats-info">canciones en este período</p>
+                <p class="stats-info">canciones durante este periodo</p>
             </div>
             <div class="stats-card">
                 <p class="stats-title">En</p>
@@ -452,14 +461,14 @@
         </div>
     </div>
 
-    <!-- Canciones Principales -->
+    <!-- Principales canciones -->
     <div class="wrap-section">
-        <h2 class="section-title">Tus Canciones Principales</h2>
+        <h2 class="section-title">Tus canciones principales</h2>
         {% if wrap.data.top_tracks %}
             <div class="tracks-container">
                 {% for track in wrap.data.top_tracks %}
                     <div class="track-item">
-                        <img src="{{ track.album.images.0.url }}" alt="Portada del álbum {{ track.name }}"
+                        <img src="{{ track.album.images.0.url }}" alt="{{ track.name }} portada del álbum"
                              class="album-cover">
                         <div class="track-info">
                             <h3>{{ track.name }}</h3>
@@ -474,9 +483,9 @@
         {% endif %}
     </div>
 
-    <!-- Artistas Principales -->
+    <!-- Principales artistas -->
     <div class="wrap-section">
-        <h2 class="section-title">Tus Artistas Principales</h2>
+        <h2 class="section-title">Tus artistas principales</h2>
         {% if wrap.data.top_artists %}
             <div class="artists-container">
                 {% for artist in wrap.data.top_artists %}
@@ -495,13 +504,13 @@
         {% endif %}
     </div>
 
-    <!-- Navegación -->
+    <!-- Navegación y acciones -->
     <div class="wrap-actions">
         <form method="POST" action="{% url 'generate-wrap' %}">
             {% csrf_token %}
             <input type="hidden" name="time_frame" value="{{ wrap.time_frame }}">
             <div class="centered-buttons">
-                <a href="{% url 'dashboard' %}" class="btn btn-primary">Volver al Panel</a>
+                <a href="{% url 'dashboard' %}" class="btn btn-primary">Volver al Tablero</a>
                 <button type="submit" class="btn btn-secondary">Regenerar Wrap</button>
             </div>
         </form>
@@ -510,79 +519,111 @@
 
 <footer>
     <p>
-        Hecho con ❤️ por el Equipo SpotifyWrapped |
+        Hecho con ❤️ por el equipo de SpotifyWrapped |
         <a href="https://group35-2340.github.io/CS2340-Portfolio/contact.html" target="_blank"
            rel="noopener noreferrer">Contáctanos</a>
-        
-                <!-- Share Buttons at the bottom of the page -->
-        <div class="share-buttons" style="position: relative; top: 1px; bottom: 1px; left: 50%; transform: translateX(-50%); z-index: 100;">
-            <!-- LinkedIn Share Button with Copy Functionality -->
-            <a href="https://www.linkedin.com/shareArticle?mini=true&url=http://localhost:8000/wrap/{{ wrap.id }}/&title=Mi%20Spotify%20Wrapped&summary=Echa%20un%20vistazo%20a%20mi%20Spotify%20Wrapped%20de%20este%20año."
-               target="_blank"
-               class="btn share-btn linkedin-btn"
-               onclick="copyToClipboard('http://localhost:8000/wrap/{{ wrap.id }}/');">
-                Compartir en LinkedIn
-            </a>
-        
-            <!-- Twitter Share Button with Copy Functionality -->
-            <a href="https://twitter.com/intent/tweet?text=Echa%20un%20vistazo%20a%20mi%20Spotify%20Wrapped%20de%20este%20año.%20http://localhost:8000/wrap/{{ wrap.id }}/"
-               target="_blank"
-               class="btn share-btn twitter-btn"
-               onclick="copyToClipboard('http://localhost:8000/wrap/{{ wrap.id }}/');">
-                Compartir en X
-            </a>
-        
-            <!-- Instagram Share Button -->
-            <a href="https://www.instagram.com"
-               target="_blank"
-               class="btn share-btn instagram-btn"
-               onclick="copyToClipboard('http://localhost:8000/wrap/{{ wrap.id }}/');">
-                Compartir en Insta
-            </a>
-        
-            <!-- Copy Link Button -->
-            <button class="btn share-btn copy-btn" onclick="copyToClipboard('http://localhost:8000/wrap/{{ wrap.id }}/')">
-                Copiar enlace
-            </button>
-        </div>
-
     </p>
+
+    <!-- Botones para compartir -->
+    <div class="share-buttons"
+         style="position: relative; top: 1px; bottom: 1px; left: 50%; transform: translateX(-50%); z-index: 100;">
+        <!-- Botón de LinkedIn -->
+        <button class="btn share-btn copy-btn" onclick="copyMainContentAsImage()">
+            Copiar imagen
+        </button>
+        <a
+                href="https://www.linkedin.com/shareArticle?mini=true&url=http://localhost:8000/wrap/{{ wrap.id }}/&title=Mi%20Spotify%20Wrapped&summary=¡Mira%20mi%20Spotify%20Wrapped%20de%20este%20año!"
+                target="_blank"
+                class="btn share-btn linkedin-btn">
+            Compartir en LinkedIn
+        </a>
+
+        <!-- Botón de Twitter -->
+        <a href="https://twitter.com/intent/tweet?text=¡Mira%20mi%20Spotify%20Wrapped%20de%20este%20año!%20http://localhost:8000/wrap/{{ wrap.id }}/"
+           target="_blank"
+           class="btn share-btn twitter-btn">
+            Compartir en Twitter/X
+        </a>
+
+        <!-- Botón de Instagram -->
+        <a href="https://www.instagram.com"
+           target="_blank"
+           class="btn share-btn instagram-btn">
+            Compartir en Instagram
+        </a>
+    </div>
 </footer>
 
 <script>
-    // Script para mantener las preferencias de visualización
+    // View Mode Persistence Script
     document.addEventListener('DOMContentLoaded', function () {
         const savedViewMode = localStorage.getItem('viewMode') || '{{ view_mode }}';
+
+        // Set initial view mode
         document.documentElement.className = savedViewMode;
 
+        // Add view mode change listener
         const viewModeSelect = document.createElement('select');
         viewModeSelect.id = 'view-mode';
         viewModeSelect.innerHTML = `
-                <option value="light" ${savedViewMode === 'light' ? 'selected' : ''}>Modo Claro</option>
-                <option value="dark" ${savedViewMode === 'dark' ? 'selected' : ''}>Modo Oscuro</option>
-                <option value="high_contrast" ${savedViewMode === 'high_contrast' ? 'selected' : ''}>Alto Contraste</option>
+                <option value="light" ${savedViewMode === 'light' ? 'selected' : ''}>Light Mode</option>
+                <option value="dark" ${savedViewMode === 'dark' ? 'selected' : ''}>Dark Mode</option>
+                <option value="high_contrast" ${savedViewMode === 'high_contrast' ? 'selected' : ''}>High Contrast</option>
             `;
+
+        // Add change event listener
         viewModeSelect.addEventListener('change', function () {
             const selectedMode = this.value;
             document.documentElement.className = selectedMode;
             localStorage.setItem('viewMode', selectedMode);
+
+            // Send AJAX request to update server-side preference
+            fetch("{% url 'settings' %}", {
+                method: "POST",
+                headers: {
+                    "X-CSRFToken": "{{ csrf_token }}",
+                    "Content-Type": "application/x-www-form-urlencoded",
+                },
+                body: `view_mode=${selectedMode}`
+            })
+                .then(response => response.json())
+                .catch(error => {
+                    console.error("Error updating view mode:", error);
+                });
         });
     });
 
-    function copyToClipboard(link) {
-        // Use the Clipboard API to write text to the clipboard
-        navigator.clipboard.writeText(link)
-            .then(() => {
-                // Notify the user that the link was successfully copied
-                alert("Enlace copiado al portapapeles.");
-            })
-            .catch(err => {
-                // Log an error and notify the user if copying fails
-                console.error("No se pudo copiar: ", err);
-                alert("No se pudo copiar el enlace. Por favor inténtalo de nuevo.");
-            });
+    function copyMainContentAsImage() {
+        const contentToCapture = document.querySelector('.wrap-detail-container'); // Target the main content
+
+        html2canvas(contentToCapture).then(canvas => {
+            canvas.toBlob(blob => {
+                if (!blob) {
+                    alert("Failed to capture the main content as an image.");
+                    return;
+                }
+
+                try {
+                    const item = new ClipboardItem({"image/png": blob});
+                    navigator.clipboard.write([item])
+                        .then(() => {
+                            alert("Main content copied as an image!");
+                        })
+                        .catch(err => {
+                            console.error("Failed to copy image: ", err);
+                            alert("Clipboard permissions are required or unsupported in this browser.");
+                        });
+                } catch (error) {
+                    console.error("Error creating ClipboardItem: ", error);
+                    alert("Your browser may not support copying images to the clipboard.");
+                }
+            }, 'image/png'); // Specify the Blob type as PNG
+        }).catch(err => {
+            console.error("html2canvas error: ", err);
+            alert("Failed to capture the main content. Ensure the page is served over HTTPS.");
+        });
     }
+
 </script>
 </body>
 </html>
-    
