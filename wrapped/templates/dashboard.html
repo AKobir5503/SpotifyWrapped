@@ -6,61 +6,44 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About SpotifyWrapped</title>
     <style>
-        /* General Styles */
-        /* Universal hover styles for header logo and navigation links */
-        header .logo:hover,
-        header .nav-links a:hover {
-            color: #4CAF50; /* Set your preferred hover color here */
-            text-decoration: underline; /* Adds underlining on hover */
+        /* Modern Dashboard Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
         }
 
         body {
-            font-family: Arial, sans-serif;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             line-height: 1.6;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
             min-height: 100vh;
-            transition: all 0.3s ease-in-out;
+            transition: all 0.3s ease;
         }
 
         body.light {
-            background-color: #f8f9fa;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             color: #333;
         }
 
         body.dark {
-            background-color: #121212;
-            color: #ffffff;
+            background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
+            color: #1DB954;
         }
 
         body.high_contrast {
-            background-color: #000000;
+            background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
             color: #ffff00;
         }
 
-        /* Header */
+        /* Universal Header Styles */
         header {
-            padding: 20px 0;
-            background-color: #333;
-            color: #fff;
-            transition: all 0.3s ease-in-out;
-        }
-
-        body.light header {
-            background-color: #333;
-            color: #fff;
-        }
-
-        body.dark header {
-            background-color: #1f1f1f;
-            color: #ffffff;
-        }
-
-        body.high_contrast header {
-            background-color: #000000;
-            color: #ffff00;
+            background: rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         header .container {
@@ -69,225 +52,409 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            padding: 0 2rem;
             flex-wrap: wrap;
-            padding: 0 20px;
         }
 
         header .logo {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: inherit;
-            text-align: center;
-            flex: 1 1 auto;
-        }
-
-        header .nav-links {
-            list-style: none;
-            display: flex;
-            justify-content: center;
-            margin: 0;
-            padding: 0;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-
-        header .nav-links li {
-            margin: 0 10px;
-        }
-
-        header .nav-links a {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #fff;
             text-decoration: none;
-            font-size: 1rem;
-            color: inherit;
-        }
-
-        /* Logout Button */
-        header .logout-form {
-            display: inline;
-            margin-left: 20px;
-        }
-
-        header .logout-btn {
-            background-color: #1db954;
-            color: white;
-            border: none;
-            padding: 8px 16px;
-            font-size: 1rem;
-            cursor: pointer;
-            border-radius: 5px;
-        }
-
-        header .logout-btn:hover {
-            background-color: #45a049;
-        }
-
-        /* Dashboard Container */
-        .dashboard-container {
-            flex: 1;
-            max-width: 100%;
-            margin: auto;
-            padding: 20px;
-            box-shadow: 0 4px 8px rgba(51, 51, 51, 0.1);
-            box-sizing: border-box;
-        }
-
-        .dashboard-container h1,
-        .dashboard-container h2 {
-            color: inherit;
-        }
-
-        /* Form Styles */
-        .form-select {
-            width: 100%;
-            max-width: 100%;
-            padding: 8px;
-            margin-top: 5px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            box-sizing: border-box;
-        }
-
-        .btn {
-            background-color: #1db954;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            margin-top: 10px;
-            cursor: pointer;
-            border-radius: 5px;
-        }
-
-        .btn:hover {
-            background-color: #45a049;
-        }
-
-        /* Wraps List */
-        .dashboard-container ul {
-            list-style-type: none;
-            padding: 0;
-        }
-
-        .dashboard-container li {
-            background-color: rgba(29, 185, 84, 0.1);
-            margin-bottom: 10px;
-            padding: 15px;
-            border-radius: 5px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 10px;
-        }
-
-        .thumbnail {
-            max-width: 100px;
-            max-height: 100px;
-            border-radius: 5px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
         }
 
         header .logo:hover {
-            color: #4CAF50;
+            color: #1DB954;
+            transform: scale(1.05);
+        }
+
+        header .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 1.5rem;
+            align-items: center;
+            margin: 0;
+            padding: 0;
+            flex-wrap: wrap;
+        }
+
+        header .nav-links li {
+            margin: 0;
+        }
+
+        header .nav-links a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            white-space: nowrap;
+        }
+
+        header .nav-links a:hover {
+            background: rgba(29, 185, 84, 0.2);
+            color: #1DB954;
+            transform: translateY(-2px);
+        }
+
+        .logout-btn {
+            background: linear-gradient(45deg, #1db954, #1ed760);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(29, 185, 84, 0.3);
+            white-space: nowrap;
+        }
+
+        .logout-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(29, 185, 84, 0.4);
+        }
+
+        /* Mobile Navigation Styles */
+        .mobile-menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: inherit;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        .mobile-menu-toggle:hover {
+            color: #1DB954;
+        }
+
+        /* Mobile Header Styles */
+        @media (max-width: 768px) {
+            header .container {
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+                position: relative;
+                padding: 0 1rem;
+            }
+
+            .mobile-menu-toggle {
+                display: block;
+            }
+
+            header .nav-links {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background-color: #333;
+                flex-direction: column;
+                gap: 0;
+                padding: 10px 0;
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+                transform: translateY(-100%);
+                opacity: 0;
+                visibility: hidden;
+                transition: all 0.3s ease;
+                z-index: 1000;
+            }
+
+            header .nav-links.active {
+                transform: translateY(0);
+                opacity: 1;
+                visibility: visible;
+            }
+
+            header .nav-links li {
+                margin: 0;
+                width: 100%;
+            }
+
+            header .nav-links a {
+                display: block;
+                padding: 10px 20px;
+                text-align: center;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            }
+
+            header .nav-links a:hover {
+                background-color: rgba(255, 255, 255, 0.1);
+            }
+
+            header .logout-form {
+                margin-left: 0;
+                width: 100%;
+            }
+
+            .logout-btn {
+                width: 100%;
+                margin-top: 10px;
+                padding: 0.6rem 1.2rem;
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            header .nav-links {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            header .nav-links a {
+                padding: 0.3rem 0.6rem;
+                font-size: 0.8rem;
+            }
+
+            .logout-btn {
+                padding: 0.5rem 1rem;
+                font-size: 0.8rem;
+            }
+        }
+
+        /* Main Content */
+        .dashboard-container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .welcome-section {
+            text-align: center;
+            margin-bottom: 3rem;
+            padding: 3rem 2rem;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .welcome-section h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .welcome-section p {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 2rem;
+        }
+
+        /* Create Wrap Section */
+        .create-wrap-section {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 2rem;
+            border-radius: 20px;
+            margin-bottom: 3rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .create-wrap-section h2 {
+            color: var(--text-color, #333);
+            margin-bottom: 1.5rem;
+            font-size: 1.8rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: var(--text-color, #333);
+        }
+
+        .form-select {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #e1e5e9;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            background: white;
+        }
+
+        .form-select:focus {
+            outline: none;
+            border-color: #1db954;
+            box-shadow: 0 0 0 3px rgba(29, 185, 84, 0.1);
+        }
+
+        .btn {
+            background: linear-gradient(45deg, #1db954, #1ed760);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(29, 185, 84, 0.3);
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(29, 185, 84, 0.4);
+        }
+
+        .btn-danger {
+            background: linear-gradient(45deg, #ff6b6b, #ee5a52);
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+        }
+
+        .btn-danger:hover {
+            box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
+        }
+
+        /* Wraps Grid */
+        .wraps-section h2 {
+            color: #fff;
+            margin-bottom: 2rem;
+            font-size: 1.8rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+        }
+
+        .wraps-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .wrap-card {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 1.5rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .wrap-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 40px rgba(0, 0, 0, 0.15);
+        }
+
+        .wrap-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(45deg, #1db954, #1ed760);
+        }
+
+        .wrap-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .wrap-thumbnail {
+            width: 80px;
+            height: 80px;
+            border-radius: 10px;
+            object-fit: cover;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .wrap-info h3 {
+            color: var(--text-color, #333);
+            margin-bottom: 0.5rem;
+            font-size: 1.3rem;
+        }
+
+        .wrap-meta {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .wrap-actions {
+            display: flex;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        .wrap-actions .btn {
+            flex: 1;
+            padding: 0.75rem 1rem;
+            font-size: 0.9rem;
+        }
+
+        .no-wraps {
+            text-align: center;
+            padding: 3rem 2rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .no-wraps h3 {
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
         }
 
         /* Footer */
         footer {
+            background: rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
             text-align: center;
-            padding: 20px;
-            background-color: #333;
-            color: #fff;
-            transition: all 0.3s ease-in-out;
+            padding: 2rem;
+            margin-top: 3rem;
         }
 
-        body.light footer {
-            background-color: #333;
-            color: #fff;
+        footer p {
+            color: rgba(255, 255, 255, 0.9);
         }
 
-        body.dark footer {
-            background-color: #1f1f1f;
-            color: #ffffff;
-        }
-
-        body.high_contrast footer {
-            background-color: #000000;
-            color: #ffff00;
-        }
-
-        /* Links */
-        a {
+        footer a {
             color: #1db954;
+            text-decoration: none;
         }
 
-        a:hover {
+        footer a:hover {
             text-decoration: underline;
         }
 
         /* Responsive Design */
         @media (max-width: 768px) {
-            header .container {
+            .dashboard-container {
+                padding: 0 1rem;
+            }
+
+            .welcome-section h1 {
+                font-size: 2rem;
+            }
+
+            .wraps-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .wrap-header {
                 flex-direction: column;
-                align-items: center;
                 text-align: center;
+            }
+
+            .wrap-actions {
+                flex-direction: column;
             }
 
             header .nav-links {
                 flex-direction: column;
-                gap: 5px;
-            }
-
-            .dashboard-container {
-                padding: 15px;
-            }
-
-            .form-select {
-                width: 100%;
-            }
-
-            .dashboard-container li {
-                flex-direction: column;
-                text-align: center;
-                gap: 15px;
-            }
-
-            .thumbnail {
-                margin: 0 auto;
-            }
-        }
-
-        @media (max-width: 480px) {
-            header {
-                padding: 15px 0;
-            }
-
-            header .logo {
-                font-size: 1.25rem;
-            }
-
-            header .nav-links a {
-                font-size: 0.9rem;
-            }
-
-            header .logout-btn {
-                padding: 6px 12px;
-                font-size: 0.9rem;
-            }
-
-            .dashboard-container {
-                padding: 10px;
-            }
-
-            .btn {
-                padding: 8px 16px;
-                font-size: 0.9rem;
-            }
-
-            .dashboard-container li {
-                padding: 10px;
-            }
-
-            .thumbnail {
-                max-width: 80px;
-                max-height: 80px;
+                gap: 1rem;
             }
         }
     </style>
@@ -296,15 +463,18 @@
 <header>
     <div class="container">
         <a href="/" class="logo">SpotifyWrapped</a>
-        <ul class="nav-links">
+        <button class="mobile-menu-toggle" onclick="toggleMobileMenu()">☰</button>
+        <ul class="nav-links" id="navLinks">
             <li><a href="{% url 'about' %}">About</a></li>
             {% if user.is_authenticated %}
                 <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
                 <li><a href="{% url 'settings' %}">Settings</a></li>
-                <form action="{% url 'logout' %}" method="post" class="logout-form">
-                    {% csrf_token %}
-                    <button type="submit" class="logout-btn">Logout</button>
-                </form>
+                <li>
+                    <form action="{% url 'logout' %}" method="post" class="logout-form">
+                        {% csrf_token %}
+                        <button type="submit" class="logout-btn">Logout</button>
+                    </form>
+                </li>
             {% else %}
                 <li><a href="{% url 'login' %}">Login</a></li>
                 <li><a href="{% url 'register' %}">Register</a></li>
@@ -315,47 +485,68 @@
 </header>
 
 <div class="dashboard-container">
-    <h1>Welcome, {{ user.username }}!</h1>
-    <p>Your personalized Spotify insights await.</p>
+    <!-- Welcome Section -->
+    <div class="welcome-section">
+        <h1>Welcome back, {{ user.username }}! 🎵</h1>
+        <p>Discover your music story with personalized Spotify insights</p>
+    </div>
 
-    <h2>Create a New Wrap</h2>
-    <form method="POST" action="{% url 'generate-wrap' %}">
-        {% csrf_token %}
-        <label for="time-frame">Select a Time Frame:</label>
-        <select id="time-frame" name="time_frame" class="form-select" required>
-            <option value="short_term">Last 4 Weeks</option>
-            <option value="medium_term">Last 6 Months</option>
-            <option value="long_term">Last 1 Year</option>
-        </select>
-        <button type="submit" class="btn btn-primary mt-3">Generate Wrap</button>
-    </form>
+    <!-- Create New Wrap Section -->
+    <div class="create-wrap-section">
+        <h2>🎯 Create Your Music Wrap</h2>
+        <form method="POST" action="{% url 'generate-wrap' %}">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="time-frame">Select Time Period:</label>
+                <select id="time-frame" name="time_frame" class="form-select" required>
+                    <option value="short_term">📅 Last 4 Weeks</option>
+                    <option value="medium_term">📅 Last 6 Months</option>
+                    <option value="long_term">📅 All Time</option>
+                </select>
+            </div>
+            <button type="submit" class="btn">🚀 Generate My Wrap</button>
+        </form>
+    </div>
 
-    <h2>Your Saved Wraps</h2>
-    {% if wraps %}
-        <ul>
-            {% for wrap in wraps %}
-                <li>
-                    <h3>{{ wrap.name }}</h3>
-                    <p>Time Frame: {{ wrap.time_frame }}</p>
-                    <p>Created On: {{ wrap.created_at|date:"M d, Y" }}</p>
-                    <a href="{% url 'wrap_detail' wrap.id %}" class="btn btn-link">View Details</a>
-                    <form method="POST" action="{% url 'delete-wrap' wrap.id %}"
-                          onsubmit="return confirm('Are you sure you want to delete this wrap?');">
-                        {% csrf_token %}
-                        <button type="submit" class="btn btn-danger">Delete Wrap</button>
-                    </form>
-                    <!-- Optionally, display a thumbnail -->
-
-                    {% if wrap.data.top_tracks %}
-                        <img src="{{ wrap.data.top_tracks.0.album.images.0.url }}" alt="Album Cover" class="thumbnail">
-                    {% endif %}
-                </li>
-
-            {% endfor %}
-        </ul>
-    {% else %}
-        <p>You don't have any wraps saved yet. Start your first one above!</p>
-    {% endif %}
+    <!-- Saved Wraps Section -->
+    <div class="wraps-section">
+        <h2>📚 Your Saved Wraps</h2>
+        {% if wraps %}
+            <div class="wraps-grid">
+                {% for wrap in wraps %}
+                    <div class="wrap-card">
+                        <div class="wrap-header">
+                            {% if wrap.data.top_tracks %}
+                                <img src="{{ wrap.data.top_tracks.0.album.images.0.url }}" alt="Album Cover" class="wrap-thumbnail">
+                            {% else %}
+                                <div class="wrap-thumbnail" style="background: linear-gradient(45deg, #1db954, #1ed760); display: flex; align-items: center; justify-content: center; color: white; font-size: 2rem;">🎵</div>
+                            {% endif %}
+                            <div class="wrap-info">
+                                <h3>{{ wrap.name }}</h3>
+                                <div class="wrap-meta">
+                                    <p><strong>Period:</strong> {{ wrap.time_frame|title }}</p>
+                                    <p><strong>Created:</strong> {{ wrap.created_at|date:"M d, Y" }}</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="wrap-actions">
+                            <a href="{% url 'wrap_detail' wrap.id %}" class="btn">👁️ View Details</a>
+                            <form method="POST" action="{% url 'delete-wrap' wrap.id %}" style="display: inline;"
+                                  onsubmit="return confirm('Are you sure you want to delete this wrap?');">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-danger">🗑️ Delete</button>
+                            </form>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        {% else %}
+            <div class="no-wraps">
+                <h3>🎵 No Wraps Yet</h3>
+                <p>Create your first music wrap to see your personalized Spotify insights!</p>
+            </div>
+        {% endif %}
+    </div>
 </div>
 
 <footer>
@@ -366,6 +557,30 @@
 </footer>
 
 <script>
+    // Mobile menu toggle function
+    function toggleMobileMenu() {
+        const navLinks = document.getElementById('navLinks');
+        navLinks.classList.toggle('active');
+    }
+
+    // Close mobile menu when clicking outside
+    document.addEventListener('click', function(event) {
+        const navLinks = document.getElementById('navLinks');
+        const mobileToggle = document.querySelector('.mobile-menu-toggle');
+        
+        if (!navLinks.contains(event.target) && !mobileToggle.contains(event.target)) {
+            navLinks.classList.remove('active');
+        }
+    });
+
+    // Close mobile menu when window is resized to desktop
+    window.addEventListener('resize', function() {
+        if (window.innerWidth > 768) {
+            const navLinks = document.getElementById('navLinks');
+            navLinks.classList.remove('active');
+        }
+    });
+
     // View Mode Persistence Script
     document.addEventListener('DOMContentLoaded', function () {
         const savedViewMode = localStorage.getItem('viewMode') || '{{ view_mode }}';

@@ -44,7 +44,7 @@ def landing(request):
             HttpResponse: The rendered landing page template.
         """
     if request.method == "POST":
-        view_mode = request.POST.get("view_mode", "light")
+        view_mode = request.POST.get("view_mode", "dark")
         language = request.POST.get("language", "en")
 
         # Save the settings to the session
@@ -58,7 +58,7 @@ def landing(request):
         elif language == "es":
             return render(request, "landing_es.html", {"view_mode": view_mode})
 
-    view_mode = request.session.get("view_mode", "light")
+    view_mode = request.session.get("view_mode", "dark")
     language = request.session.get("language", "en")
 
     if language == "en":
@@ -85,7 +85,7 @@ def login_user(request):
     """
     if request.method == "POST":
         # Handle view mode and language settings
-        view_mode = request.POST.get("view_mode", "light")
+        view_mode = request.POST.get("view_mode", "dark")
         language = request.POST.get("language", "en")
 
         # Save the settings to the session
@@ -111,7 +111,7 @@ def login_user(request):
             )
 
     # Retrieve view mode and language settings from the session
-    view_mode = request.session.get("view_mode", "light")
+    view_mode = request.session.get("view_mode", "dark")
     language = request.session.get("language", "en")
 
     if language == "en":
@@ -136,7 +136,7 @@ def register_user(request):
             HttpResponse: The registration page or a redirect to the login page.
     """
     # Handle "view_mode" and "language" for GET and POST requests
-    view_mode = request.session.get("view_mode", "light")
+    view_mode = request.session.get("view_mode", "dark")
     language = request.session.get("language", "en")
 
     if request.method == 'POST':
@@ -178,7 +178,7 @@ def dashboard(request):
     """
     # Handle POST requests for settings
     if request.method == "POST":
-        view_mode = request.POST.get("view_mode", "light")
+        view_mode = request.POST.get("view_mode", "dark")
         language = request.POST.get("language", "en")
 
         # Save the settings to the session
@@ -195,7 +195,7 @@ def dashboard(request):
             return render(request, "dashboard_es.html", {"view_mode": view_mode,"wraps": wraps})
 
     # Handle GET requests and retrieve current settings
-    view_mode = request.session.get("view_mode", "light")
+    view_mode = request.session.get("view_mode", "dark")
     language = request.session.get("language", "en")
 
     # Query the user's saved wraps
@@ -252,7 +252,7 @@ def spotify_login(request):
         Returns:
             HttpResponse: A redirect to Spotify's authorization endpoint.
     """
-    scope = 'user-top-read user-read-recently-played'
+    scope = 'user-top-read user-read-recently-played playlist-read-private'
     spotify_auth_url = f"https://accounts.spotify.com/authorize?client_id={SPOTIFY_CLIENT_ID}&response_type=code&redirect_uri={SPOTIFY_REDIRECT_URI}&scope={scope}"
     return redirect(spotify_auth_url)
 
@@ -344,18 +344,12 @@ def generate_wrap(request):
     #set fetched data
     top_tracks = response_tracks.json().get('items', []) if response_tracks.status_code == 200 else []
     top_artists = response_artists.json().get('items', []) if response_artists.status_code == 200 else []
+    
     #display limit to 5
     top_tracks_display = top_tracks[:3]
     top_artists_display = top_artists[:3]
     top_tracks_details = top_tracks[:5]
     top_artists_details = top_artists[:5]
-    # Get track IDs from top tracks
-    track_ids = [track['id'] for track in top_tracks]
-
-    # Fetch audio features for the tracks
-    audio_features_url = f'https://api.spotify.com/v1/audio-features?ids={",".join(track_ids)}'
-    response_audio_features = requests.get(audio_features_url, headers=headers)
-    audio_features = response_audio_features.json().get('audio_features', [])
 
     total_genres_played = 0
 
@@ -388,26 +382,48 @@ def generate_wrap(request):
         'study_tunes': []
     }
 
-    # Categorize tracks based on multiple audio features
-    for track, features in zip(top_tracks_display[:3], audio_features):
-        # Ensure the feature is available
-        if features and all(key in features for key in ['energy', 'danceability', 'valence']):
-            energy = features['energy']
-            danceability = features['danceability']
-            valence = features['valence']
-
-            # Categorize based on energy, danceability, and valence
-            if energy < 0.4 and valence < 0.5:
+    # Categorize tracks based on track names and genres (since audio features API is not available)
+    for track in top_tracks[:9]:
+        track_name = track.get('name', '').lower()
+        artist_name = track.get('artists', [{}])[0].get('name', '').lower()
+        
+        # Check for workout/high energy indicators in names
+        workout_keywords = ['workout', 'gym', 'pump', 'energy', 'power', 'strong', 'beat', 'bass', 'dance', 'party', 'fire', 'lit', 'hype']
+        chill_keywords = ['chill', 'calm', 'peace', 'quiet', 'soft', 'gentle', 'slow', 'acoustic', 'ambient', 'dream', 'sleep', 'night']
+        study_keywords = ['study', 'focus', 'concentration', 'classical', 'instrumental', 'piano', 'jazz', 'lofi', 'beats']
+        
+        is_workout = any(keyword in track_name or keyword in artist_name for keyword in workout_keywords)
+        is_chill = any(keyword in track_name or keyword in artist_name for keyword in chill_keywords)
+        is_study = any(keyword in track_name or keyword in artist_name for keyword in study_keywords)
+        
+        if is_workout:
+            mood_playlists['workout_hits'].append(track)
+        elif is_chill:
+            mood_playlists['chill_vibes'].append(track)
+        elif is_study:
+            mood_playlists['study_tunes'].append(track)
+        else:
+            # Distribute evenly if no keywords match
+            if len(mood_playlists['chill_vibes']) <= len(mood_playlists['workout_hits']) and len(mood_playlists['chill_vibes']) <= len(mood_playlists['study_tunes']):
                 mood_playlists['chill_vibes'].append(track)
-            elif danceability > 0.7 and energy > 0.6:
+            elif len(mood_playlists['workout_hits']) <= len(mood_playlists['study_tunes']):
                 mood_playlists['workout_hits'].append(track)
-            elif energy > 0.4 and energy < 0.7 and valence > 0.5:
+            else:
                 mood_playlists['study_tunes'].append(track)
 
     # Analyze listening patterns from recently played tracks
     recently_played_url = 'https://api.spotify.com/v1/me/player/recently-played?limit=50'
     response_recent = requests.get(recently_played_url, headers=headers)
     recently_played = response_recent.json().get('items', []) if response_recent.status_code == 200 else []
+
+    # Fetch user's playlists for "Most Played Playlist" feature
+    playlists_url = 'https://api.spotify.com/v1/me/playlists?limit=20'
+    response_playlists = requests.get(playlists_url, headers=headers)
+    user_playlists = response_playlists.json().get('items', []) if response_playlists.status_code == 200 else []
+    
+    # Get the most popular playlist (first one is usually most relevant)
+    most_played_playlist = user_playlists[0] if user_playlists else None
+
 
     #analyze the listening times throughout the day for the bar graph
     def analyze_listening_patterns(recently_played):
@@ -579,6 +595,7 @@ def generate_wrap(request):
         'total_songs_played': total_songs_played,
         'total_genres_played': total_genres_played,
         'total_duration_minutes': total_duration_minutes,
+        'most_played_playlist': most_played_playlist,
         "view_mode": view_mode,
         "language": language
     }
@@ -625,7 +642,7 @@ def about(request):
         HttpResponse: The rendered About page template.
     """
     if request.method == "POST":
-        view_mode = request.POST.get("view_mode", "light")
+        view_mode = request.POST.get("view_mode", "dark")
         language = request.POST.get("language", "en")
 
         # Save the settings to the session
@@ -639,7 +656,7 @@ def about(request):
         elif language == "es":
             return render(request, "about_es.html", {"view_mode": view_mode})
 
-    view_mode = request.session.get("view_mode", "light")
+    view_mode = request.session.get("view_mode", "dark")
     language = request.session.get("language", "en")
 
     if language == "en":
@@ -690,7 +707,7 @@ def wrap_detail(request, wrap_id):
 
     if request.method == "POST":
         # Handle settings update
-        view_mode = request.POST.get("view_mode", "light")
+        view_mode = request.POST.get("view_mode", "dark")
         language = request.POST.get("language", "en")
 
         # Save the settings to the session
@@ -713,7 +730,7 @@ def wrap_detail(request, wrap_id):
             return render(request, "wrap_detail_es.html", context)
 
     # Retrieve session data for GET requests
-    view_mode = request.session.get("view_mode", "light")
+    view_mode = request.session.get("view_mode", "dark")
     language = request.session.get("language", "en")
 
     # Context for rendering in GET requests
@@ -756,7 +773,7 @@ def user_settings(request):
             HttpResponse: The rendered user settings template.
     """
     if request.method == "POST":
-        view_mode = request.POST.get("view_mode", "light")
+        view_mode = request.POST.get("view_mode", "dark")
         language = request.POST.get("language", "en")
 
         # Save the settings to the session
@@ -770,7 +787,7 @@ def user_settings(request):
         elif language == "es":
             return render(request, "user_settings_es.html", {"view_mode": view_mode})
 
-    view_mode = request.session.get("view_mode", "light")
+    view_mode = request.session.get("view_mode", "dark")
     language = request.session.get("language", "en")
 
     if language == "en":

@@ -30,8 +30,8 @@
         }
 
         body.dark {
-            background-color: #121212;
-            color: #ffffff;
+            background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
+            color: #1DB954;
         }
 
         body.high_contrast {
@@ -39,27 +39,15 @@
             color: #ffff00;
         }
 
-        /* Header */
+        /* Universal Header Styles */
         header {
-            padding: 20px 0;
-            background-color: #333;
-            color: #fff;
-            transition: all 0.3s ease-in-out;
-        }
-
-        body.light header {
-            background-color: #333;
-            color: #fff;
-        }
-
-        body.dark header {
-            background-color: #1f1f1f;
-            color: #ffffff;
-        }
-
-        body.high_contrast header {
-            background-color: #000000;
-            color: #ffff00;
+            background: rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         header .container {
@@ -68,56 +56,168 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            padding: 0 2rem;
             flex-wrap: wrap;
-            padding: 0 20px;
         }
 
         header .logo {
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: inherit;
-            text-align: center;
-            flex: 1 1 auto;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #fff;
+            text-decoration: none;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        header .logo:hover {
+            color: #1DB954;
+            transform: scale(1.05);
         }
 
         header .nav-links {
-            list-style: none;
             display: flex;
-            justify-content: center;
+            list-style: none;
+            gap: 1.5rem;
+            align-items: center;
             margin: 0;
             padding: 0;
             flex-wrap: wrap;
-            gap: 10px;
         }
 
         header .nav-links li {
-            margin: 0 10px;
+            margin: 0;
         }
 
         header .nav-links a {
+            color: #fff;
             text-decoration: none;
-            font-size: 1rem;
-            color: inherit;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            white-space: nowrap;
         }
 
-        /* Logout Button */
-        header .logout-form {
-            display: inline;
-            margin-left: 20px;
+        header .nav-links a:hover {
+            background: rgba(29, 185, 84, 0.2);
+            color: #1DB954;
+            transform: translateY(-2px);
         }
 
-        header .logout-btn {
-            background-color: #1db954;
+        .logout-btn {
+            background: linear-gradient(45deg, #1db954, #1ed760);
             color: white;
             border: none;
-            padding: 8px 16px;
-            font-size: 1rem;
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
+            font-weight: 600;
             cursor: pointer;
-            border-radius: 5px;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(29, 185, 84, 0.3);
+            white-space: nowrap;
         }
 
-        header .logout-btn:hover {
-            background-color: #45a049;
+        .logout-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(29, 185, 84, 0.4);
+        }
+
+        /* Mobile Navigation Styles */
+        .mobile-menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: inherit;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        .mobile-menu-toggle:hover {
+            color: #1DB954;
+        }
+
+        /* Mobile Header Styles */
+        @media (max-width: 768px) {
+            header .container {
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+                position: relative;
+                padding: 0 1rem;
+            }
+
+            .mobile-menu-toggle {
+                display: block;
+            }
+
+            header .nav-links {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background-color: #333;
+                flex-direction: column;
+                gap: 0;
+                padding: 10px 0;
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+                transform: translateY(-100%);
+                opacity: 0;
+                visibility: hidden;
+                transition: all 0.3s ease;
+                z-index: 1000;
+            }
+
+            header .nav-links.active {
+                transform: translateY(0);
+                opacity: 1;
+                visibility: visible;
+            }
+
+            header .nav-links li {
+                margin: 0;
+                width: 100%;
+            }
+
+            header .nav-links a {
+                display: block;
+                padding: 10px 20px;
+                text-align: center;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            }
+
+            header .nav-links a:hover {
+                background-color: rgba(255, 255, 255, 0.1);
+            }
+
+            header .logout-form {
+                margin-left: 0;
+                width: 100%;
+            }
+
+            .logout-btn {
+                width: 100%;
+                margin-top: 10px;
+                padding: 0.6rem 1.2rem;
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            header .nav-links {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            header .nav-links a {
+                padding: 0.3rem 0.6rem;
+                font-size: 0.8rem;
+            }
+
+            .logout-btn {
+                padding: 0.5rem 1rem;
+                font-size: 0.8rem;
+            }
         }
 
         /* Dashboard Container */
@@ -145,43 +245,64 @@
         }
 
         .stats-card {
-            background-color: #1DB954;
-            padding: 25px;
-            border-radius: 12px;
+            background: linear-gradient(135deg, #1DB954, #1ed760);
+            padding: 2rem;
+            border-radius: 20px;
             text-align: center;
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
-            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(29, 185, 84, 0.3);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stats-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .stats-card:hover::before {
+            left: 100%;
         }
 
         body.dark .stats-card {
-            background-color: #1f1f1f;
-            color: #ffffff;
+            background: linear-gradient(135deg, #1DB954, #1ed760);
+            color: #000;
         }
 
         body.high_contrast .stats-card {
-            background-color: #000000;
-            color: #ffff00;
+            background: linear-gradient(135deg, #ffff00, #ffeb3b);
+            color: #000;
         }
 
         .stats-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+            transform: translateY(-10px) scale(1.05);
+            box-shadow: 0 15px 35px rgba(29, 185, 84, 0.4);
         }
 
         .stats-title {
             font-size: 1.2rem;
-            color: #fff;
+            color: #000;
+            font-weight: 600;
         }
 
         .stats-number {
-            font-size: 2.5rem;
-            margin: 10px 0;
-            color: #fff;
+            font-size: 3rem;
+            margin: 1rem 0;
+            color: #000;
+            font-weight: 700;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
         .stats-info {
             font-size: 1rem;
-            color: #ddd;
+            color: #333;
+            font-weight: 500;
         }
 
         header .logo:hover {
@@ -293,61 +414,138 @@
 
         .track-item,
         .artist-card {
-            background-color: #fff;
-            border-radius: 12px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
             text-align: center;
-            padding: 15px;
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            padding: 1.5rem;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .track-item::before,
+        .artist-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(29, 185, 84, 0.1), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .track-item:hover::before,
+        .artist-card:hover::before {
+            left: 100%;
         }
 
         body.dark .track-item,
         body.dark .artist-card {
-            background-color: #1f1f1f;
-            color: #ffffff;
+            background: rgba(0, 0, 0, 0.7);
+            color: #1DB954;
+            border: 1px solid rgba(29, 185, 84, 0.2);
         }
 
         body.high_contrast .track-item,
         body.high_contrast .artist-card {
-            background-color: #000000;
+            background: rgba(0, 0, 0, 0.8);
             color: #ffff00;
+            border: 1px solid rgba(255, 255, 0, 0.3);
         }
 
         .track-item:hover,
         .artist-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+            transform: translateY(-10px) scale(1.05);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
         }
 
         .track-item img,
         .artist-card img {
-            border-radius: 10px;
+            border-radius: 15px;
             max-width: 100%;
-            max-height: 150px;
-            margin-bottom: 10px;
+            max-height: 200px;
+            margin-bottom: 1rem;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+        }
+
+        .track-item img:hover,
+        .artist-card img:hover {
+            transform: scale(1.1) rotate(2deg);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
         }
 
         /* Wrap Detail Section */
         .wrap-detail-container {
-            padding: 20px;
-            border-radius: 12px;
-            max-width: 1000px;
-            margin: 20px auto;
-            background: linear-gradient(145deg, #0d0d0d, #181818);
-            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.2);
-            color: #fff;
+            padding: 2rem;
+            border-radius: 20px;
+            max-width: 1200px;
+            margin: 2rem auto;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #333;
         }
 
-        body.light .wrap-detail-container {
-            background: linear-gradient(145deg, #ffffff, #f0f0f0);
-            color: #333;
-            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.1);
+        body.dark .wrap-detail-container {
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(20px);
+            color: #1DB954;
+            border: 1px solid rgba(29, 185, 84, 0.2);
         }
 
         body.high_contrast .wrap-detail-container {
-            background: linear-gradient(145deg, #000000, #1a1a1a);
+            background: rgba(0, 0, 0, 0.9);
             color: #ffff00;
-            box-shadow: 0 12px 24px rgba(255, 255, 0, 0.3);
+            border: 1px solid rgba(255, 255, 0, 0.3);
+        }
+
+        .wrap-title {
+            font-size: 2.5rem;
+            text-align: center;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #1DB954, #1ed760);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .wrap-section {
+            margin-bottom: 3rem;
+            padding: 2rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            backdrop-filter: blur(10px);
+        }
+
+        body.dark .wrap-section {
+            background: rgba(29, 185, 84, 0.05);
+            border: 1px solid rgba(29, 185, 84, 0.1);
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            color: #1DB954;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .section-title::after {
+            content: '';
+            position: absolute;
+            bottom: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 80px;
+            height: 3px;
+            background: linear-gradient(90deg, #1DB954, #1ed760);
+            border-radius: 2px;
         }
 
         /* Footer */
@@ -408,15 +606,18 @@
 <header>
     <div class="container">
         <a href="/" class="logo">SpotifyWrapped</a>
-        <ul class="nav-links">
+        <button class="mobile-menu-toggle" onclick="toggleMobileMenu()">☰</button>
+        <ul class="nav-links" id="navLinks">
             <li><a href="{% url 'about' %}">About</a></li>
             {% if user.is_authenticated %}
                 <li><a href="{% url 'dashboard' %}">Dashboard</a></li>
                 <li><a href="{% url 'settings' %}">Settings</a></li>
-                <form action="{% url 'logout' %}" method="post" class="logout-form">
-                    {% csrf_token %}
-                    <button type="submit" class="logout-btn">Logout</button>
-                </form>
+                <li>
+                    <form action="{% url 'logout' %}" method="post" class="logout-form">
+                        {% csrf_token %}
+                        <button type="submit" class="logout-btn">Logout</button>
+                    </form>
+                </li>
             {% else %}
                 <li><a href="{% url 'login' %}">Login</a></li>
                 <li><a href="{% url 'register' %}">Register</a></li>
@@ -433,7 +634,7 @@
 
     <!-- Total Stats Section -->
     <div class="wrap-section">
-        <h2 class="section-title">Your Listening Stats</h2>
+        <h2 class="section-title">📊 Your Listening Stats</h2>
         <div class="stats-container">
             <div class="stats-card">
                 <p class="stats-title">You played</p>
@@ -455,7 +656,7 @@
 
     <!-- Top Tracks Section -->
     <div class="wrap-section">
-        <h2 class="section-title">Your Top Tracks</h2>
+        <h2 class="section-title">🎵 Your Top Tracks</h2>
         {% if wrap.data.top_tracks %}
             <div class="tracks-container">
                 {% for track in wrap.data.top_tracks %}
@@ -477,7 +678,7 @@
 
     <!-- Top Artists Section -->
     <div class="wrap-section">
-        <h2 class="section-title">Your Top Artists</h2>
+        <h2 class="section-title">👨‍🎤 Your Top Artists</h2>
         {% if wrap.data.top_artists %}
             <div class="artists-container">
                 {% for artist in wrap.data.top_artists %}
@@ -498,7 +699,7 @@
 
     <!-- Top genres Section -->
     <div class="wrap-section">
-        <h2 class="section-title">Your Top genres</h2>
+        <h2 class="section-title">🎭 Your Top Genres</h2>
         {% if wrap.data.favorite_genres %}
             <div class="artists-container">
                 {% for genre in wrap.data.favorite_genres %}
@@ -516,7 +717,7 @@
 
     <!-- Top albums Section -->
     <div class="wrap-section">
-        <h2 class="section-title">Your Top Albums</h2>
+        <h2 class="section-title">💿 Your Top Albums</h2>
         {% if wrap.data.top_albums %}
             <div class="artists-container">
                 {% for album in wrap.data.top_albums %}
@@ -536,7 +737,7 @@
 
     <!-- Top streaks Section -->
     <div class="wrap-section">
-        <h2 class="section-title">Songs You Couldn't Stop Playing Over and Over Again</h2>
+        <h2 class="section-title">🔄 Songs You Couldn't Stop Playing</h2>
         {% if wrap.data.longest_streaks %}
             <div class="artists-container">
                 {% for track in wrap.data.longest_streaks %}
@@ -618,6 +819,30 @@
 </footer>
 
 <script>
+    // Mobile menu toggle function
+    function toggleMobileMenu() {
+        const navLinks = document.getElementById('navLinks');
+        navLinks.classList.toggle('active');
+    }
+
+    // Close mobile menu when clicking outside
+    document.addEventListener('click', function(event) {
+        const navLinks = document.getElementById('navLinks');
+        const mobileToggle = document.querySelector('.mobile-menu-toggle');
+        
+        if (!navLinks.contains(event.target) && !mobileToggle.contains(event.target)) {
+            navLinks.classList.remove('active');
+        }
+    });
+
+    // Close mobile menu when window is resized to desktop
+    window.addEventListener('resize', function() {
+        if (window.innerWidth > 768) {
+            const navLinks = document.getElementById('navLinks');
+            navLinks.classList.remove('active');
+        }
+    });
+
     // View Mode Persistence Script
     document.addEventListener('DOMContentLoaded', function () {
         const savedViewMode = localStorage.getItem('viewMode') || '{{ view_mode }}';

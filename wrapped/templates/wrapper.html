@@ -7,13 +7,76 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <title>Your Spotify Wrapped</title>
     <style>
+        /* Dynamic Animated Background */
+        body {
+            background: linear-gradient(-45deg, #1a1a2e, #16213e, #0f3460, #533483, #7209b7);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(120, 219, 255, 0.2) 0%, transparent 50%);
+            animation: floatingOrbs 20s ease-in-out infinite;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes floatingOrbs {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            33% { transform: translateY(-30px) rotate(120deg); }
+            66% { transform: translateY(30px) rotate(240deg); }
+        }
+
+        /* Slide Container Enhancements */
+        .slide-container {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .slide {
+            position: relative;
+            backdrop-filter: blur(10px);
+            background: rgba(0, 0, 0, 0.1);
+            margin: 0;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            border: none;
+            animation: slideIn 0.8s ease-out;
+            border-radius: 0;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(50px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
 
         .chart-description {
             color: #ffffff !important;
             text-align: center; /* Centers text horizontally */
             padding-right: 5px;
             padding-left: 5px;
-
         }
 
         .chart-title {
@@ -253,14 +316,15 @@
         }
 
 
-        /* Ensure header does not overlap content */
+        /* Universal Header Styles */
         header {
-            position: relative;
+            background: rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 1rem 0;
+            position: sticky;
             top: 0;
-            z-index: 1000;
-            background-color: #333;
-            padding: 15px 0;
-            color: white;
+            z-index: 100;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         /* Ensure body margin to prevent content overlap with header */
@@ -320,10 +384,33 @@
             .slide {
                 flex-direction: column; /* Stack text and image vertically */
                 text-align: center; /* Center align for readability */
+                padding: 20px 15px;
             }
 
-            .slide .text-content {
-                padding: 10px 0;
+            .slide h1 {
+                font-size: clamp(2rem, 8vw, 3rem);
+                margin-bottom: 30px;
+            }
+
+            .tracks-container,
+            .artists-container,
+            .albums-container,
+            .genres-container,
+            .mood-playlists-container,
+            .listening-stats-container {
+                max-height: 60vh;
+                gap: 15px;
+                padding: 15px;
+            }
+
+            .track-item,
+            .artist-card,
+            .album-card,
+            .genre-item,
+            .stats-card {
+                flex: 0 1 calc(50% - 15px);
+                min-width: 200px;
+                padding: 15px;
             }
         }
 
@@ -377,8 +464,57 @@
 
         /* Ultra-small screens adjustments */
         @media (max-width: 480px) {
+            .slide {
+                padding: 15px 10px;
+            }
+
+            .slide h1 {
+                font-size: clamp(1.8rem, 7vw, 2.5rem);
+                margin-bottom: 20px;
+            }
+
+            .tracks-container,
+            .artists-container,
+            .albums-container,
+            .genres-container,
+            .mood-playlists-container,
+            .listening-stats-container {
+                max-height: 55vh;
+                gap: 10px;
+                padding: 10px;
+            }
+
+            .track-item,
+            .artist-card,
+            .album-card,
+            .genre-item,
+            .stats-card {
+                flex: 0 1 calc(100% - 20px);
+                min-width: 150px;
+                padding: 12px;
+            }
+
             .controls {
-                bottom: 20px; /* Lower the buttons further for smaller screens */
+                bottom: 15px;
+                gap: 10px;
+            }
+
+            .nav-btn {
+                padding: 10px 16px;
+                font-size: 12px;
+            }
+
+            .progress-indicator {
+                top: 10px;
+                right: 10px;
+            }
+
+            .progress-bar {
+                width: 120px;
+            }
+
+            .slide-counter {
+                font-size: 11px;
             }
         }
 
@@ -386,7 +522,92 @@
         /* Slide content styles */
         .slide h1 {
             font-size: clamp(2rem, 6vw, 3rem);
-            margin-bottom: 20px;
+            margin-bottom: 30px;
+            background: linear-gradient(45deg, #1DB954, #1ed760, #00ff88);
+            background-size: 200% 200%;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: gradientText 3s ease-in-out infinite;
+            text-shadow: 0 0 30px rgba(29, 185, 84, 0.5);
+            position: relative;
+            z-index: 1;
+        }
+
+        .slide h1::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 100px;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #1DB954, transparent);
+            border-radius: 2px;
+            animation: underlineGlow 2s ease-in-out infinite;
+        }
+
+        @keyframes gradientText {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        @keyframes underlineGlow {
+            0%, 100% { opacity: 0.5; transform: translateX(-50%) scaleX(0.8); }
+            50% { opacity: 1; transform: translateX(-50%) scaleX(1.2); }
+        }
+
+        /* Loading Animations */
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: #1DB954;
+            animation: spin 1s ease-in-out infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.8s ease-in-out;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .slide-in-left {
+            animation: slideInLeft 0.8s ease-out;
+        }
+
+        @keyframes slideInLeft {
+            from { opacity: 0; transform: translateX(-50px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .slide-in-right {
+            animation: slideInRight 0.8s ease-out;
+        }
+
+        @keyframes slideInRight {
+            from { opacity: 0; transform: translateX(50px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .bounce-in {
+            animation: bounceIn 0.8s ease-out;
+        }
+
+        @keyframes bounceIn {
+            0% { opacity: 0; transform: scale(0.3); }
+            50% { opacity: 1; transform: scale(1.05); }
+            70% { transform: scale(0.9); }
+            100% { opacity: 1; transform: scale(1); }
         }
 
         /* Adjust controls for better placement */
@@ -475,35 +696,38 @@
             padding: 0 15px;
         }
 
-        /* Header Responsiveness */
-        header {
-            background-color: #333;
-            padding: 15px 0;
-            color: white;
-        }
-
         header .container {
+            max-width: 1200px;
+            margin: 0 auto;
             display: flex;
-            flex-wrap: wrap;
             justify-content: space-between;
             align-items: center;
+            padding: 0 2rem;
+            flex-wrap: wrap;
         }
 
         header .logo {
-            color: white;
-            font-size: clamp(20px, 4vw, 24px);
-            font-weight: bold;
-            margin-bottom: 10px;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #fff;
+            text-decoration: none;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        header .logo:hover {
+            color: #1DB954;
+            transform: scale(1.05);
         }
 
         header .nav-links {
-            list-style: none;
             display: flex;
-            flex-wrap: wrap;
-            justify-content: flex-end;
+            list-style: none;
+            gap: 1.5rem;
             align-items: center;
             margin: 0;
-            gap: 15px;
+            padding: 0;
+            flex-wrap: wrap;
         }
 
         header .nav-links li {
@@ -511,51 +735,103 @@
         }
 
         header .nav-links a {
-            color: white;
+            color: #fff;
             text-decoration: none;
-            font-size: clamp(16px, 3vw, 18px);
-            transition: color 0.3s ease;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            white-space: nowrap;
         }
 
         header .nav-links a:hover {
-            color: #4CAF50;
+            background: rgba(29, 185, 84, 0.2);
+            color: #1DB954;
+            transform: translateY(-2px);
         }
 
-        header .logout-form {
-            margin-left: 15px;
-        }
-
-        header .logout-btn {
-            background-color: #4CAF50;
+        .logout-btn {
+            background: linear-gradient(45deg, #1db954, #1ed760);
             color: white;
             border: none;
-            padding: 8px 16px;
-            font-size: clamp(14px, 3vw, 16px);
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
+            font-weight: 600;
             cursor: pointer;
-            border-radius: 5px;
-            transition: background-color 0.3s ease;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(29, 185, 84, 0.3);
+            white-space: nowrap;
         }
 
-        header .logout-btn:hover {
-            background-color: #45a049;
+        .logout-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(29, 185, 84, 0.4);
         }
 
-        /* Slide Container Responsiveness */
+        /* Mobile Header Styles */
+        @media (max-width: 768px) {
+            header .container {
+                flex-direction: column;
+                gap: 1rem;
+                padding: 0 1rem;
+            }
+
+            header .nav-links {
+                justify-content: center;
+                gap: 1rem;
+            }
+
+            header .nav-links a {
+                padding: 0.4rem 0.8rem;
+                font-size: 0.9rem;
+            }
+
+            .logout-btn {
+                padding: 0.6rem 1.2rem;
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            header .nav-links {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            header .nav-links a {
+                padding: 0.3rem 0.6rem;
+                font-size: 0.8rem;
+            }
+
+            .logout-btn {
+                padding: 0.5rem 1rem;
+                font-size: 0.8rem;
+            }
+        }
+
+        /* Full-Screen Slide Container */
         .slide-container {
             display: flex;
-            min-height: 100vh;
-            transition: transform 0.7s ease-in-out;
-            width: 100%;
+            height: 100vh;
+            width: 100vw;
+            transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+            overflow: hidden;
+            position: relative;
         }
 
         .slide {
             width: 100vw;
-            min-height: 100vh;
+            height: 100vh;
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
-            padding: 20px;
+            padding: 40px 20px;
             flex-shrink: 0;
+            position: relative;
+            overflow-y: auto;
+            overflow-x: hidden;
+            box-sizing: border-box;
         }
 
         .slide h1 {
@@ -590,13 +866,34 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            background-color: #1DB954;
-            padding: 15px;
+            background: rgba(29, 185, 84, 0.2);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 20px;
             margin: 15px 0;
-            border-radius: 10px;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            border-radius: 20px;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 
+                0 8px 32px rgba(0, 0, 0, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
             text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .track-item::before, .artist-card::before, .album-card::before, .genre-item::before, .stats-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+            transition: left 0.6s ease;
+        }
+
+        .track-item:hover::before, .artist-card:hover::before, .album-card:hover::before, .genre-item:hover::before, .stats-card:hover::before {
+            left: 100%;
         }
 
         .album-cover,
@@ -604,8 +901,40 @@
             width: clamp(80px, 20vw, 150px);
             height: clamp(80px, 20vw, 150px);
             object-fit: cover;
-            border-radius: 5px;
-            margin-bottom: 10px;
+            border-radius: 15px;
+            margin-bottom: 15px;
+            transition: all 0.3s ease;
+            box-shadow: 
+                0 8px 25px rgba(0, 0, 0, 0.3),
+                0 0 0 1px rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .album-cover:hover,
+        .artist-image:hover {
+            transform: scale(1.1) rotate(2deg);
+            box-shadow: 
+                0 15px 35px rgba(0, 0, 0, 0.4),
+                0 0 20px rgba(29, 185, 84, 0.4);
+        }
+
+        .album-cover::after,
+        .artist-image::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.1) 50%, transparent 70%);
+            transform: translateX(-100%);
+            transition: transform 0.6s ease;
+        }
+
+        .album-cover:hover::after,
+        .artist-image:hover::after {
+            transform: translateX(100%);
         }
 
         .track-info,
@@ -635,32 +964,127 @@
         }
 
         /* Controls Responsiveness */
+        /* Progress Indicator */
+        .progress-indicator {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .progress-bar {
+            width: 200px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 2px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #1DB954, #1ed760);
+            border-radius: 2px;
+            transition: width 0.5s ease;
+            position: relative;
+        }
+
+        .progress-fill::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            animation: shimmer 2s infinite;
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        .slide-counter {
+            color: white;
+            font-size: 14px;
+            font-weight: bold;
+            text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+        }
+
         .controls {
             position: fixed;
-            bottom: 20px;
+            bottom: 30px;
             left: 50%;
             transform: translateX(-50%);
             display: flex;
             gap: 20px;
+            z-index: 1000;
         }
 
-        .controls button {
-            padding: 10px 20px;
-            background-color: #1DB954;
+        .nav-btn {
+            padding: 15px 25px;
+            background: rgba(29, 185, 84, 0.2);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
             color: #ffffff;
-            border: none;
-            border-radius: 5px;
+            border-radius: 50px;
             cursor: pointer;
             font-size: clamp(14px, 4vw, 16px);
-            transition: all 0.3s ease;
+            font-weight: bold;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
         }
 
-        .controls button:hover {
-            background-color: #1ed760;
+        .nav-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.6s ease;
         }
 
-        .controls button:active {
-            transform: scale(0.95);
+        .nav-btn:hover::before {
+            left: 100%;
+        }
+
+        .nav-btn:hover {
+            background: rgba(30, 215, 96, 0.3);
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 
+                0 15px 40px rgba(0, 0, 0, 0.4),
+                0 0 20px rgba(29, 185, 84, 0.4);
+            border-color: rgba(29, 185, 84, 0.5);
+        }
+
+        .nav-btn:active {
+            transform: translateY(-2px) scale(0.98);
+        }
+
+        .prev-btn span:first-child,
+        .next-btn span:last-child {
+            font-size: 18px;
+            transition: transform 0.3s ease;
+        }
+
+        .nav-btn:hover .prev-btn span:first-child {
+            transform: translateX(-3px);
+        }
+
+        .nav-btn:hover .next-btn span:last-child {
+            transform: translateX(3px);
         }
 
         /* Playlist Grid Responsiveness */
@@ -825,66 +1249,6 @@
             overflow-x: hidden;
         }
 
-        header {
-            background-color: #333;
-            padding: 20px 0;
-            color: white;
-        }
-
-        header .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        header .logo {
-            color: white;
-            font-size: 24px;
-            font-weight: bold;
-        }
-
-        header .nav-links {
-            list-style: none;
-            display: flex;
-            justify-content: flex-end;
-            margin: 0;
-            padding: 0;
-        }
-
-        header .nav-links li {
-            margin: 0 15px;
-        }
-
-        header .nav-links a {
-            color: white;
-            text-decoration: none;
-            font-size: 18px;
-        }
-
-        header .nav-links a:hover {
-            color: #4CAF50;
-        }
-
-        header .logout-form {
-            display: inline;
-            margin-left: 20px;
-        }
-
-        header .logout-btn {
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            padding: 8px 16px;
-            font-size: 16px;
-            cursor: pointer;
-            border-radius: 5px;
-        }
-
-        header .logout-btn:hover {
-            background-color: #45a049;
-        }
 
         .slide-container {
             display: flex;
@@ -932,9 +1296,14 @@
             text-align: center;
         }
 
-        .track-item:hover, .artist-card:hover, .album-card:hover, .genre-item:hover {
-            background-color: #1ed760;
-            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3);
+        .track-item:hover, .artist-card:hover, .album-card:hover, .genre-item:hover, .stats-card:hover {
+            background: rgba(30, 215, 96, 0.3);
+            transform: translateY(-10px) scale(1.05);
+            box-shadow: 
+                0 20px 40px rgba(0, 0, 0, 0.4),
+                0 0 20px rgba(29, 185, 84, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            border-color: rgba(29, 185, 84, 0.5);
         }
 
         .album-cover, .artist-image {
@@ -1025,18 +1394,56 @@
             width: 100%;
             max-width: 600px;
             height: 400px;
-            background-color: #222;
-            border-radius: 8px;
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
             margin: 20px 0;
+            padding: 20px;
+            box-shadow: 
+                0 8px 32px rgba(0, 0, 0, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .chart-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent 30%, rgba(29, 185, 84, 0.05) 50%, transparent 70%);
+            pointer-events: none;
         }
 
         .chart-container-table {
             width: 100%;
             max-width: 600px;
             height: 250px;
-            background-color: #222;
-            border-radius: 8px;
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
             margin: 20px 0;
+            padding: 20px;
+            box-shadow: 
+                0 8px 32px rgba(0, 0, 0, 0.3),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .chart-container-table::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent 30%, rgba(29, 185, 84, 0.05) 50%, transparent 70%);
+            pointer-events: none;
         }
 
         .light .chart-title {
@@ -1176,11 +1583,6 @@
             color: #ffffff; /* Light text */
         }
 
-        .dark .header {
-            position: relative;
-            background-color: #333; /* Dark background for header */
-            color: #f1f1f1;
-        }
 
 
         .dark a {
@@ -1197,15 +1599,6 @@
             color: #FFFF00; /* Yellow text */
         }
 
-        .high_contrast header {
-            position: relative;
-            background-color: #000000; /* Black header */
-            color: #FFFF00; /* Yellow header text */
-        }
-
-        .high_contrast header a {
-            color: #FFFF00;
-        }
 
         .high_contrast a:hover {
             color: #4CAF50; /* Lighter green on hover */
@@ -1226,22 +1619,6 @@
                 margin: 5%;
             }
 
-            /* Navigation */
-            header .nav-links {
-                flex-direction: column;
-                align-items: center;
-                gap: 10px; /* Add spacing between links */
-            }
-
-            header .container, .slide {
-                flex-direction: column;
-                text-align: center;
-            }
-
-            /* Logo and Header */
-            header .logo {
-                font-size: 1.25rem; /* Relative font size */
-            }
 
             /* Slide Content */
             .slide h1 {
@@ -1358,6 +1735,74 @@
                 font-size: 1.15rem;
             }
         }
+
+        /* Playlist Card Styles */
+        .playlist-card {
+            background: linear-gradient(135deg, #1db954, #1ed760);
+            border-radius: 15px;
+            padding: 30px;
+            margin: 20px 0;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .playlist-header {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-bottom: 20px;
+        }
+
+        .playlist-cover {
+            width: 120px;
+            height: 120px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+
+        .playlist-info h2 {
+            color: white;
+            font-size: 1.8rem;
+            margin: 0 0 10px 0;
+        }
+
+        .playlist-info p {
+            color: rgba(255, 255, 255, 0.9);
+            margin: 5px 0;
+            font-size: 1.1rem;
+        }
+
+        .playlist-description {
+            font-style: italic;
+            color: rgba(255, 255, 255, 0.8) !important;
+        }
+
+        .playlist-actions {
+            text-align: center;
+        }
+
+        .btn-spotify {
+            background: #191414;
+            color: white;
+            padding: 12px 24px;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            display: inline-block;
+        }
+
+        .btn-spotify:hover {
+            background: #000;
+            transform: translateY(-2px);
+        }
+
+        .no-playlist, .no-audio-data {
+            text-align: center;
+            padding: 40px;
+            color: #b3b3b3;
+            font-size: 1.2rem;
+        }
+
 
     </style>
 
@@ -1580,6 +2025,34 @@
         </div>
 
         <div class="slide" id="slide11">
+            <h1>Your Most Played Playlist</h1>
+            {% if most_played_playlist %}
+            <div class="playlist-card">
+                <div class="playlist-header">
+                    {% if most_played_playlist.images %}
+                        <img src="{{ most_played_playlist.images.0.url }}" alt="{{ most_played_playlist.name }}" class="playlist-cover">
+                    {% endif %}
+                    <div class="playlist-info">
+                        <h2>{{ most_played_playlist.name }}</h2>
+                        <p>by {{ most_played_playlist.owner.display_name }}</p>
+                        <p>{{ most_played_playlist.tracks.total }} tracks</p>
+                        {% if most_played_playlist.description %}
+                            <p class="playlist-description">{{ most_played_playlist.description }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="playlist-actions">
+                    <a href="{{ most_played_playlist.external_urls.spotify }}" target="_blank" class="btn btn-spotify">Open in Spotify</a>
+                </div>
+            </div>
+            {% else %}
+            <div class="no-playlist">
+                <p>No playlists found. Create some playlists to see your most played one here!</p>
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="slide" id="slide12">
             <h1>Save Your Spotify Wrapped</h1>
             <div class="save-wrap">
                 <form method="POST" action="">
@@ -1592,9 +2065,25 @@
 
     </div>
 
+    <!-- Progress Indicator -->
+    <div class="progress-indicator">
+        <div class="progress-bar">
+            <div class="progress-fill" id="progressFill"></div>
+        </div>
+        <div class="slide-counter">
+            <span id="currentSlide">1</span> / <span id="totalSlides">12</span>
+        </div>
+    </div>
+
     <div class="controls">
-        <button onclick="prevSlide()">Previous</button>
-        <button onclick="nextSlide()">Next</button>
+        <button onclick="prevSlide()" class="nav-btn prev-btn">
+            <span>←</span>
+            <span>Previous</span>
+        </button>
+        <button onclick="nextSlide()" class="nav-btn next-btn">
+            <span>Next</span>
+            <span>→</span>
+        </button>
     </div>
 
 </div>
@@ -1608,6 +2097,13 @@
         // Dynamically calculate total slides and adjust the width of the container
         const totalSlides = slides.length;
         slideContainer.style.width = `${totalSlides * 100}vw`;
+        
+        // Ensure each slide is exactly 100vw wide
+        slides.forEach(slide => {
+            slide.style.width = '100vw';
+            slide.style.minWidth = '100vw';
+            slide.style.maxWidth = '100vw';
+        });
 
         let currentSlide = 0; // Track the current slide
 
@@ -1617,15 +2113,30 @@
             if (slideNumber >= totalSlides) slideNumber = totalSlides - 1;
 
             // Calculate the offset and move the slide container
-            slideContainer.style.transform = `translateX(-${slideNumber * 100}vw)`;
+            const translateX = -slideNumber * 100;
+            slideContainer.style.transform = `translateX(${translateX}vw)`;
             currentSlide = slideNumber;
+
+            // Update progress indicator
+            updateProgress();
 
             // Show/hide navigation buttons
             const prevButton = document.querySelector('.controls button:nth-child(1)');
             const nextButton = document.querySelector('.controls button:nth-child(2)');
 
-            prevButton.style.display = currentSlide === 0 ? 'none' : 'inline-block';
-            nextButton.style.display = currentSlide === totalSlides - 1 ? 'none' : 'inline-block';
+            prevButton.style.display = currentSlide === 0 ? 'none' : 'flex';
+            nextButton.style.display = currentSlide === totalSlides - 1 ? 'none' : 'flex';
+        }
+
+        function updateProgress() {
+            const progressFill = document.getElementById('progressFill');
+            const currentSlideSpan = document.getElementById('currentSlide');
+            const totalSlidesSpan = document.getElementById('totalSlides');
+            
+            const progress = ((currentSlide + 1) / totalSlides) * 100;
+            progressFill.style.width = `${progress}%`;
+            currentSlideSpan.textContent = currentSlide + 1;
+            totalSlidesSpan.textContent = totalSlides;
         }
 
         // Navigation buttons
@@ -1634,6 +2145,94 @@
 
         // Initialize the first slide
         showSlide(currentSlide);
+
+        // Add animation classes to elements when they come into view
+        function addAnimationClasses() {
+            const currentSlideElement = slides[currentSlide];
+            if (currentSlideElement) {
+                // Add fade-in animation to the slide
+                currentSlideElement.classList.add('fade-in');
+                
+                // Add staggered animations to cards
+                const cards = currentSlideElement.querySelectorAll('.track-item, .artist-card, .album-card, .genre-item, .stats-card, .card');
+                cards.forEach((card, index) => {
+                    setTimeout(() => {
+                        card.classList.add('bounce-in');
+                    }, index * 100);
+                });
+
+                // Add slide-in animations to charts
+                const charts = currentSlideElement.querySelectorAll('.chart-container, .chart-container-table');
+                charts.forEach((chart, index) => {
+                    setTimeout(() => {
+                        chart.classList.add('slide-in-left');
+                    }, index * 200);
+                });
+            }
+        }
+
+        // Enhanced showSlide function with animations
+        function showSlideWithAnimation(slideNumber) {
+            // Remove animation classes from current slide
+            const currentSlideElement = slides[currentSlide];
+            if (currentSlideElement) {
+                currentSlideElement.classList.remove('fade-in', 'slide-in-left', 'slide-in-right', 'bounce-in');
+            }
+
+            showSlide(slideNumber);
+            
+            // Add animations to new slide
+            setTimeout(addAnimationClasses, 100);
+        }
+
+        // Override the original showSlide calls
+        document.querySelector('.controls button:nth-child(1)').onclick = () => showSlideWithAnimation(currentSlide - 1);
+        document.querySelector('.controls button:nth-child(2)').onclick = () => showSlideWithAnimation(currentSlide + 1);
+
+        // Keyboard navigation
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+                e.preventDefault();
+                showSlideWithAnimation(currentSlide - 1);
+            } else if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') {
+                e.preventDefault();
+                showSlideWithAnimation(currentSlide + 1);
+            }
+        });
+
+        // Touch/Swipe support for mobile
+        let startX = 0;
+        let startY = 0;
+        let endX = 0;
+        let endY = 0;
+
+        slideContainer.addEventListener('touchstart', (e) => {
+            startX = e.touches[0].clientX;
+            startY = e.touches[0].clientY;
+        });
+
+        slideContainer.addEventListener('touchend', (e) => {
+            endX = e.changedTouches[0].clientX;
+            endY = e.changedTouches[0].clientY;
+            handleSwipe();
+        });
+
+        function handleSwipe() {
+            const deltaX = endX - startX;
+            const deltaY = endY - startY;
+            const minSwipeDistance = 50;
+
+            // Check if it's a horizontal swipe (not vertical scroll)
+            if (Math.abs(deltaX) > Math.abs(deltaY) && Math.abs(deltaX) > minSwipeDistance) {
+                if (deltaX > 0) {
+                    // Swipe right - go to previous slide
+                    showSlideWithAnimation(currentSlide - 1);
+                } else {
+                    // Swipe left - go to next slide
+                    showSlideWithAnimation(currentSlide + 1);
+                }
+            }
+        }
 
 
         const listeningPatterns = JSON.parse(document.getElementById('listening-patterns-data').textContent);
@@ -1651,19 +2250,70 @@
                 datasets: [{
                     label: 'Genres',
                     data: Object.values(genreBreakdown),
-                    backgroundColor: ['#1DB954', '#FF5722', '#FFC107', '#03A9F4', '#E91E63'],
-                    borderWidth: 1
+                    backgroundColor: [
+                        'rgba(29, 185, 84, 0.8)',
+                        'rgba(255, 87, 34, 0.8)',
+                        'rgba(255, 193, 7, 0.8)',
+                        'rgba(3, 169, 244, 0.8)',
+                        'rgba(233, 30, 99, 0.8)',
+                        'rgba(156, 39, 176, 0.8)',
+                        'rgba(76, 175, 80, 0.8)',
+                        'rgba(255, 152, 0, 0.8)'
+                    ],
+                    borderColor: [
+                        'rgba(29, 185, 84, 1)',
+                        'rgba(255, 87, 34, 1)',
+                        'rgba(255, 193, 7, 1)',
+                        'rgba(3, 169, 244, 1)',
+                        'rgba(233, 30, 99, 1)',
+                        'rgba(156, 39, 176, 1)',
+                        'rgba(76, 175, 80, 1)',
+                        'rgba(255, 152, 0, 1)'
+                    ],
+                    borderWidth: 2,
+                    hoverBackgroundColor: [
+                        'rgba(29, 185, 84, 1)',
+                        'rgba(255, 87, 34, 1)',
+                        'rgba(255, 193, 7, 1)',
+                        'rgba(3, 169, 244, 1)',
+                        'rgba(233, 30, 99, 1)',
+                        'rgba(156, 39, 176, 1)',
+                        'rgba(76, 175, 80, 1)',
+                        'rgba(255, 152, 0, 1)'
+                    ]
                 }]
             },
             options: {
                 maintainAspectRatio: false,
+                animation: {
+                    animateRotate: true,
+                    animateScale: true,
+                    duration: 2000,
+                    easing: 'easeInOutQuart'
+                },
                 plugins: {
                     legend: {
                         display: true,
                         position: 'bottom',
                         labels: {
-                            color: 'white'
+                            color: 'white',
+                            font: {
+                                size: 14,
+                                weight: 'bold'
+                            },
+                            padding: 20,
+                            usePointStyle: true,
+                            pointStyle: 'circle'
                         }
+                    },
+                    tooltip: {
+                        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                        titleColor: 'white',
+                        bodyColor: 'white',
+                        borderColor: 'rgba(29, 185, 84, 0.5)',
+                        borderWidth: 1,
+                        cornerRadius: 10,
+                        displayColors: true
                     }
                 }
             }
@@ -1678,26 +2328,72 @@
                 datasets: [{
                     label: 'Listening Time (%)',
                     data: Object.values(listeningPatterns.time_of_day),
-                    backgroundColor: '#1DB954',
-                    borderWidth: 1
+                    backgroundColor: [
+                        'rgba(29, 185, 84, 0.8)',
+                        'rgba(30, 215, 96, 0.8)',
+                        'rgba(0, 255, 136, 0.8)',
+                        'rgba(29, 185, 84, 0.8)',
+                        'rgba(30, 215, 96, 0.8)',
+                        'rgba(0, 255, 136, 0.8)'
+                    ],
+                    borderColor: [
+                        'rgba(29, 185, 84, 1)',
+                        'rgba(30, 215, 96, 1)',
+                        'rgba(0, 255, 136, 1)',
+                        'rgba(29, 185, 84, 1)',
+                        'rgba(30, 215, 96, 1)',
+                        'rgba(0, 255, 136, 1)'
+                    ],
+                    borderWidth: 2,
+                    borderRadius: 8,
+                    borderSkipped: false,
                 }]
             },
             options: {
                 maintainAspectRatio: false,
+                animation: {
+                    duration: 2000,
+                    easing: 'easeInOutQuart'
+                },
                 plugins: {
                     legend: {
                         display: false
+                    },
+                    tooltip: {
+                        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+                        titleColor: 'white',
+                        bodyColor: 'white',
+                        borderColor: 'rgba(29, 185, 84, 0.5)',
+                        borderWidth: 1,
+                        cornerRadius: 10,
+                        displayColors: true
                     }
                 },
                 scales: {
                     x: {
                         ticks: {
-                            color: 'white'
+                            color: 'white',
+                            font: {
+                                size: 12,
+                                weight: 'bold'
+                            }
+                        },
+                        grid: {
+                            color: 'rgba(255, 255, 255, 0.1)',
+                            drawBorder: false
                         }
                     },
                     y: {
                         ticks: {
-                            color: 'white'
+                            color: 'white',
+                            font: {
+                                size: 12,
+                                weight: 'bold'
+                            }
+                        },
+                        grid: {
+                            color: 'rgba(255, 255, 255, 0.1)',
+                            drawBorder: false
                         }
                     }
                 }

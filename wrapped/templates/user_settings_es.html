@@ -4,410 +4,646 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Acerca de SpotifyWrapped</title>
-    <link rel="stylesheet" href="{% static 'wrapped/about.css' %}">
-    <style>/* General Styles */
-    .button {
-        background-color: #4CAF50; /* Green background */
-        color: white; /* White text */
-        border: none; /* No border */
-        padding: 6px 12px; /* Reduced padding for a skinnier look */
-        font-size: 14px; /* Smaller text size */
-        cursor: pointer; /* Pointer cursor on hover */
-        border-radius: 5px; /* Rounded corners */
-        transition: background-color 0.3s; /* Smooth transition for hover effect */
-    }
+    <title>Configuración - SpotifyWrapped</title>
+    <style>
+        /* Modern Settings Page Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
 
-    .button:hover {
-        background-color: #45a049; /* Darker green background on hover */
-    }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            min-height: 100vh;
+            transition: all 0.3s ease;
+        }
 
-    /* Sticky Footer */
-    html, body {
-        height: 100%;
-        margin: 0;
-    }
+        body.light {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: #333;
+        }
 
-    body {
-        display: flex;
-        flex-direction: column;
-    }
+        body.dark {
+            background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
+            color: #1DB954;
+        }
 
-    footer {
-        margin-top: auto; /* Pushes the footer to the bottom of the flex container */
-        width: 100%; /* Ensures the footer is full width */
-    }
+        body.high_contrast {
+            background: linear-gradient(135deg, #000000 0%, #1a1a1a 100%);
+            color: #ffff00;
+        }
 
-    body {
-        font-family: Arial, sans-serif;
-        line-height: 1.6;
-        margin: 0;
-        padding: 0;
-        background-color: #f8f9fa;
-        color: #333;
-    }
+        /* Universal Header Styles */
+        header {
+            background: rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
 
-    /* Header Styles */
-    header {
-        background-color: #333;
-        padding: 20px 0;
-        color: white;
-    }
-
-    header .container {
-        max-width: 1200px;
-        margin: 0 auto;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-    }
-
-    header .logo {
-        color: white;
-        font-size: 24px;
-        font-weight: bold;
-    }
-
-    header .nav-links {
-        list-style: none;
-        display: flex;
-        justify-content: flex-end;
-        margin: 0;
-        padding: 0;
-    }
-
-    header .nav-links li {
-        margin: 0 15px;
-    }
-
-    header .nav-links a {
-        color: white;
-        text-decoration: none;
-        font-size: 18px;
-    }
-
-    header .nav-links a:hover {
-        color: #4CAF50;
-    }
-
-    /* Logout button */
-    header .logout-form {
-        display: inline;
-        margin-left: 20px;
-    }
-
-    header .logout-btn {
-        background-color: #4CAF50;
-        color: white;
-        border: none;
-        padding: 8px 16px;
-        font-size: 16px;
-        cursor: pointer;
-        border-radius: 5px;
-    }
-
-    header .logout-btn:hover {
-        background-color: #45a049;
-    }
-
-    .nav-links a:hover {
-        text-decoration: underline;
-    }
-
-    .container {
-        max-width: 1000px;
-        margin: auto;
-        padding: 20px;
-    }
-
-    .section {
-        margin-bottom: 40px;
-        padding: 20px;
-        background: #ffffff;
-        border-radius: 10px;
-        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    }
-
-    .section h2 {
-        color: #1db954;
-        font-size: 28px;
-        margin-bottom: 10px;
-    }
-
-    .section p {
-        font-size: 18px;
-        margin: 10px 0;
-    }
-
-    .team {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: space-around;
-    }
-
-    .team-member {
-        text-align: center;
-        margin: 20px;
-        max-width: 200px;
-    }
-
-    .team-member img {
-        width: 100px;
-        height: 100px;
-        border-radius: 50%;
-        margin-bottom: 10px;
-    }
-
-    .team-member h3 {
-        margin: 5px 0;
-        font-size: 20px;
-        color: #333;
-    }
-
-    .team-member p {
-        font-size: 16px;
-        color: #555;
-    }
-
-    /* Footer */
-    footer {
-        text-align: center;
-        padding: 20px;
-        background-color: #333;
-        color: #fff;
-        transition: all 0.3s ease-in-out;
-    }
-
-    body.light footer {
-        background-color: #333;
-        color: #fff;
-    }
-
-    body.dark footer {
-        background-color: #1f1f1f;
-        color: #ffffff;
-    }
-
-    body.high_contrast footer {
-        background-color: #000000;
-        color: #ffff00;
-    }
-
-    header .logo:hover {
-        color: #4CAF50;
-    }
-
-    footer a {
-        color: #1db954;
-        text-decoration: none;
-    }
-
-    footer a:hover {
-        text-decoration: underline;
-    }
-
-    body {
-        font-family: Arial, sans-serif;
-        margin: 0;
-        padding: 0;
-        transition: all 0.3s ease-in-out;
-    }
-
-    body.light {
-        background-color: #f8f9fa;
-        color: #333;
-    }
-
-    body.dark {
-        background-color: #121212;
-        color: #ffffff;
-    }
-
-    body.high_contrast {
-        background-color: #000000;
-        color: #ffff00;
-    }
-
-    /* Header */
-    header {
-        padding: 20px 0;
-        background-color: #333;
-        color: #fff;
-        transition: all 0.3s ease-in-out;
-    }
-
-    body.light header {
-        background-color: #333;
-        color: #fff;
-    }
-
-    body.dark header {
-        background-color: #1f1f1f;
-        color: #ffffff;
-    }
-
-    body.high_contrast header {
-        background-color: #000000;
-        color: #ffff00;
-    }
-
-    header .container {
-        max-width: 1200px;
-        margin: 0 auto;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        flex-wrap: wrap;
-        padding: 0 20px;
-    }
-
-    header .logo {
-        font-size: 1.5rem;
-        font-weight: bold;
-        color: inherit;
-        text-align: center;
-        flex: 1 1 auto;
-    }
-
-    /* Navigation Links */
-    header .nav-links {
-        list-style: none;
-        display: flex;
-        justify-content: center;
-        margin: 0;
-        padding: 0;
-        flex-wrap: wrap;
-        gap: 10px;
-    }
-
-    header .nav-links li {
-        margin: 0 10px;
-    }
-
-    header .nav-links a {
-        text-decoration: none;
-        font-size: 1rem;
-        color: inherit;
-    }
-
-    /* Logout Button */
-    header .logout-form {
-        display: inline;
-        margin-left: 20px;
-    }
-
-    header .logout-btn {
-        background-color: #1db954;
-        color: white;
-        border: none;
-        padding: 8px 16px;
-        font-size: 1rem;
-        cursor: pointer;
-        border-radius: 5px;
-    }
-
-    header .logout-btn:hover {
-        background-color: #45a049;
-    }
-
-    /* Main Content */
-    .container {
-        max-width: 100%;
-        margin: auto;
-        padding: 20px;
-        box-sizing: border-box;
-    }
-
-    .section {
-        margin-bottom: 40px;
-        padding: 20px;
-        border-radius: 10px;
-        box-shadow: 0 4px 8px rgba(51, 51, 51, 0.1);
-        background-color: #76b2fe;
-        width: 100%;
-        max-width: 1200px;
-        margin: 0 auto;
-    }
-
-    body.light .section {
-        background-color: #f8f9fa;
-        color: #333;
-    }
-
-    body.dark .section {
-        background-color: #121212;
-        color: #ffffff;
-    }
-
-    body.high_contrast .section {
-        background-color: #000000;
-        color: #ffff00;
-    }
-
-    /* Responsive Design */
-    @media (max-width: 768px) {
         header .container {
-            flex-direction: column;
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
             align-items: center;
-            text-align: center;
+            padding: 0 2rem;
+            flex-wrap: wrap;
+        }
+
+        header .logo {
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #fff;
+            text-decoration: none;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        header .logo:hover {
+            color: #1DB954;
+            transform: scale(1.05);
         }
 
         header .nav-links {
-            flex-direction: column;
-            gap: 5px;
+            display: flex;
+            list-style: none;
+            gap: 1.5rem;
+            align-items: center;
+            margin: 0;
+            padding: 0;
+            flex-wrap: wrap;
         }
 
-        .section {
-            padding: 15px;
-        }
-
-        header .logo {
-            font-size: 1.25rem;
+        header .nav-links li {
+            margin: 0;
         }
 
         header .nav-links a {
-            font-size: 0.9rem;
+            color: #fff;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            white-space: nowrap;
         }
 
-        header .logout-btn {
-            font-size: 0.9rem;
-            padding: 6px 12px;
-        }
-    }
-
-    @media (max-width: 480px) {
-        header {
-            padding: 15px 0;
+        header .nav-links a:hover {
+            background: rgba(29, 185, 84, 0.2);
+            color: #1DB954;
+            transform: translateY(-2px);
         }
 
-        header .logo {
+        .logout-btn {
+            background: linear-gradient(45deg, #1db954, #1ed760);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(29, 185, 84, 0.3);
+            white-space: nowrap;
+        }
+
+        .logout-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(29, 185, 84, 0.4);
+        }
+
+        /* Mobile Navigation Styles */
+        .mobile-menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: inherit;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        .mobile-menu-toggle:hover {
+            color: #1DB954;
+        }
+
+        /* Mobile Header Styles */
+        @media (max-width: 768px) {
+            header .container {
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+                position: relative;
+                padding: 0 1rem;
+            }
+
+            .mobile-menu-toggle {
+                display: block;
+            }
+
+            header .nav-links {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background-color: #333;
+                flex-direction: column;
+                gap: 0;
+                padding: 10px 0;
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+                transform: translateY(-100%);
+                opacity: 0;
+                visibility: hidden;
+                transition: all 0.3s ease;
+                z-index: 1000;
+            }
+
+            header .nav-links.active {
+                transform: translateY(0);
+                opacity: 1;
+                visibility: visible;
+            }
+
+            header .nav-links li {
+                margin: 0;
+                width: 100%;
+            }
+
+            header .nav-links a {
+                display: block;
+                padding: 10px 20px;
+                text-align: center;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            }
+
+            header .nav-links a:hover {
+                background-color: rgba(255, 255, 255, 0.1);
+            }
+
+            header .logout-form {
+                margin-left: 0;
+                width: 100%;
+            }
+
+            .logout-btn {
+                width: 100%;
+                margin-top: 10px;
+                padding: 0.6rem 1.2rem;
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            header .nav-links {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            header .nav-links a {
+                padding: 0.3rem 0.6rem;
+                font-size: 0.8rem;
+            }
+
+            .logout-btn {
+                padding: 0.5rem 1rem;
+                font-size: 0.8rem;
+            }
+        }
+
+        /* Main Content */
+        .settings-container {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .settings-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            border-radius: 20px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .settings-card h2 {
+            color: #1DB954;
+            font-size: 2rem;
+            margin-bottom: 1.5rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .settings-card h2::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 3px;
+            background: linear-gradient(90deg, #1DB954, #1ed760);
+            border-radius: 2px;
+        }
+
+        .form-group {
+            margin-bottom: 2rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #333;
+            font-size: 1.1rem;
+        }
+
+        .form-select {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #e1e5e9;
+            border-radius: 15px;
             font-size: 1rem;
+            transition: all 0.3s ease;
+            background: white;
+            color: #333;
+        }
+
+        .form-select:focus {
+            outline: none;
+            border-color: #1DB954;
+            box-shadow: 0 0 0 3px rgba(29, 185, 84, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .btn {
+            background: linear-gradient(45deg, #1db954, #1ed760);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(29, 185, 84, 0.3);
+            width: 100%;
+            margin-top: 1rem;
+        }
+
+        .btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(29, 185, 84, 0.4);
+        }
+
+        .btn-danger {
+            background: linear-gradient(45deg, #ff6b6b, #ee5a52);
+            box-shadow: 0 4px 15px rgba(255, 107, 107, 0.3);
+        }
+
+        .btn-danger:hover {
+            box-shadow: 0 6px 20px rgba(255, 107, 107, 0.4);
+        }
+
+        .delete-account-section {
+            background: rgba(255, 107, 107, 0.1);
+            border: 2px solid rgba(255, 107, 107, 0.2);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .delete-account-section h3 {
+            color: #ff6b6b;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .delete-account-section p {
+            color: #666;
+            margin-bottom: 1rem;
+            line-height: 1.6;
+        }
+
+        /* Footer */
+        footer {
+            background: rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            text-align: center;
+            padding: 2rem;
+            margin-top: 3rem;
+        }
+
+        footer p {
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        footer a {
+            color: #1db954;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .settings-container {
+                padding: 0 1rem;
+            }
+
+            .settings-card {
+                padding: 1.5rem;
+            }
+
+            .settings-card h2 {
+                font-size: 1.5rem;
+            }
+
+            header .nav-links {
+                flex-direction: column;
+                gap: 1rem;
+            }
+
+            header .container {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .settings-card {
+                padding: 1rem;
+            }
+
+            .form-select {
+                padding: 0.75rem;
+            }
+
+            .btn {
+                padding: 0.75rem 1.5rem;
+                font-size: 1rem;
+            }
+        }
+
+
+        /* Apply the common button class to HTML elements */
+        /* Example HTML:
+        <button class="button">Save Settings</button>
+        <button class="button">Delete My Account</button>
+        */
+
+        /* Sticky Footer */
+        html, body {
+            height: 100%;
+            margin: 0;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+        }
+
+        footer {
+            margin-top: auto; /* Pushes the footer to the bottom of the flex container */
+            width: 100%; /* Ensures the footer is full width */
+        }
+
+
+        .container {
+            max-width: 1000px;
+            margin: auto;
+            padding: 20px;
         }
 
         .section {
-            padding: 10px;
+            margin-bottom: 40px;
+            padding: 20px;
+            background: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
 
-        header .logout-btn {
-            font-size: 0.875rem;
-            padding: 5px 10px;
+        .section h2 {
+            color: #1db954;
+            font-size: 28px;
+            margin-bottom: 10px;
         }
-    }
+
+        .section p {
+            font-size: 18px;
+            margin: 10px 0;
+        }
+
+        .team {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-around;
+        }
+
+        .team-member {
+            text-align: center;
+            margin: 20px;
+            max-width: 200px;
+        }
+
+        .team-member img {
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            margin-bottom: 10px;
+        }
+
+        .team-member h3 {
+            margin: 5px 0;
+            font-size: 20px;
+            color: #333;
+        }
+
+        .team-member p {
+            font-size: 16px;
+            color: #555;
+        }
+
+        /* Footer */
+        footer {
+            text-align: center;
+            padding: 20px;
+            background-color: #333;
+            color: #fff;
+            transition: all 0.3s ease-in-out;
+        }
+
+        body.light footer {
+            background-color: #333;
+            color: #fff;
+        }
+
+        body.dark footer {
+            background-color: #1f1f1f;
+            color: #ffffff;
+        }
+
+        body.high_contrast footer {
+            background-color: #000000;
+            color: #ffff00;
+        }
+
+        footer a {
+            color: #1db954;
+            text-decoration: none;
+        }
+
+        footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* General Styles */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            transition: all 0.3s ease-in-out;
+        }
+
+        body.light {
+            background-color: #f8f9fa;
+            color: #333;
+        }
+
+        body.dark {
+            background-color: #121212;
+            color: #ffffff;
+        }
+
+        body.high_contrast {
+            background-color: #000000;
+            color: #ffff00;
+        }
+
+
+
+        /* Main Content */
+        .container {
+            max-width: 100%;
+            margin: auto;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .section {
+            margin-bottom: 40px;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(51, 51, 51, 0.1);
+            background-color: #76b2fe;
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        body.light .section {
+            background-color: #f8f9fa;
+            color: #333;
+        }
+
+        body.dark .section {
+            background-color: #121212;
+            color: #ffffff;
+        }
+
+        body.high_contrast .section {
+            background-color: #000000;
+            color: #ffff00;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            header .container {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+
+            header .nav-links {
+                flex-direction: column;
+                gap: 5px;
+            }
+
+            .section {
+                padding: 15px;
+            }
+
+            header .logo {
+                font-size: 1.25rem;
+            }
+
+            header .nav-links a {
+                font-size: 0.9rem;
+            }
+
+            header .logout-btn {
+                font-size: 0.9rem;
+                padding: 6px 12px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .section {
+                padding: 10px;
+            }
+
+            /* Footer */
+            footer {
+                text-align: center;
+                padding: 20px;
+                background-color: #333;
+                color: #fff;
+                transition: all 0.3s ease-in-out;
+            }
+
+            body.light footer {
+                background-color: #f1f1f1;
+                color: #333;
+            }
+
+            body.dark footer {
+                background-color: #1f1f1f;
+                color: #ffffff;
+            }
+
+            body.high_contrast footer {
+                background-color: #000000;
+                color: #ffff00;
+            }
+
+        }
     </style>
 </head>
 <body class="{{ view_mode }}">
 <header>
     <div class="container">
         <a href="/" class="logo">SpotifyWrapped</a>
-        <ul class="nav-links">
+        <button class="mobile-menu-toggle" onclick="toggleMobileMenu()">☰</button>
+        <ul class="nav-links" id="navLinks">
             <li><a href="{% url 'about' %}">Acerca de Nosotros</a></li>
             {% if user.is_authenticated %}
                 <li><a href="{% url 'dashboard' %}">Panel</a></li>
                 <li><a href="{% url 'settings' %}">Configuración</a></li>
-                <form action="{% url 'logout' %}" method="post" class="logout-form">
-                    {% csrf_token %}
-                    <button type="submit" class="logout-btn">Cerrar Sesión</button>
-                </form>
+                <li>
+                    <form action="{% url 'logout' %}" method="post" class="logout-form">
+                        {% csrf_token %}
+                        <button type="submit" class="logout-btn">Cerrar Sesión</button>
+                    </form>
+                </li>
             {% else %}
                 <li><a href="{% url 'login' %}">Iniciar Sesión</a></li>
                 <li><a href="{% url 'register' %}">Registrarse</a></li>
@@ -417,38 +653,40 @@
     </div>
 </header>
 
-<div class="container">
-    <div class="section">
-        <h2>Configuración</h2>
+<div class="settings-container">
+    <div class="settings-card">
+        <h2>⚙️ Configuración</h2>
         <form method="POST" action="{% url 'settings' %}">
             {% csrf_token %}
-            <label for="view-mode">Modo de Vista:</label>
-            <select name="view_mode" id="view-mode">
-                <option value="light" {% if view_mode == "light" %}selected{% endif %}>Modo Claro</option>
-                <option value="dark" {% if view_mode == "dark" %}selected{% endif %}>Modo Oscuro</option>
-                <option value="high_contrast" {% if view_mode == "high_contrast" %}selected{% endif %}>Alto Contraste
-                </option>
+            <div class="form-group">
+                <label for="view-mode">🎨 Modo de Vista:</label>
+                <select name="view_mode" id="view-mode" class="form-select">
+                    <option value="light" {% if view_mode == "light" %}selected{% endif %}>☀️ Modo Claro</option>
+                    <option value="dark" {% if view_mode == "dark" %}selected{% endif %}>🌙 Modo Oscuro</option>
+                    <option value="high_contrast" {% if view_mode == "high_contrast" %}selected{% endif %}>🔆 Alto Contraste</option>
             </select>
-            <br><br>
-            <label for="language">Idioma:</label>
-            <select name="language" id="language">
-                <option value="es" {% if language == "es" %}selected{% endif %}>Español</option>
-                <option value="en" {% if language == "en" %}selected{% endif %}>Inglés</option>
-                <option value="de" {% if language == "de" %}selected{% endif %}>Alemán</option>
+            </div>
+            
+            <div class="form-group">
+                <label for="language">🌍 Idioma:</label>
+                <select name="language" id="language" class="form-select">
+                    <option value="en" {% if language == "en" %}selected{% endif %}>🇺🇸 Inglés</option>
+                    <option value="es" {% if language == "es" %}selected{% endif %}>🇪🇸 Español</option>
+                    <option value="de" {% if language == "de" %}selected{% endif %}>🇩🇪 Alemán</option>
             </select>
-            <br><br>
-            <button type="submit" class="button">Guardar Configuración</button>
+            </div>
+            
+            <button type="submit" class="btn">💾 Guardar Configuración</button>
         </form>
 
         <!-- Account Deletion Section -->
         {% if user.is_authenticated %}
             <div class="delete-account-section">
-                <h3>Eliminar Cuenta</h3>
-                <p>Una vez que elimine su cuenta, no se puede deshacer. Por favor, confirme si desea eliminar su
-                    cuenta.</p>
+                <h3>⚠️ Eliminar Cuenta</h3>
+                <p>Una vez que elimine su cuenta, no se puede deshacer. Por favor, confirme si desea eliminar su cuenta.</p>
                 <form method="POST" action="{% url 'delete_account' %}">
                     {% csrf_token %}
-                    <button type="submit" class="button">Eliminar Mi Cuenta</button>
+                    <button type="submit" class="btn btn-danger">🗑️ Eliminar Mi Cuenta</button>
                 </form>
             </div>
         {% endif %}
@@ -465,6 +703,30 @@
 <script>
     const savedViewMode = localStorage.getItem("viewMode") || "{{ view_mode }}";
     document.documentElement.className = savedViewMode;
+
+    // Mobile menu toggle function
+    function toggleMobileMenu() {
+        const navLinks = document.getElementById('navLinks');
+        navLinks.classList.toggle('active');
+    }
+
+    // Close mobile menu when clicking outside
+    document.addEventListener('click', function(event) {
+        const navLinks = document.getElementById('navLinks');
+        const mobileToggle = document.querySelector('.mobile-menu-toggle');
+        
+        if (!navLinks.contains(event.target) && !mobileToggle.contains(event.target)) {
+            navLinks.classList.remove('active');
+        }
+    });
+
+    // Close mobile menu when window is resized to desktop
+    window.addEventListener('resize', function() {
+        if (window.innerWidth > 768) {
+            const navLinks = document.getElementById('navLinks');
+            navLinks.classList.remove('active');
+        }
+    });
 
     document.addEventListener("DOMContentLoaded", function () {
         const viewModeSelect = document.getElementById("view-mode");

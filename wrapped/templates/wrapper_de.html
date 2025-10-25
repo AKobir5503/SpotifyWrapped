@@ -6,13 +6,76 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <title>Dein Spotify Wrapped</title>
     <style>
+        /* Dynamic Animated Background */
+        body {
+            background: linear-gradient(-45deg, #1a1a2e, #16213e, #0f3460, #533483, #7209b7);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(120, 119, 198, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 119, 198, 0.3) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(120, 219, 255, 0.2) 0%, transparent 50%);
+            animation: floatingOrbs 20s ease-in-out infinite;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        @keyframes gradientShift {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        @keyframes floatingOrbs {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            33% { transform: translateY(-30px) rotate(120deg); }
+            66% { transform: translateY(30px) rotate(240deg); }
+        }
+
+        /* Slide Container Enhancements */
+        .slide-container {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .slide {
+            position: relative;
+            backdrop-filter: blur(10px);
+            background: rgba(0, 0, 0, 0.1);
+            border-radius: 20px;
+            margin: 20px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            animation: slideIn 0.8s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(50px) scale(0.95);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0) scale(1);
+            }
+        }
 
         .chart-description {
             color: #ffffff !important;
             text-align: center; /* Centers text horizontally */
             padding-right: 5px;
             padding-left: 5px;
-
         }
 
         .chart-title {
@@ -252,14 +315,15 @@
         }
 
 
-        /* Ensure header does not overlap content */
+        /* Universal Header Styles */
         header {
-            position: relative;
+            background: rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            padding: 1rem 0;
+            position: sticky;
             top: 0;
-            z-index: 1000;
-            background-color: #333;
-            padding: 15px 0;
-            color: white;
+            z-index: 100;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         /* Ensure body margin to prevent content overlap with header */
@@ -482,27 +546,37 @@
         }
 
         header .container {
+            max-width: 1200px;
+            margin: 0 auto;
             display: flex;
-            flex-wrap: wrap;
             justify-content: space-between;
             align-items: center;
+            padding: 0 2rem;
+            flex-wrap: wrap;
         }
 
         header .logo {
-            color: white;
-            font-size: clamp(20px, 4vw, 24px);
-            font-weight: bold;
-            margin-bottom: 10px;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: #fff;
+            text-decoration: none;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+        }
+
+        header .logo:hover {
+            color: #1DB954;
+            transform: scale(1.05);
         }
 
         header .nav-links {
-            list-style: none;
             display: flex;
-            flex-wrap: wrap;
-            justify-content: flex-end;
+            list-style: none;
+            gap: 1.5rem;
             align-items: center;
             margin: 0;
-            gap: 15px;
+            padding: 0;
+            flex-wrap: wrap;
         }
 
         header .nav-links li {
@@ -510,33 +584,135 @@
         }
 
         header .nav-links a {
-            color: white;
+            color: #fff;
             text-decoration: none;
-            font-size: clamp(16px, 3vw, 18px);
-            transition: color 0.3s ease;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            white-space: nowrap;
         }
 
         header .nav-links a:hover {
-            color: #4CAF50;
+            background: rgba(29, 185, 84, 0.2);
+            color: #1DB954;
+            transform: translateY(-2px);
         }
 
-        header .logout-form {
-            margin-left: 15px;
-        }
-
-        header .logout-btn {
-            background-color: #4CAF50;
+        .logout-btn {
+            background: linear-gradient(45deg, #1db954, #1ed760);
             color: white;
             border: none;
-            padding: 8px 16px;
-            font-size: clamp(14px, 3vw, 16px);
+            padding: 0.75rem 1.5rem;
+            border-radius: 25px;
+            font-weight: 600;
             cursor: pointer;
-            border-radius: 5px;
-            transition: background-color 0.3s ease;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(29, 185, 84, 0.3);
+            white-space: nowrap;
         }
 
-        header .logout-btn:hover {
-            background-color: #45a049;
+        .logout-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(29, 185, 84, 0.4);
+        }
+
+        /* Mobile Navigation Styles */
+        .mobile-menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: inherit;
+            font-size: 1.5rem;
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        .mobile-menu-toggle:hover {
+            color: #1DB954;
+        }
+
+        /* Mobile Header Styles */
+        @media (max-width: 768px) {
+            header .container {
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+                position: relative;
+                padding: 0 1rem;
+            }
+
+            .mobile-menu-toggle {
+                display: block;
+            }
+
+            header .nav-links {
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background-color: #333;
+                flex-direction: column;
+                gap: 0;
+                padding: 10px 0;
+                box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+                transform: translateY(-100%);
+                opacity: 0;
+                visibility: hidden;
+                transition: all 0.3s ease;
+                z-index: 1000;
+            }
+
+            header .nav-links.active {
+                transform: translateY(0);
+                opacity: 1;
+                visibility: visible;
+            }
+
+            header .nav-links li {
+                margin: 0;
+                width: 100%;
+            }
+
+            header .nav-links a {
+                display: block;
+                padding: 10px 20px;
+                text-align: center;
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            }
+
+            header .nav-links a:hover {
+                background-color: rgba(255, 255, 255, 0.1);
+            }
+
+            header .logout-form {
+                margin-left: 0;
+                width: 100%;
+            }
+
+            .logout-btn {
+                width: 100%;
+                margin-top: 10px;
+                padding: 0.6rem 1.2rem;
+                font-size: 0.9rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            header .nav-links {
+                flex-direction: column;
+                gap: 0.5rem;
+            }
+
+            header .nav-links a {
+                padding: 0.3rem 0.6rem;
+                font-size: 0.8rem;
+            }
+
+            .logout-btn {
+                padding: 0.5rem 1rem;
+                font-size: 0.8rem;
+            }
         }
 
         /* Slide Container Responsiveness */
@@ -830,60 +1006,6 @@
             color: white;
         }
 
-        header .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        header .logo {
-            color: white;
-            font-size: 24px;
-            font-weight: bold;
-        }
-
-        header .nav-links {
-            list-style: none;
-            display: flex;
-            justify-content: flex-end;
-            margin: 0;
-            padding: 0;
-        }
-
-        header .nav-links li {
-            margin: 0 15px;
-        }
-
-        header .nav-links a {
-            color: white;
-            text-decoration: none;
-            font-size: 18px;
-        }
-
-        header .nav-links a:hover {
-            color: #4CAF50;
-        }
-
-        header .logout-form {
-            display: inline;
-            margin-left: 20px;
-        }
-
-        header .logout-btn {
-            background-color: #4CAF50;
-            color: white;
-            border: none;
-            padding: 8px 16px;
-            font-size: 16px;
-            cursor: pointer;
-            border-radius: 5px;
-        }
-
-        header .logout-btn:hover {
-            background-color: #45a049;
-        }
 
         .slide-container {
             display: flex;
@@ -1365,15 +1487,18 @@
 <header>
     <div class="container">
         <a href="/" class="logo">SpotifyWrapped</a>
-        <ul class="nav-links">
+        <button class="mobile-menu-toggle" onclick="toggleMobileMenu()">☰</button>
+        <ul class="nav-links" id="navLinks">
             <li><a href="{% url 'about' %}">Über Uns</a></li>
             {% if user.is_authenticated %}
                 <li><a href="{% url 'dashboard' %}">Armaturenbrett</a></li>
                 <li><a href="{% url 'settings' %}">Einstellungen</a></li>
-                <form action="{% url 'logout' %}" method="post" class="logout-form">
-                    {% csrf_token %}
-                    <button type="submit" class="logout-btn">Abmelden</button>
-                </form>
+                <li>
+                    <form action="{% url 'logout' %}" method="post" class="logout-form">
+                        {% csrf_token %}
+                        <button type="submit" class="logout-btn">Abmelden</button>
+                    </form>
+                </li>
             {% else %}
                 <li><a href="{% url 'login' %}">Anmelden</a></li>
                 <li><a href="{% url 'register' %}">Registrieren</a></li>
@@ -1571,6 +1696,34 @@
         </div>
 
         <div class="slide" id="slide11">
+            <h1>Deine meistgespielte Playlist</h1>
+            {% if most_played_playlist %}
+            <div class="playlist-card">
+                <div class="playlist-header">
+                    {% if most_played_playlist.images %}
+                        <img src="{{ most_played_playlist.images.0.url }}" alt="{{ most_played_playlist.name }}" class="playlist-cover">
+                    {% endif %}
+                    <div class="playlist-info">
+                        <h2>{{ most_played_playlist.name }}</h2>
+                        <p>von {{ most_played_playlist.owner.display_name }}</p>
+                        <p>{{ most_played_playlist.tracks.total }} Titel</p>
+                        {% if most_played_playlist.description %}
+                            <p class="playlist-description">{{ most_played_playlist.description }}</p>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="playlist-actions">
+                    <a href="{{ most_played_playlist.external_urls.spotify }}" target="_blank" class="btn btn-spotify">In Spotify öffnen</a>
+                </div>
+            </div>
+            {% else %}
+            <div class="no-playlist">
+                <p>Keine Playlists gefunden. Erstelle einige Playlists, um deine meistgespielte hier zu sehen!</p>
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="slide" id="slide12">
             <h1>Speichere Dein Spotify Wrapped</h1>
             <div class="save-wrap">
                 <form method="POST" action="">
@@ -1591,6 +1744,29 @@
 </body>
 
 <script>
+    // Mobile menu toggle function
+    function toggleMobileMenu() {
+        const navLinks = document.getElementById('navLinks');
+        navLinks.classList.toggle('active');
+    }
+
+    // Close mobile menu when clicking outside
+    document.addEventListener('click', function(event) {
+        const navLinks = document.getElementById('navLinks');
+        const mobileToggle = document.querySelector('.mobile-menu-toggle');
+        
+        if (!navLinks.contains(event.target) && !mobileToggle.contains(event.target)) {
+            navLinks.classList.remove('active');
+        }
+    });
+
+    // Close mobile menu when window is resized to desktop
+    window.addEventListener('resize', function() {
+        if (window.innerWidth > 768) {
+            const navLinks = document.getElementById('navLinks');
+            navLinks.classList.remove('active');
+        }
+    });
 
     document.addEventListener('DOMContentLoaded', () => {
         const slides = document.querySelectorAll('.slide'); // Select all slides
