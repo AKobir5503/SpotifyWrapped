@@ -63,6 +63,6 @@ Usage
 Team Members
 - Nabhan S.
 - Abdullah K.
-- Yousef M.
+- Youssef M.
 - Mohammed N.
 - Mafaaz S.
